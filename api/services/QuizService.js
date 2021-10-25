@@ -12,7 +12,9 @@ class QuizService {
         for (const question of questions) {
             const questionDetails = {
                 "questionText": question.questionText,
-                "questionType": question.questionType
+                "questionType": question.questionType,
+                "questionMarks": question.hasOwnProperty("questionMarks") ? question.questionMarks : NaN,
+                "questionPercentage": question.hasOwnProperty("questionPercentage") ? question.questionPercentage : NaN
             };
 
             if (question.questionText) {
@@ -36,13 +38,46 @@ class QuizService {
                         invalidQuestions.push(question);
                         allValid = false;
                 }
+
+                // Consolidating scoring
+                if (question.hasOwnProperty('questionMarks')) {
+                    totalScore += question.questionMarks;
+                } else if (question.hasOwnProperty('questionPercentage')) {
+                    totalPercentage += question.questionPercentage;
+                }
             }
+        }
+
+        if (allValid) {
+            let assumedQuizMarks = 0;
+            if (totalPercentage > 100) {
+                // Total Percentage should not be greater than 100. Make all false if that is the case.
+                // Invalidate all questions
+                allValid = false;
+                invalidQuestions = validQuestions;
+            } else if (totalPercentage == 100 || totalPercentage == 0) {
+                assumedQuizMarks = (totalScore == 0) ? totalQuestions : totalScore;
+            } else {
+                // Assumption that I am making here is
+                // 1. For each question, only either absolute marks or percentage is provided
+                // 2. Hence, totalScore should account for the missing percentage that is not accounted for
+                // 3. Absolute score shall take precedence over percentage.
+                // 4. Meaning somehow if both score and percentage is provided, percentage will be overwritten if it is calculated to be incorrect.
+                
+                const leftoverPercentage = 100 - totalPercentage;
+                assumedQuizMarks = (totalScore / leftoverPercentage) * 100;
+            }
+            
+            // Individual Questions Mark Checking
+            validQuestions = this.scoringCorrectness(validQuestions, assumedQuizMarks);
+            quizMarks = assumedQuizMarks;
         }
         
         const questionsArray = allValid ? validQuestions : invalidQuestions;
         return {
             allValid,
-            questionsArray
+            questionsArray,
+            quizMarks
         };
     }
     
@@ -59,6 +94,25 @@ class QuizService {
             }
         }
         return true;
+    }
+
+
+    static scoringCorrectness(questions, assumedQuizMarks){
+        const newQuestions = [];
+        
+        for (const question of questions) {
+            if ( isNaN(question["questionMarks"]) && isNaN(question["questionPercentage"]) ) {
+                question["questionMarks"] = 1;
+                question["questionPercentage"] = (1 / questions.length) * 100;
+            } else if (isNaN(question["questionPercentage"])) {
+                question["questionPercentage"] = ( (question.questionMarks / assumedQuizMarks) * 100 );
+            } else {
+                question["questionMarks"] = assumedQuizMarks * ( question.questionPercentage / 100 );
+            }
+            newQuestions.push(question);
+        }
+        
+        return newQuestions;
     }
 }
 

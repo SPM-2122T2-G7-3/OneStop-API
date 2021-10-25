@@ -28,7 +28,8 @@ class QuizController {
                     const quizDetails = {
                         courseCode: courseCode,
                         section: section,
-                        questions: questionsArray
+                        questions: questionsArray,
+                        quizMarks: quizMarks
                     };
 
                     const newQuiz = new Quiz(quizDetails);
