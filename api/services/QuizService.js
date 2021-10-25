@@ -25,6 +25,13 @@ class QuizService {
                         questionValid ? validQuestions.push(questionDetails) : invalidQuestions.push(question);
                         allValid = questionValid;
                         break;
+                    case "MCQ":
+                        questionDetails["answerOptions"] = question.answerOptions;
+                        questionDetails["correctAnswers"] = question.correctAnswers;
+                        questionValid = this.checkMCQAnswer(question.answerOptions, question.correctAnswers);
+                        questionValid ? validQuestions.push(questionDetails) : invalidQuestions.push(question);
+                        allValid = questionValid;
+                        break;
                     default:
                         invalidQuestions.push(question);
                         allValid = false;
@@ -42,6 +49,16 @@ class QuizService {
     static checkTrueFalseAnswer(correctAnswer){
         const standardAns = ["True", "False"];
         return standardAns.includes(correctAnswer);
+    }
+    
+    
+    static checkMCQAnswer(answerOptions, correctAnswers){
+        for (const answer of correctAnswers){
+            if (!answerOptions.includes(answer)){
+                return false;
+            }
+        }
+        return true;
     }
 }
 
