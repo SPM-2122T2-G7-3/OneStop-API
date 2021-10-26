@@ -275,3 +275,118 @@ describe("Create Quiz", function () {
         mongoose.connection.db.dropDatabase(done);
     });
 }); // Create Quiz
+
+
+describe("Delete Quiz", function () {
+    describe("Valid Delete", function () {
+        let quizId = undefined;
+
+        beforeEach(function (done) {
+            const quizDetails = {
+                courseCode: "HP101",
+                section: 1,
+                quizName: "Printer Functions",
+                quizMarks: 1,
+                timeAllowed: 3600,
+                questions: [{
+                    "questionText": "HP OfficeJet Pro 7740 can accept A3 size paper",
+                    "questionType": "TF",
+                    "answerOptions": ["True", "False"],
+                    "correctAnswers": ["True"]
+                }]
+            };
+
+            const newQuiz = new Quiz(quizDetails);
+
+            newQuiz.save()
+                .then(doc => {
+                    quizId = doc.id;
+                    done();
+                });
+        });
+
+        it("Should return status 200 when question successfully deleted", function (done) {
+            QuizController.deleteQuiz(quizId, (status, payload) => {
+                try {
+                    expect(status).to.be.a("number");
+                    expect(status).to.equal(200);
+                    done();
+                } catch (error) {
+                    done(error);
+                }
+            })
+        })
+
+        it("Should return Delete Quiz Message", function (done) {
+            QuizController.deleteQuiz(quizId, (status, payload) => {
+                try {
+                    expect(payload).to.be.an("object");
+                    expect(payload.message).to.be.a("string");
+                    done();
+                } catch (error) {
+                    done(error);
+                }
+            });
+        });
+    });
+
+    describe("Invalid Delete Quiz", function () {
+        let quizId = undefined;
+
+        beforeEach(function (done) {
+            const quizDetails = {
+                courseCode: "HP101",
+                section: 1,
+                quizName: "Printer Functions",
+                quizMarks: 1,
+                timeAllowed: 3600,
+                questions: [{
+                    "questionText": "HP OfficeJet Pro 7740 can accept A3 size paper",
+                    "questionType": "TF",
+                    "answerOptions": ["True", "False"],
+                    "correctAnswers": ["True"]
+                }]
+            };
+
+            const newQuiz = new Quiz(quizDetails);
+
+            newQuiz.save()
+                .then(doc => {
+                    quizId = doc.id;
+                    done();
+                });
+        });
+
+        it("Should return error 400 when not successfully deleted", function (done) {
+            quizId = "";
+
+            QuizController.deleteQuiz(quizId, (status, payload) => {
+                try {
+                    expect(status).to.be.a("number");
+                    expect(status).to.equal(400);
+                    done();
+                } catch (error) {
+                    done(error);
+                }
+            });
+        });
+
+        it("Should return error with error message", function (done) {
+            quizId = "";
+
+            QuizController.deleteQuiz(quizId, (status, payload) => {
+                try {
+                    expect(payload).to.be.an("object");
+                    expect(payload.errors).to.be.a("array");
+                    done();
+                } catch (error) {
+                    done(error);
+                }
+            });
+        });
+    });
+
+    afterEach(function (done) {
+        mongoose.connection.db.dropDatabase(done);
+    });
+}); // Delete Quiz

@@ -20,7 +20,8 @@ class QuizController {
             try {
                 const {
                     allValid,
-                    questionsArray
+                    questionsArray,
+                    quizMarks
                 } = QuizService.checkQuestionsValidity(questions);
 
 
@@ -56,6 +57,34 @@ class QuizController {
                 }
             } catch (error) {
                 console.error(error);
+                callback(500, {
+                    "error": error.message
+                });
+            }
+        } else {
+            callback(400, {
+                "errors": validationErrors
+            });
+        }
+    }
+    
+    
+    static async deleteQuiz(quizId, callback = (status, payload) => {}) {
+        const validationErrors = [];
+        quizId ? null : validationErrors.push("quizId cannot be empty");
+        if (validationErrors.length == 0) {
+            try {
+                await Quiz.deleteOne()
+                    .where("_id", quizId)
+                    .exec()
+                    .then(ok => {
+                        if (ok) {
+                            callback(200, {
+                                "message": `Quiz ${quizId} deleted successfully`
+                            });
+                        }
+                    });
+            } catch (error) {
                 callback(500, {
                     "error": error.message
                 });
