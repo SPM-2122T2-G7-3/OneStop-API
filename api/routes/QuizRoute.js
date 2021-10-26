@@ -24,4 +24,14 @@ router.post('/new', (req, res, next) => {
 });
 
 
+// Delete quiz within a given course, section and quiz
+router.delete('/:quizId', (req, res, next) => {
+    const quizId   = req.params.quizId;
+    
+    QuizController.deleteQuiz(quizId, (status, payload) => {
+        res.status(status).json(payload);
+    });
+});
+
+
 module.exports = router;
