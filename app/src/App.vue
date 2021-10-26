@@ -11,10 +11,10 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              Home
+              <router-link :class="{active: $route.name==='home'}" class="nav-link" to="/">Home</router-link> 
             </li>
             <li class="nav-item">
-              Courses
+              Course
             </li>
           </ul>
           <div class="nav-item dropdown">
@@ -32,6 +32,7 @@
       </div>
     </nav>
   </div>
+  <router-view/>
 </template>
 
 <script>
