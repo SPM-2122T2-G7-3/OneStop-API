@@ -30,6 +30,8 @@ class QuizController {
                         courseCode: courseCode,
                         section: section,
                         questions: questionsArray,
+                        quizMarks: quizMarks,
+                        timeAllowed: timeAllowed ? timeAllowed : 0, // If timeAllowed is not set, implicit no limit and hence 0.
                         quizMarks: quizMarks
                     };
 
