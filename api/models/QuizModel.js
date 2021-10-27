@@ -5,7 +5,6 @@ const questionSchema = new mongoose.Schema({
     questionText: String,
     questionType: String,
     questionMarks: Number,
-    questionPercentage: Number,
     answerOptions: [String],
     correctAnswers: [String]
 });

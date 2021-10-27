@@ -21,7 +21,8 @@ app.use((req, res, next) => {
 
 
 // Services Routes
-
+const quizRoute = require('./routes/QuizRoute');
+app.use('/api/quiz', quizRoute);
 
 
 
