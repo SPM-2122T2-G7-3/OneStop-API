@@ -111,29 +111,10 @@ class QuizService {
         let totalMarks = 0;
 
         for (const question of questions) {
-            const answers = answerKey[question.questionId].answers;
-            const markedAnswerArray = [];
-            let correctAnsCount = 0;
-
-            for (const learnerAnswer of question.answers) {
-                // Students should know which questions they got wrong.
-                // So new field of correct/wrong should be created
-                const markedAnswer = {
-                    "answer": learnerAnswer,
-                    "isCorrect": answers.includes(learnerAnswer)
-                };
-
-                correctAnsCount += answers.includes(learnerAnswer) ? 1 : 0;
-                markedAnswerArray.push(markedAnswer);
-            }
-
-            // All marks or nothing
-            const marksAwarded = correctAnsCount == answers.length ? answerKey[question.questionId].marks : 0;
-            totalMarks += marksAwarded;
-
-            question["marksAwarded"] = marksAwarded;
-            question["answers"] = markedAnswerArray;
-            marking.push(question);
+            const markedQuestion = this.markOneQuestion(answerKey, question);
+            totalMarks += markedQuestion.marksAwarded;
+            
+            marking.push(markedQuestion);
         }
 
         const markedQuizDetails = {
@@ -173,6 +154,32 @@ class QuizService {
         }
         
         return answerKey;
+    }
+    
+    
+    static markOneQuestion(answerKey, question) {
+        const answers = answerKey[question.questionId].answers;
+        const markedAnswerArray = [];
+        let correctAnsCount = 0;
+
+        for (const learnerAnswer of question.answers) {
+            // Students should know which questions they got wrong.
+            // So new field of correct/wrong should be created
+            const markedAnswer = {
+                "answer": learnerAnswer,
+                "isCorrect": answers.includes(learnerAnswer)
+            };
+
+            correctAnsCount += answers.includes(learnerAnswer) ? 1 : 0;
+            markedAnswerArray.push(markedAnswer);
+        }
+
+        // All marks or nothing
+        const marksAwarded = correctAnsCount == answers.length ? answerKey[question.questionId].marks : 0;
+
+        question["marksAwarded"] = marksAwarded;
+        question["answers"] = markedAnswerArray;
+        return question;
     }
     
     
