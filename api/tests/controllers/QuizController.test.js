@@ -394,3 +394,82 @@ describe("Delete Quiz", function () {
         mongoose.connection.db.dropDatabase(done);
     });
 }); // Delete Quiz
+
+
+describe("Mark Quiz" , function (){
+    describe("Valid Marking of Quiz", function(){
+        let quizId = undefined;
+        let originalQuestion = undefined;
+    
+        beforeEach(function(done){
+            const quizDetails = {
+                courseCode: "HP101",
+                section: 1,
+                quizName: "Printer Functions",
+                quizMarks: 1,
+                timeAllowed: 3600,
+                questions:  [{
+                    "questionText": "HP OfficeJet Pro 7740 can accept A3 size paper",
+                    "questionMarks": 1,
+                    "questionPercentage": 100,
+                    "questionType": "TF",
+                    "answerOptions": ["True", "False"],
+                    "correctAnswers": ["True"]
+                }]
+            };
+    
+            const newQuiz = new Quiz(quizDetails);
+    
+            newQuiz.save()
+            .then( doc => {
+                quizId = doc.id;
+                originalQuestion = doc.questions[0];
+                done();
+            });
+        });
+
+
+        it("should return status 200 when answer is valid", function(done) {
+            const username = "lance.fu";
+            const questions = [{
+                "questionId": originalQuestion.id,
+                "answers": ["True"]
+            }];
+
+            QuizController.markQuiz(quizId, questions, username, (status, payload) => {
+                try{
+                    expect(status).to.be.a("number");
+                    expect(status).to.equal(200);
+                    done();
+                } catch (error) {
+                    done(error);
+                }
+            });
+        });
+
+
+        it('should return Quiz Attempt message', function(done) {
+            const username = "lance.fu";
+            const questions = [{
+                "questionId": originalQuestion.id,
+                "answers": ["True"]
+            }];
+
+
+            QuizController.markQuiz(quizId, questions, username, (status, payload) => {
+                try{
+                    expect(payload).to.be.a("object");
+                    expect(payload.message).to.be.a("string");
+                    done();
+                } catch (error) {
+                    done(error);
+                }
+            });
+        });
+    });
+
+
+    afterEach(function(done){
+        mongoose.connection.db.dropDatabase(done);
+    });
+});

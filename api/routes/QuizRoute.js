@@ -36,4 +36,17 @@ router.delete('/:quizId', (req, res, next) => {
 });
 
 
+// Submit quiz attempt for marking
+router.post("/:quizId/submit", (req, res, next) => {
+    const quizId = req.params.quizId;
+    const {
+        questions
+    } = req.body;
+    
+    QuizController.markQuiz(quizId, questions, (status, payload) => {
+        res.status(status).json(payload);
+    });
+});
+
+
 module.exports = router;
