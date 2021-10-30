@@ -24,8 +24,10 @@ describe("Create Quiz", function () {
             const courseCode = "HP101";
             const section = 1;
             const quizName = "Printer Functions";
+            const timeAllowed = 3600;
             const quizJSON = {
                 "quizName": quizName,
+                "timeAllowed": timeAllowed,
                 "questions": [{
                     "questionText": "HP OfficeJet Pro 7740 can accept A3 size paper",
                     "questionType": "TF",
@@ -109,12 +111,13 @@ describe("Create Quiz", function () {
             });
         }); // Invalid Data
     }); // True/False Question
-    
+
     describe("MCQ Questions", function () {
         describe("Valid Data", function () {
             const courseCode = "HP101";
             const section = 1;
             const quizName = "Printer Functions";
+            const timeAllowed = 3600;
 
             describe("Single Option", function () {
                 const quizJSON = {
@@ -169,6 +172,7 @@ describe("Create Quiz", function () {
             describe("Multiple Options", function () {
                 const quizJSON = {
                     "quizName": quizName,
+                    "timeAllowed": timeAllowed,
                     "questions": [{
                         "questionText": "What should you first check if the scanning function is not working?",
                         "questionType": "MCQ",
@@ -269,7 +273,7 @@ describe("Create Quiz", function () {
             });
         }); // Invalid Data
     });
-    
+
     // Clean up database after testing "Create Quiz"
     after(function (done) {
         mongoose.connection.db.dropDatabase(done);

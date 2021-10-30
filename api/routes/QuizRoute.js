@@ -9,6 +9,7 @@ router.post('/new', (req, res, next) => {
     const {
         courseCode,
         section,
+        timeAllowed,
         quizName,
         questions
     } = req.body;
@@ -16,6 +17,7 @@ router.post('/new', (req, res, next) => {
     const quizJSON = {
         "quizName": quizName,
         "questions": questions,
+        "timeAllowed": timeAllowed
     };
     
     QuizController.createQuizBySection(courseCode, section, quizJSON, (status, payload) => {
