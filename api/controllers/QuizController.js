@@ -97,6 +97,107 @@ class QuizController {
             });
         }
     }
+
+
+    static async markQuiz(quizId, questions, username, callback = (status, payload) => { }) {
+        const validationErrors = [];
+        quizId ? null : validationErrors.push("quizId cannot be empty");
+        username ? null : validationErrors.push("username cannot be empty");
+
+
+        if (validationErrors.length == 0) {
+            try {
+                const {
+                    allValid,
+                    questionsArray
+                } = QuizService.checkLearnerAnswerValidity(questions);
+
+                if (allValid) {
+                    const modelQnAObj = await Quiz.findOne()
+                        .where("_id", quizId)
+                        .select({
+                            "questions": true
+                        })
+                        .exec();
+
+                    let answerKey = {};
+
+                    for (const question of modelQnAObj.questions) {
+                        answerKey[question._id] = {
+                            "answers": question.correctAnswers,
+                            "marks": question.questionMarks
+                        };
+                    }
+
+                    const marking = [];
+                    let totalMarks = 0;
+
+                    for (const question of questionsArray) {
+                        const answers = answerKey[question.questionId].answers;
+                        const markedAnswerArray = [];
+                        let correctAnsCount = 0;
+
+                        for (const learnerAnswer of question.answers) {
+                            // Students should know which questions they got wrong.
+                            // So new field of correct/wrong should be created
+                            const markedAnswer = {
+                                "answer": learnerAnswer,
+                                "isCorrect": answers.includes(learnerAnswer)
+                            };
+
+                            correctAnsCount += answers.includes(learnerAnswer) ? 1 : 0;
+                            markedAnswerArray.push(markedAnswer);
+                        }
+
+                        // All marks or nothing
+                        const marksAwarded = correctAnsCount == answers.length ? answerKey[question.questionId].marks : 0;
+                        totalMarks += marksAwarded;
+
+                        question["marksAwarded"] = marksAwarded;
+                        question["answers"] = markedAnswerArray;
+                        marking.push(question);
+                    }
+
+                    const markedQuizDetails = {
+                        "quizId": quizId,
+                        "learner": username,
+                        "marksAwarded": totalMarks,
+                        "questions": questionsArray
+                    };
+
+                    const newQuizAttempt = new QuizAttempt(markedQuizDetails)
+                    newQuizAttempt.save()
+                        .then(doc => {
+                            callback(200, {
+                                "message": `Quiz Attempt ID ${doc._id} was successfully created`
+                            });
+                        })
+                        .catch(err => {
+                            console.error(err);
+                            callback(500, {
+                                "errors": err.message
+                            });
+                        });
+                } else {
+                    callback(400, {
+                        "errors": "There are invalid answers in the list. Please validate the following questions that has issues and submit the quiz again.",
+                        "questions": questionsArray
+                    });
+                }
+
+            } catch (error) {
+                console.error(error);
+                callback(500, {
+                    "errors": error.message
+                });
+            }
+        } else {
+            console.error(error);
+            callback(400, {
+                "errors": validationErrors
+            });
+        }
+    }
 }
 
 module.exports = QuizController;

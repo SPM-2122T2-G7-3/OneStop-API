@@ -61,6 +61,36 @@ class QuizService {
         }
         return true;
     }
+
+
+    static checkLearnerAnswerValidity(questions) {
+        let allValid = true;
+        let validQuestions = [];
+        let invalidQuestions = [];
+        
+        for (const question of questions) {
+            if (question.hasOwnProperty("questionId") && question.hasOwnProperty('answers')) {
+                let answerNoIssue = question.answers.length > 0;
+                
+                for (const answer in question.answers) {
+                    answerNoIssue = answerNoIssue && answer;
+                }
+                
+                if (question.questionId && answerNoIssue) {
+                    validQuestions.push(question);
+                } else {
+                    allValid = false;
+                    invalidQuestions.push(question);
+                }
+            }
+        }
+        
+        const questionsArray = allValid ? validQuestions : invalidQuestions;
+        return {
+            allValid,
+            questionsArray
+        };
+    }
 }
 
 module.exports = QuizService;
