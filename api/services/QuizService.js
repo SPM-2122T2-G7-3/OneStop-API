@@ -96,6 +96,7 @@ class QuizService {
         };
     }
     
+    
     static async markQuiz(quizId, username, questions) {
         const modelQnAObj = await Quiz.findOne()
             .where("_id", quizId)
@@ -104,14 +105,7 @@ class QuizService {
             })
             .exec();
 
-        let answerKey = {};
-
-        for (const question of modelQnAObj.questions) {
-            answerKey[question._id] = {
-                "answers": question.correctAnswers,
-                "marks": question.questionMarks
-            };
-        }
+        const answerKey = this.createAnswerKey(modelQnAObj);
 
         const marking = [];
         let totalMarks = 0;
@@ -166,6 +160,22 @@ class QuizService {
         
         return result;
     }
+    
+    
+    static createAnswerKey(modelQnA) {
+        const answerKey = {};
+
+        for (const question of modelQnA.questions) {
+            answerKey[question._id] = {
+                "answers": question.correctAnswers,
+                "marks": question.questionMarks
+            };
+        }
+        
+        return answerKey;
+    }
+    
+    
 }
 
 module.exports = QuizService;
