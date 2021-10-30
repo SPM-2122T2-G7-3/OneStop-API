@@ -98,14 +98,7 @@ class QuizService {
     
     
     static async markQuiz(quizId, username, questions) {
-        const modelQnAObj = await Quiz.findOne()
-            .where("_id", quizId)
-            .select({
-                "questions": true
-            })
-            .exec();
-
-        const answerKey = this.createAnswerKey(modelQnAObj);
+        const answerKey = await this.createAnswerKey(quizId);
 
         const marking = [];
         let totalMarks = 0;
@@ -113,7 +106,6 @@ class QuizService {
         for (const question of questions) {
             const markedQuestion = this.markOneQuestion(answerKey, question);
             totalMarks += markedQuestion.marksAwarded;
-            
             marking.push(markedQuestion);
         }
 
@@ -125,8 +117,6 @@ class QuizService {
         };
 
         const newQuizAttempt = new QuizAttempt(markedQuizDetails)
-        
-        
         const savedAttempt = await newQuizAttempt.save();
         
         const result = {
@@ -143,7 +133,14 @@ class QuizService {
     }
     
     
-    static createAnswerKey(modelQnA) {
+    static async createAnswerKey(quizId) {
+        const modelQnA = await Quiz.findOne()
+            .where("_id", quizId)
+            .select({
+                "questions": true
+            })
+            .exec();
+        
         const answerKey = {};
 
         for (const question of modelQnA.questions) {
