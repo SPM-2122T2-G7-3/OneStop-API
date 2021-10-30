@@ -394,3 +394,144 @@ describe("Delete Quiz", function () {
         mongoose.connection.db.dropDatabase(done);
     });
 }); // Delete Quiz
+
+
+describe("Update Quiz Questions", function () {
+    describe("Valid Quiz Questions Update", function () {
+        let quizId = undefined;
+
+        const quizDetails = {
+            courseCode: "HP101",
+            section: 1,
+            quizName: "Printer Functions",
+            quizMarks: 1,
+            timeAllowed: 3600,
+            questions: [{
+                "questionText": "HP OfficeJet Pro 7740 can accept A3 size paper",
+                "questionType": "TF",
+                "answerOptions": ["True", "False"],
+                "correctAnswers": ["True"]
+            }]
+        };
+
+
+        before(function (done) {
+            const newQuiz = new Quiz(quizDetails);
+
+            newQuiz.save()
+                .then(doc => {
+                    quizId = doc.id;
+                    done();
+                });
+        });
+
+
+        it("Should return status 200 when successfully updated", function (done) {
+            const questions = [{
+                "questionText": "HP OfficeJet Pro 7740 can accept A3 size paper",
+                "questionType": "TF",
+                "answerOptions": ["True", "False"],
+                "correctAnswers": ["False"]
+            }];
+
+            QuizController.updateQuizQuestions(quizId, questions, (status, payload) => {
+                try {
+                    expect(status).to.be.a("number");
+                    expect(status).to.equal(200);
+                    done();
+                } catch (error) {
+                    done(error);
+                }
+            });
+        });
+
+
+        it("Should return Update Quiz Info message", function (done) {
+            const questions = [{
+                "questionText": "HP OfficeJet Pro 7740 can accept A3 size paper",
+                "questionType": "TF",
+                "answerOptions": ["True", "False"],
+                "correctAnswers": ["False"]
+            }];
+
+            QuizController.updateQuizQuestions(quizId, questions, (status, payload) => {
+                try {
+                    expect(payload.message).to.be.a("string");
+                    done();
+                } catch (error) {
+                    done(error);
+                }
+            });
+        });
+    });
+
+
+    describe(" Invalid Quiz Questions Update", function () {
+        let quizId = undefined;
+
+        const quizDetails = {
+            courseCode: "HP101",
+            section: 1,
+            quizName: "Printer Functions",
+            quizMarks: 1,
+            timeAllowed: 3600,
+            questions: [{
+                "questionText": "HP OfficeJet Pro 7740 can accept A3 size paper",
+                "questionType": "TF",
+                "answerOptions": ["True", "False"],
+                "correctAnswers": ["True"]
+            }]
+        };
+
+
+        before(function (done) {
+            const newQuiz = new Quiz(quizDetails);
+
+            newQuiz.save()
+                .then(doc => {
+                    quizId = doc.id;
+                    done();
+                });
+        });
+
+
+        it("Should return Status 400 when Update is not successful", function (done) {
+            const questions = [{
+                "questionText": "HP OfficeJet Pro 7740 can accept A3 size paper",
+                "questionType": "TF",
+                "answerOptions": ["True", "False"],
+                "correctAnswers": ["Falsey"]
+            }];
+
+            QuizController.updateQuizQuestions(quizId, questions, (status, payload) => {
+                try {
+                    expect(status).to.be.a("number");
+                    expect(status).to.equal(400);
+                    done();
+                } catch (error) {
+                    done(error);
+                }
+            });
+        });
+
+
+        it("Should return error with error message", function (done) {
+            const questions = [{
+                "questionText": "HP OfficeJet Pro 7740 can accept A3 size paper",
+                "questionType": "TF",
+                "answerOptions": ["True", "False"],
+                "correctAnswers": ["Falsey"]
+            }];
+
+            QuizController.updateQuizQuestions(quizId, questions, (status, payload) => {
+                try {
+                    expect(payload).to.be.an("object");
+                    expect(payload.errors).to.be.a("string");
+                    done();
+                } catch (error) {
+                    done(error);
+                }
+            });
+        });
+    });
+});
