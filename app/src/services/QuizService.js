@@ -18,6 +18,17 @@ class QuizService {
 
     return http.delete(`/quiz/${quizID}`);
   }
+
+  // Get quiz questions without answers
+  getQuizQuestionNoAnswer(quizID){
+    return http.get(`/quiz/${quizID}/attempt`)
+  }
+  
+
+  // Submit quiz attempt for marking
+  submitQuizAttempt(quizID, questions, username){
+    return http.post(`/quiz/${quizID}/submit`, questions, { headers: { 'username': username } })
+  }
   
   
 }

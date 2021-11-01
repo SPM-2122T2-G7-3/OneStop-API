@@ -92,7 +92,6 @@ describe('QuestionService', function() {
                     "questionText": "Which of the following do not have SCAN function",
                     "questionType": "MCQ",
                     "questionMarks": 1,
-                    "questionPercentage": 100,
                     "answerOptions": [
                         "HP LaserJet Pro M15w Printer",
                         "HP LaserJet Pro MFP M28w Printer",
@@ -189,43 +188,28 @@ describe('QuestionService', function() {
     });
     
     
-    describe("scoringCorrectness Function", function () {
-        const assumedQuizMarks = 1;
-        const questions = { 
-            "questionMarks": NaN,
-            "questionPercentage": NaN
-        };
-        
-        beforeEach(function() {
-            questions["questionMarks"] = NaN;
-            questions["questionPercentage"] = NaN;
-        });
-        
-        
-        it("should return question list with a question with new questionMarks and questionPercentage", function () {
-            const result = QuestionService.scoringCorrectness([questions], assumedQuizMarks)[0];
-            expect(result).to.be.a("object");
-            expect(result.questionMarks).to.equal(1);
-            expect(result.questionPercentage).to.equal(100);
-        });
-        
-        
-        it("should return question list with a question with new questionPercentagee", function () {
-            questions["questionMarks"] = 1;
+    describe("checkLearnerAnswerValidity Function", function () {
+        it("should return allValid true when provided with a set of questions containing all valid answers", function() {
+            const questions = [
+                {
+                    "questionText": "Which of the following do not have SCAN function",
+                    "questionType": "MCQ",
+                    "answerOptions": [
+                        "HP LaserJet Pro M15w Printer",
+                        "HP LaserJet Pro MFP M28w Printer",
+                        "HP Color LaserJet Pro MFP M283fdw",
+                        "HP LaserJet Pro MFP M227fdw"
+                    ],
+                    "correctAnswers": [
+                        "HP LaserJet Pro M15w Printer"
+                    ]
+                }
+            ];
             
-            const result = QuestionService.scoringCorrectness([questions], assumedQuizMarks)[0];
-            expect(result).to.be.a("object");
-            expect(result.questionMarks).to.equal(1);
-            expect(result.questionPercentage).to.equal(100);
-        });
-        
-        it("should return question list with a question with new questionMarks", function () {
-            questions["questionPercentage"] = 100;
             
-            const result = QuestionService.scoringCorrectness([questions], assumedQuizMarks)[0];
-            expect(result).to.be.a("object");
-            expect(result.questionMarks).to.equal(1);
-            expect(result.questionPercentage).to.equal(100);
+            const { allValid } = QuestionService.checkLearnerAnswerValidity(questions);
+            expect(allValid).to.be.a("boolean");
+            expect(allValid).to.equal(true);
         });
     });
 });

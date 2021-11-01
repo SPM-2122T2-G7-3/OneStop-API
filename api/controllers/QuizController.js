@@ -97,11 +97,56 @@ class QuizController {
             });
         }
     }
-    
-    
-    static async updateQuizQuestions(quizId, questions, callback = (status, payload) => { }) {
+  
+  static async updateQuizQuestions(quizId, questions, callback = (status, payload) => { }) {
         const validationErrors = [];
         quizId ? null : validationErrors.push("quizId cannot be empty");
+    
+    
+    if (validationErrors.length == 0) {
+            try {
+                const {
+                    allValid,
+                   questionsArray
+                } = QuizService.checkLearnerAnswerValidity(questions);
+
+                if (allValid) {
+                    const attemptResult = await QuizService.markQuiz(quizId, username, questionsArray);
+                    if (attemptResult.success) {
+                        callback(200, {
+                            "message": `Quiz Attempt ID ${attemptResult.attemptId} was successfully created`
+                        });
+                    } else {
+                        callback(500, {
+                            "errors": attemptResult.error
+                        });
+                    }
+                } else {
+                    callback(400, {
+                        "errors": "There are invalid answers in the list. Please validate the following questions that has issues and submit the quiz again.",
+                        "questions": questionsArray
+                    });
+                }
+
+            } catch (error) {
+                console.error(error);
+                callback(500, {
+                    "errors": error.message
+                  });
+            }
+        } else {
+            console.error(error);
+            callback(400, {
+                "errors": validationErrors
+            });
+        }
+    }
+  
+    static async markQuiz(quizId, questions, username, callback = (status, payload) => { }) {
+        const validationErrors = [];
+        quizId ? null : validationErrors.push("quizId cannot be empty");
+        username ? null : validationErrors.push("username cannot be empty");
+
 
         if (validationErrors.length == 0) {
             try {
@@ -152,8 +197,6 @@ class QuizController {
             });
         }
     }
-
-
 }
 
 module.exports = QuizController;
