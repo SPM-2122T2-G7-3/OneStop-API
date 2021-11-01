@@ -47,6 +47,7 @@ router.put('/:quizId/questions', (req, res, next) => {
     });
   
 });
+
 // Submit quiz attempt for marking
 router.post("/:quizId/submit", (req, res, next) => {
     const quizId = req.params.quizId;
@@ -55,6 +56,15 @@ router.post("/:quizId/submit", (req, res, next) => {
     } = req.body;
     
     QuizController.markQuiz(quizId, questions, (status, payload) => {
+        res.status(status).json(payload);
+    });
+});
+
+// Get quiz questions given quizId without answers, for quiz attempts
+router.get('/:quizId/attempt', (req, res, next) => {
+    const quizId = req.params.quizId;
+    
+    QuizController.getQuizQuestions(quizId, false, (status, payload) => {
         res.status(status).json(payload);
     });
 });
