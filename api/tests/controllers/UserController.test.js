@@ -71,3 +71,71 @@ describe('User login', function () {
 
     });
 });
+
+
+describe('Find User With Role', function () {
+    describe('Valid Find User With Role', function () {
+
+        it('should return status 200 when successfully found', function () {
+            const role = "Admin";
+
+            UserController.findUserWRole(role, (status, payload) => {
+                try {
+                    expect(status).to.be.a("number");
+                    expect(status).to.equal(200);
+                    done();
+                } catch (error) {
+                    done(error);
+                }
+            });
+        });
+
+
+        it('should return payload when successfully found', function () {
+            const role = "Admin";
+
+            UserController.findUserWRole(role, (status, payload) => {
+                try {
+                    expect(payload.users).to.be.an("object");
+                    done();
+                } catch (error) {
+                    done(error);
+                }
+            });
+        });
+
+    });
+
+
+    describe('Invalid Find User With Role', function () {
+
+        it('should return status 400 if not successfully found', function () {
+            const role = "";
+            UserController.findUserWRole(role, (status, payload) => {
+                try {
+                    expect(status).to.be.a("number");
+                    expect(status).to.equal(400);
+                    done();
+                } catch (error) {
+                    done(error);
+                }
+            });
+        });
+
+
+        it('should return error with error message', function () {
+            const role = "";
+
+            UserController.findUserWRole(role, (status, payload) => {
+                try {
+                    expect(payload).to.be.an("object");
+                    expect(payload.errors).to.be.a("string");
+                    expect(payload.users).to.be.an("object");
+                    done();
+                } catch (error) {
+                    done(error);
+                }
+            });
+        });
+    });
+});
