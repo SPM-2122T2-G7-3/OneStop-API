@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Course from '../views/Course.vue'
 import newQuiz from '../views/newQuiz.vue'
+import Quiz from '../views/Quiz.vue'
 
 const routes = [
   {
@@ -18,7 +19,12 @@ const routes = [
     path: '/course/:courseID/manageCourse/newQuiz',
     name: 'newQuiz',
     component: newQuiz
-  }
+  },
+  {
+    path: '/quiz/:quizID',
+    name: 'Quiz',
+    component: Quiz
+  },
 ]
 
 const router = createRouter({
