@@ -92,7 +92,6 @@ describe('QuestionService', function() {
                     "questionText": "Which of the following do not have SCAN function",
                     "questionType": "MCQ",
                     "questionMarks": 1,
-                    "questionPercentage": 100,
                     "answerOptions": [
                         "HP LaserJet Pro M15w Printer",
                         "HP LaserJet Pro MFP M28w Printer",

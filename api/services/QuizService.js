@@ -1,3 +1,7 @@
+const mongoose = require('mongoose');
+const Quiz = require('../models/QuizModel');
+const QuizAttempt = require('../models/QuizAttemptModel');
+
 class QuizService {
     static checkQuestionsValidity(questions) {
         let allValid = false;
@@ -91,6 +95,91 @@ class QuizService {
             questionsArray
         };
     }
+    
+    
+    static async markQuiz(quizId, username, questions) {
+        const answerKey = await this.createAnswerKey(quizId);
+
+        const marking = [];
+        let totalMarks = 0;
+
+        for (const question of questions) {
+            const markedQuestion = this.markOneQuestion(answerKey, question);
+            totalMarks += markedQuestion.marksAwarded;
+            marking.push(markedQuestion);
+        }
+
+        const markedQuizDetails = {
+            "quizId": quizId,
+            "learner": username,
+            "marksAwarded": totalMarks,
+            "questions": questions
+        };
+
+        const newQuizAttempt = new QuizAttempt(markedQuizDetails)
+        const savedAttempt = await newQuizAttempt.save();
+        
+        const result = {
+            "success": savedAttempt._id ? true : false
+        }
+        
+        if (result.success) {
+            result["attemptId"] = savedAttempt._id;
+        } else {
+            result["error"] = savedAttempt;
+        }
+        
+        return result;
+    }
+    
+    
+    static async createAnswerKey(quizId) {
+        const modelQnA = await Quiz.findOne()
+            .where("_id", quizId)
+            .select({
+                "questions": true
+            })
+            .exec();
+        
+        const answerKey = {};
+
+        for (const question of modelQnA.questions) {
+            answerKey[question._id] = {
+                "answers": question.correctAnswers,
+                "marks": question.questionMarks
+            };
+        }
+        
+        return answerKey;
+    }
+    
+    
+    static markOneQuestion(answerKey, question) {
+        const answers = answerKey[question.questionId].answers;
+        const markedAnswerArray = [];
+        let correctAnsCount = 0;
+
+        for (const learnerAnswer of question.answers) {
+            // Students should know which questions they got wrong.
+            // So new field of correct/wrong should be created
+            const markedAnswer = {
+                "answer": learnerAnswer,
+                "isCorrect": answers.includes(learnerAnswer)
+            };
+
+            correctAnsCount += answers.includes(learnerAnswer) ? 1 : 0;
+            markedAnswerArray.push(markedAnswer);
+        }
+
+        // All marks or nothing
+        const marksAwarded = correctAnsCount == answers.length ? answerKey[question.questionId].marks : 0;
+
+        question["marksAwarded"] = marksAwarded;
+        question["answers"] = markedAnswerArray;
+        return question;
+    }
+    
+    
 }
 
 module.exports = QuizService;
