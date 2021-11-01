@@ -35,7 +35,18 @@ router.delete('/:quizId', (req, res, next) => {
     });
 });
 
-
+// Update questions in a given quiz
+router.put('/:quizId/questions', (req, res, next) => {
+    const quizId = req.params.quizId;
+    const { 
+        questions 
+    } = req.body;
+    
+    QuizController.updateQuizQuestions(quizId, questions, (status, payload) => {
+      res.status(status).json(payload);
+    });
+  
+});
 // Submit quiz attempt for marking
 router.post("/:quizId/submit", (req, res, next) => {
     const quizId = req.params.quizId;

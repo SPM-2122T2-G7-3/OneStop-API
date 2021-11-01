@@ -97,19 +97,17 @@ class QuizController {
             });
         }
     }
-
-
-    static async markQuiz(quizId, questions, username, callback = (status, payload) => { }) {
+  
+  static async updateQuizQuestions(quizId, questions, callback = (status, payload) => { }) {
         const validationErrors = [];
         quizId ? null : validationErrors.push("quizId cannot be empty");
-        username ? null : validationErrors.push("username cannot be empty");
-
-
-        if (validationErrors.length == 0) {
+    
+    
+    if (validationErrors.length == 0) {
             try {
                 const {
                     allValid,
-                    questionsArray
+                   questionsArray
                 } = QuizService.checkLearnerAnswerValidity(questions);
 
                 if (allValid) {
@@ -134,6 +132,62 @@ class QuizController {
                 console.error(error);
                 callback(500, {
                     "errors": error.message
+                  });
+            }
+        } else {
+            console.error(error);
+            callback(400, {
+                "errors": validationErrors
+            });
+        }
+    }
+  
+    static async markQuiz(quizId, questions, username, callback = (status, payload) => { }) {
+        const validationErrors = [];
+        quizId ? null : validationErrors.push("quizId cannot be empty");
+        username ? null : validationErrors.push("username cannot be empty");
+
+
+        if (validationErrors.length == 0) {
+            try {
+                const {
+                    allValid,
+                    questionsArray,
+                    quizMarks
+                } = QuizService.checkQuestionsValidity(questions);
+
+                if (allValid) {
+                    const originalQuiz = await Quiz.findOne()
+                        .where("_id", quizId)
+                        .exec();
+
+                    originalQuiz.questions = questionsArray;
+                    originalQuiz.quizMarks = quizMarks;
+
+                    originalQuiz.save()
+                        .then(doc => {
+                            callback(200, {
+                                "message": `Quiz ID ${doc._id} was successfully updated`
+                            });
+                        })
+                        .catch(err => {
+                            console.error(err);
+                            callback(500, {
+                                "errors": err.message
+                            });
+                        });
+
+
+                } else {
+                    callback(400, {
+                        "errors": "There are invalid questions in the list. Please validate the following questions that has issues.",
+                        "questions": questionsArray
+                    });
+                }
+            } catch (error) {
+                console.error(error);
+                callback(500, {
+                    "error": error.message
                 });
             }
         } else {
