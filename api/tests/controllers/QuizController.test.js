@@ -535,10 +535,8 @@ describe("Update Quiz Questions", function () {
     
     });
 });
-  
-      
-//       here
-      
+
+
 describe("Mark Quiz" , function (){
     describe("Valid Marking of Quiz", function(){
         let quizId = undefined;
@@ -554,7 +552,6 @@ describe("Mark Quiz" , function (){
                 questions:  [{
                     "questionText": "HP OfficeJet Pro 7740 can accept A3 size paper",
                     "questionMarks": 1,
-                    "questionPercentage": 100,
                     "questionType": "TF",
                     "answerOptions": ["True", "False"],
                     "correctAnswers": ["True"]
@@ -614,3 +611,5 @@ describe("Mark Quiz" , function (){
         mongoose.connection.db.dropDatabase(done);
     });
 });
+
+
