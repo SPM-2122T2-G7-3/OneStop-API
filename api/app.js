@@ -25,7 +25,8 @@ const quizRoute = require('./routes/QuizRoute');
 app.use('/api/quiz', quizRoute);
 
 
-
+const classRoute = require('./routes/ClassRoute');
+app.use('/api/class', classRoute);
 
 
 
@@ -34,10 +35,10 @@ app.use('/api/quiz', quizRoute);
 // Server Side Error
 app.use((error, req, res, next) => {
     res
-    .status(error.status || 500)
-    .json({
-        message: error.message
-    });
+        .status(error.status || 500)
+        .json({
+            message: error.message
+        });
 });
 
 module.exports = app;
