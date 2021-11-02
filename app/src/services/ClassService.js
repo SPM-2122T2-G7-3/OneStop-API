@@ -6,6 +6,11 @@ class ClassService {
 
       return http.put(`/class/${classId}/learners`, learners )
     }
+
+    updateClassTrainers(classId, trainers){
+
+      return http.put(`/class/${classId}/trainers`, trainers)
+    }
   }
 
 
