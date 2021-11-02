@@ -29,6 +29,12 @@ class QuizService {
   submitQuizAttempt(quizID, questions, username){
     return http.post(`/quiz/${quizID}/submit`, questions, { headers: { 'username': username } })
   }
+
+  // Get quiz questions with answers given quizId 
+  getQuizQuestions(quizID){
+    return http.get(`/quiz/${quizID}/questions`)
+
+  }
   
   
 }
