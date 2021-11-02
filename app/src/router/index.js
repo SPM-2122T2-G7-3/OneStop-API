@@ -3,6 +3,8 @@ import Home from '../views/Home.vue'
 import Course from '../views/Course.vue'
 import newQuiz from '../views/newQuiz.vue'
 import Quiz from '../views/Quiz.vue'
+import enrollLearners from '../views/enrollLearners.vue'
+
 
 const routes = [
   {
@@ -24,6 +26,11 @@ const routes = [
     path: '/quiz/:quizID',
     name: 'Quiz',
     component: Quiz
+  },
+  {
+    path: '/enrollLearners',
+    name: 'enrollLearners',
+    component: enrollLearners
   },
 ]
 
