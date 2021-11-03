@@ -11,6 +11,11 @@ class ClassService {
 
       return http.put(`/class/${classId}/trainers`, trainers)
     }
+
+    addNewClass(data){
+      return http.post('/class/new', data)
+  
+    }
   }
 
 

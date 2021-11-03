@@ -6,6 +6,9 @@ import editQuiz from '../views/editQuiz.vue'
 import Quiz from '../views/Quiz.vue'
 import enrollLearners from '../views/enrollLearners.vue'
 import assignTrainers from '../views/assignTrainers.vue'
+import createClass from '../views/createClass.vue'
+import createCourse from '../views/createCourse.vue'
+
 
 
 const routes = [
@@ -43,6 +46,16 @@ const routes = [
     path: '/assignTrainers',
     name: 'assignTrainers',
     component: assignTrainers
+  },
+  {
+    path: '/createClass',
+    name: 'createClass',
+    component: createClass
+  },
+  {
+    path: '/createCourse',
+    name: 'createCourse',
+    component: createCourse
   },
 ]
 
