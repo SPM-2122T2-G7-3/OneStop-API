@@ -28,7 +28,7 @@ describe('getUser Function', function () {
             username: "lance.fu",
             designation: "Senior Engineer",
             department: "Operations - Repair",
-            role: "Trainer",
+            role: "trainer",
             completedCourse: []
         });
         

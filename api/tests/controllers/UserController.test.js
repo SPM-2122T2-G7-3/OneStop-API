@@ -28,7 +28,7 @@ describe('User login', function () {
             username: username,
             designation: "Senior Engineer",
             department: "Operations - Repair",
-            role: "Trainer",
+            role: "trainer",
             completedCourse: []
         });
 
@@ -62,7 +62,7 @@ describe('User login', function () {
                 expect(payload.username).to.equal("lance.fu");
 
                 expect(payload.role).to.be.a("string");
-                expect(payload.role).to.equal("Trainer");
+                expect(payload.role).to.equal("trainer");
                 done();
             } catch (error) {
                 done(error);
@@ -77,7 +77,7 @@ describe('Find User With Role', function () {
     describe('Valid Find User With Role', function () {
 
         it('should return status 200 when successfully found', function () {
-            const role = "Admin";
+            const role = "admin";
 
             UserController.findUserWRole(role, (status, payload) => {
                 try {
@@ -92,7 +92,7 @@ describe('Find User With Role', function () {
 
 
         it('should return payload when successfully found', function () {
-            const role = "Admin";
+            const role = "admin";
 
             UserController.findUserWRole(role, (status, payload) => {
                 try {
