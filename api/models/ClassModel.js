@@ -26,7 +26,7 @@ const classSchema = new mongoose.Schema({
     trainers: [ String ],
     learners: [{
         username: {
-            type: mongoose.Schema.Types.ObjectId,
+            type: String,
             ref: 'User'
         }, 
         enrolled: Boolean
