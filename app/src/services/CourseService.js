@@ -11,6 +11,11 @@ class CourseService {
       return http.post('/course/new', data)
 
     }
+
+    getClassesByCourse(courseCode){
+      return http.get(`/course/${courseCode}/classes`)
+    }
+
   }
 
 

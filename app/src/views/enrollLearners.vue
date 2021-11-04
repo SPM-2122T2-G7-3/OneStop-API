@@ -4,15 +4,29 @@
           <div class="mb-3 text-center">
               <h1>Enroll learners</h1>
               <div class="container">
-                <h2>Please select a class:</h2>
+                <h2>Course:</h2>
                 <select class="form-select" v-model="selectedCourse">
                   <option v-for="(course) in this.courses" :key='course' :value="course.courseCode">{{course.courseCode}} - {{course.courseTitle}}</option>
                 </select>
               </div>
           </div>
+          <div class="mb-2 mt-3 text-center">              
+            <button type="button" class="btn btn-secondary" @click="this.getClasses()">Search for Classes</button>
+          </div>
         </div>
-        <div v-if="selectedCourse != ''" class="container"> 
-          <h2>Please select qualified learners to enroll in {{selectedCourse}}:</h2>
+        <div v-if="courseSelected" class="container">
+          <div class="mb-3 text-center">
+              <div class="container">
+                <h2>Class:</h2>
+                <select v-if="this.classes.length > 0" class="form-select" v-model="classId">
+                  <option v-for="(eachClass, index) in this.classes" :key='eachClass' :value="eachClass">Class - {{index+1}}</option>
+                </select>
+                <h5 v-else>No Classes Found!</h5>
+              </div>
+          </div>
+        </div>
+        <div v-if="classId != ''" class="container"> 
+          <h2>Please select qualified learners to enroll:</h2>
           <div class="container">
             <div class="row">
               <div class="mb-3">
@@ -44,7 +58,7 @@
               </div>
             </div>
           </div>
-          <div class="mb-3 mt-3 text-center" v-if="this.selectedCourse != ''">              
+          <div class="mb-3 mt-3 text-center" v-if="this.classId != ''">              
             <button type="button" class="btn btn-secondary" @click="this.enrollLearners()">Enroll</button>
           </div>
         </div>
@@ -53,6 +67,7 @@
 
 <script>
 
+import CourseService from '../services/CourseService'
 import ClassService from '../services/ClassService'
 import UserService from '../services/UserService'
 
@@ -67,16 +82,24 @@ export default {
       selectedLearners: [],
       classId: "",
       searchBox: '',
+      classes: [],
+      courseSelected: false,
     }
   }, 
   methods: {
+    getAllCourses(){
+      CourseService.getAllCourses()
+        .then(response => {
+            this.courses = response.data.courses
+        }
+      )
+    },
     enrollLearners(){
       var payload = {
         "learners": this.selectedLearners
       }
       ClassService.updateClassLearners(this.classId, payload)
       .then(response => {
-        console.log(response.data)
         if (response.data.message.includes("successfully")){
           alert(response.data.message)
         }
@@ -89,6 +112,14 @@ export default {
         return false
       }
     },
+    getClasses(){
+      this.classId = ''
+      this.courseSelected = true
+      CourseService.getClassesByCourse(this.selectedCourse)
+        .then(response => {
+          this.classes = response.data.classes
+        })
+    }
 
   },
   computed: {
@@ -106,22 +137,20 @@ export default {
         return []
       }
       for (const name of qualifiedLearners){
-        console.log(name)
         var actualName = name[1]
         if (actualName.includes(query)){
           result.push(name)
         }
       }
-      console.log(result)
       return result
     }
     
 
   },
   created: function(){
+    this.getAllCourses()
     UserService.getUsersByRole('learner')
       .then(response => {
-        console.log(response.data.users)
         var allLearners = response.data.users;
         for (const learner of allLearners){
           this.learners.push([learner.empName, learner.username])
