@@ -46,6 +46,9 @@ class ClassController {
                 const classRun = await ClassRun.findOne()
                     .where("_id", classId)
                     .exec();
+                    
+                const pendingApproval = classRun.learners.find(learners => learners.enrolled == false);
+                learners.concat(pendingApproval);
 
                 classRun.learners = learners;
                 classRun.save()
