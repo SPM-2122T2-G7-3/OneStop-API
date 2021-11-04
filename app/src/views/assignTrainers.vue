@@ -4,15 +4,29 @@
           <div class="mb-3 text-center">
               <h1>Assign trainers</h1>
               <div class="container">
-                <h2>Please select a course:</h2>
+                <h2>Course:</h2>
                 <select class="form-select" aria-label="Default select example" v-model="selectedCourse">
                   <option v-for="(course) in this.courses" :key='course' :value="course.courseCode">{{course.courseCode}} - {{course.courseTitle}}</option>
                 </select>
               </div>
           </div>
+          <div class="mb-2 mt-3 text-center">              
+            <button type="button" class="btn btn-secondary" @click="this.getClasses()">Search for Classes</button>
+          </div>
         </div>
-        <div v-if="selectedCourse != ''" class="container"> 
-          <h2>Please select qualified trainers to assign to {{selectedCourse}}:</h2>
+        <div v-if="courseSelected" class="container">
+          <div class="mb-3 text-center">
+              <div class="container">
+                <h2>Class:</h2>
+                <select v-if="this.classes.length > 0" class="form-select" v-model="classId">
+                  <option v-for="(eachClass, index) in this.classes" :key='eachClass' :value="eachClass">Class - {{index+1}}</option>
+                </select>
+                <h5 v-else>No Classes Found!</h5>
+              </div>
+          </div>
+        </div>
+        <div v-if="classId != ''" class="container"> 
+          <h2>Please select qualified trainers to assign:</h2>
           <div class="container">
             <div class="row">
               <div class="mb-3">
@@ -44,7 +58,7 @@
               </div>
             </div>
           </div>
-          <div class="mb-3 mt-3 text-center" v-if="this.selectedCourse != ''">              
+          <div class="mb-3 mt-3 text-center" v-if="this.classId != ''">              
             <button type="button" class="btn btn-secondary" @click="this.enrolltrainers()">Assign</button>
           </div>
         </div>
@@ -53,6 +67,7 @@
 
 <script>
 
+import CourseService from '../services/CourseService'
 import ClassService from '../services/ClassService'
 import UserService from '../services/UserService'
 
@@ -67,16 +82,24 @@ export default {
       selectedtrainers: [],
       classId: "",
       searchBox: '',
+      courseSelected: false,
+      classes: []
     }
   }, 
   methods: {
+    getAllCourses(){
+      CourseService.getAllCourses()
+        .then(response => {
+            this.courses = response.data.courses
+        }
+      )
+    },
     enrolltrainers(){
       var payload = {
         "trainers": this.selectedtrainers
       }
       ClassService.updateClassTrainers(this.classId, payload)
       .then(response => {
-        console.log(response.data)
         if (response.data.message.includes("successfully")){
           alert(response.data.message)
         }
@@ -89,6 +112,15 @@ export default {
         return false
       }
     },
+    getClasses(){
+      this.classId = ''
+      this.courseSelected = true
+      CourseService.getClassesByCourse(this.selectedCourse)
+        .then(response => {
+          this.classes = response.data.classes
+        })
+    }
+
 
   },
   computed: {
@@ -117,6 +149,7 @@ export default {
 
   },
   created: function(){
+    this.getAllCourses()
     UserService.getUsersByRole('trainer')
       .then(response => {
         var allTrainers = response.data.users;
