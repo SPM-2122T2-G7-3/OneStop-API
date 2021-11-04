@@ -24,7 +24,13 @@ const classSchema = new mongoose.Schema({
     endDate: Date,
     capacity: Number,
     trainers: [ String ],
-    learners: [ String ],
+    learners: [{
+        username: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        }, 
+        enrolled: Boolean
+    }],
     content: [ chapterSchema ]
 });
 

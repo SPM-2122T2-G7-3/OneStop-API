@@ -39,7 +39,14 @@ describe('Update Class Learners', function () {
                 endDate: endDate,
                 capacity: capacity,
                 trainers: ["lance.fu"],
-                learners: ["shermin.lim", "siti.hindun"],
+                learners: [{
+                    username: "shermin.lim",
+                    enrolled: true
+                }, 
+                {
+                    username: "siti.hindun",
+                    enrolled: true
+                }],
                 content: []
             });
 
@@ -100,7 +107,14 @@ describe('Update Class Learners', function () {
                 endDate: endDate,
                 capacity: capacity,
                 trainers: ["lance.fu"],
-                learners: ["shermin.lim", "siti.hindun"],
+                learners: [{
+                    username: "shermin.lim",
+                    enrolled: true
+                }, 
+                {
+                    username: "siti.hindun",
+                    enrolled: true
+                }],
                 content: []
             });
 
@@ -165,7 +179,14 @@ describe("Update Class Trainer", function () {
                 endDate: endDate,
                 capacity: capacity,
                 trainers: ["lance.fu"],
-                learners: ["shermin.lim", "siti.hindun"],
+                learners: [{
+                    username: "shermin.lim",
+                    enrolled: true
+                }, 
+                {
+                    username: "siti.hindun",
+                    enrolled: true
+                }],
                 content: []
             });
 
@@ -230,7 +251,14 @@ describe("Update Class Trainer", function () {
                 endDate: endDate,
                 capacity: capacity,
                 trainers: ["lance.fu"],
-                learners: ["shermin.lim", "siti.hindun"],
+                learners: [{
+                    username: "shermin.lim",
+                    enrolled: true
+                }, 
+                {
+                    username: "siti.hindun",
+                    enrolled: true
+                }],
                 content: []
             });
 
