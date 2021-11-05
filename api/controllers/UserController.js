@@ -56,6 +56,36 @@ class UserController {
             });
         }
     }
+    
+    
+    static async updateUserWRole(username, role, callback = (status, payload) => {}) {
+        const validationErrors = [];
+        username ? null : validationErrors.push("username cannot be empty");
+        role ? null : validationErrors.push("role cannot be empty");
+        
+        if (validationErrors.length == 0) {
+            await User.findOneAndUpdate({
+                username: username
+            }, {
+                role: role
+            })
+            .exec()
+            .then(result => {
+                callback(200, {
+                    "message": "User role updated"
+                });
+            })
+            .catch(error => {
+                callback(500, {
+                    "error": error.message
+                })
+            });
+        } else {
+            callback(400, {
+                "errors": validationErrors
+            });
+        }
+    }
 }
 
 
