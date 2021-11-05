@@ -8,6 +8,9 @@ import enrollLearners from '../views/enrollLearners.vue'
 import assignTrainers from '../views/assignTrainers.vue'
 import createClass from '../views/createClass.vue'
 import createCourse from '../views/createCourse.vue'
+import withdrawLearners from '../views/withdrawLearners.vue'
+import withdrawTrainers from '../views/withdrawTrainers.vue'
+
 
 
 
@@ -56,6 +59,16 @@ const routes = [
     path: '/createCourse',
     name: 'createCourse',
     component: createCourse
+  },
+  {
+    path: '/withdrawLearners',
+    name: 'withdrawLearners',
+    component: withdrawLearners
+  },
+  {
+    path: '/withdrawTrainers',
+    name: 'withdrawTrainers',
+    component: withdrawTrainers
   },
 ]
 
