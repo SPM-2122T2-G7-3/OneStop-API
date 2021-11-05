@@ -23,7 +23,7 @@ class UserService {
 
         if (!success) {
             res.status(500).json({ "error": result })
-        } else if (!result || result.role !== "Admin") {
+        } else if (!result || result.role !== "admin") {
             res.sendStatus(401)
         }
         
@@ -38,7 +38,7 @@ class UserService {
         
         if (!success) {
             res.status(500).json({ "error": result })
-        } else if (!result || result.role !== "Trainer") {
+        } else if (!result || result.role !== "trainer") {
             res.sendStatus(401)
         } 
         
@@ -53,7 +53,7 @@ class UserService {
 
         if (!success) {
             res.status(500).json({ "error": result })
-        } else if (!result || result.role !== "Learner") {
+        } else if (!result || result.role !== "learner") {
             res.sendStatus(401)
         } 
         
