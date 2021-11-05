@@ -102,6 +102,33 @@ class ClassController {
             });
         }
     }   
+    
+    
+    static async getTrainerInClass(classId, callback = (status, payload) => {}) {
+        const validationErrors = [];
+        classId ? null : validationErrors.push("classId cannot be empty");
+        
+        if (validationErrors.length == 0) {
+            try {
+
+                const classRun = await ClassRun.findOne()
+                    .where("_id", classId)
+                    .exec();
+
+                callback(200, {
+                    "trainers": classRun.trainers
+                })
+            } catch (error) {
+                callback(500, {
+                    "error": error.message
+                });
+            }
+        } else {
+            callback(400, {
+                "errors": validationErrors
+            });
+        }
+    }
 
 }
 

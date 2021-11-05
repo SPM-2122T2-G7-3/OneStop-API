@@ -395,3 +395,76 @@ describe("Approve Self Enrolled Learners", function () {
         mongoose.connection.db.dropDatabase(done);
     });
 });
+
+
+describe("Get Trainer in Class", function() {
+    let classId = undefined;
+
+    before(function (done) {
+        const startDate = new Date("2021-10-12");
+        const endDate = new Date("2021-11-12");
+        const capacity = 50;
+
+        const courseDetails = new Course({
+            courseCode: "P01",
+            courseTitle: "Xerox WorkCentre 5300 User Training",
+            _id: mongoose.Types.ObjectId()
+        });
+
+        const newClass = new ClassRun({
+            course: courseDetails,
+            startDate: startDate,
+            endDate: endDate,
+            capacity: capacity,
+            trainers: ["lance.fu"],
+            learners: [{
+                username: "shermin.lim",
+                enrolled: true
+            },
+            {
+                username: "siti.hindun",
+                enrolled: true
+            },
+            {
+                username: "claire.niu",
+                enrolled: false
+            }],
+            content: []
+        });
+
+        newClass.save()
+            .then(doc => {
+                classId = doc.id;
+                done();
+            });
+    });
+
+    it("should return status 200 when successfully query from DB", function (done) {
+        ClassController.getTrainerInClass(classId, (status, payload) => {
+            try {
+                expect(status).to.be.a("number");
+                expect(status).to.equal(200);
+                done();
+            } catch (error) {
+                done(error);
+            }
+        });
+    });
+    
+    it("should return list of trainers when successfully query from DB", function(done) {
+        ClassController.getTrainerInClass(classId, (status, payload) => {
+            try {
+                expect(payload).to.be.an("object");
+                expect(payload.trainers).to.be.an("array");
+                done();
+            } catch (error) {
+                done(error);
+            }
+        });
+    });
+    
+    after(function (done) {
+        mongoose.connection.db.dropDatabase(done);
+    });
+    
+})

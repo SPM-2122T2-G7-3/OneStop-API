@@ -28,6 +28,15 @@ router.put('/:classId/trainers', (req, res, next) => {
 });
 
 
+router.get('/:classId/trainers', (req, res, next) => {
+    const classId = req.params.classId;
+
+    ClassController.getTrainerInClass(classId, (status, payload) => {
+        res.status(status).json(payload);
+    });
+});
+
+
 router.put('/approve', UserService.allowAdmin, (req, res, next) => {
     const {
         username, 
