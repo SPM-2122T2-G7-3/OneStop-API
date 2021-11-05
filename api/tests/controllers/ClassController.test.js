@@ -22,7 +22,7 @@ describe('Update Class Learners', function () {
     describe('Valid Update of Class Learners', function () {
         let classId = undefined;
 
-        before(function (done) {
+        beforeEach(function (done) {
             const startDate = new Date("2021-10-12");
             const endDate = new Date("2021-11-12");
             const capacity = 50;
@@ -39,7 +39,14 @@ describe('Update Class Learners', function () {
                 endDate: endDate,
                 capacity: capacity,
                 trainers: ["lance.fu"],
-                learners: ["shermin.lim", "siti.hindun"],
+                learners: [{
+                    username: "shermin.lim",
+                    enrolled: true
+                },
+                {
+                    username: "siti.hindun",
+                    enrolled: true
+                }],
                 content: []
             });
 
@@ -47,11 +54,18 @@ describe('Update Class Learners', function () {
                 .then(doc => {
                     classId = doc.id;
                     done();
+                })
+                .catch(err => {
+                    console.log(err);
+                    done(err);
                 });
         });
 
         it("should return status 200 when successfully updated into DB", function (done) {
-            const learners = ["joen.chua"];
+            const learners = [{ 
+                username: "joen.chua", 
+                enrolled: true 
+            }];
 
             ClassController.updateClassLearners(classId, learners, (status, payload) => {
                 try {
@@ -66,7 +80,10 @@ describe('Update Class Learners', function () {
 
 
         it("should return message for successful update", function (done) {
-            const learners = ["joen.chua"];
+            const learners = [{ 
+                username: "joen.chua", 
+                enrolled: true 
+            }];
 
             ClassController.updateClassLearners(classId, learners, (status, payload) => {
                 try {
@@ -100,7 +117,14 @@ describe('Update Class Learners', function () {
                 endDate: endDate,
                 capacity: capacity,
                 trainers: ["lance.fu"],
-                learners: ["shermin.lim", "siti.hindun"],
+                learners: [{
+                    username: "shermin.lim",
+                    enrolled: true
+                },
+                {
+                    username: "siti.hindun",
+                    enrolled: true
+                }],
                 content: []
             });
 
@@ -140,6 +164,10 @@ describe('Update Class Learners', function () {
                 }
             });
         });
+    });
+
+    afterEach(function (done) {
+        mongoose.connection.db.dropDatabase(done);
     });
 }); // Enroll learners to course
 
@@ -165,7 +193,14 @@ describe("Update Class Trainer", function () {
                 endDate: endDate,
                 capacity: capacity,
                 trainers: ["lance.fu"],
-                learners: ["shermin.lim", "siti.hindun"],
+                learners: [{
+                    username: "shermin.lim",
+                    enrolled: true
+                },
+                {
+                    username: "siti.hindun",
+                    enrolled: true
+                }],
                 content: []
             });
 
@@ -196,7 +231,6 @@ describe("Update Class Trainer", function () {
 
             ClassController.updateClassTrainers(classId, trainers, (status, payload) => {
                 try {
-                    console.log(payload)
                     expect(payload.message).to.be.a("string");
                     done();
                 } catch (error) {
@@ -230,7 +264,14 @@ describe("Update Class Trainer", function () {
                 endDate: endDate,
                 capacity: capacity,
                 trainers: ["lance.fu"],
-                learners: ["shermin.lim", "siti.hindun"],
+                learners: [{
+                    username: "shermin.lim",
+                    enrolled: true
+                },
+                {
+                    username: "siti.hindun",
+                    enrolled: true
+                }],
                 content: []
             });
 
@@ -242,7 +283,7 @@ describe("Update Class Trainer", function () {
         });
 
 
-        it("should return status 400 when update is not succesful", function (done) {
+        it("should return status 400 when update is not successful", function (done) {
             const trainers = [];
 
             ClassController.updateClassTrainers(classId, trainers, (status, payload) => {
@@ -274,5 +315,83 @@ describe("Update Class Trainer", function () {
         after(function (done) {
             mongoose.connection.db.dropDatabase(done);
         });
+    });
+});
+
+
+describe("Approve Self Enrolled Learners", function () {
+    let classId = undefined;
+
+    beforeEach(function (done) {
+        const startDate = new Date("2021-10-12");
+        const endDate = new Date("2021-11-12");
+        const capacity = 50;
+
+        const courseDetails = new Course({
+            courseCode: "P01",
+            courseTitle: "Xerox WorkCentre 5300 User Training",
+            _id: mongoose.Types.ObjectId()
+        });
+
+        const newClass = new ClassRun({
+            course: courseDetails,
+            startDate: startDate,
+            endDate: endDate,
+            capacity: capacity,
+            trainers: ["lance.fu"],
+            learners: [{
+                username: "shermin.lim",
+                enrolled: true
+            },
+            {
+                username: "siti.hindun",
+                enrolled: true
+            },
+            {
+                username: "claire.niu",
+                enrolled: false
+            }],
+            content: []
+        });
+
+        newClass.save()
+            .then(doc => {
+                classId = doc.id;
+                done();
+            });
+    });
+
+    it("should return status 200 when successfully updated into DB", function (done) {
+        const username = "claire.niu";
+
+        ClassController.approveSelfEnrollment(classId, username, (status, payload) => {
+            try {
+                expect(status).to.be.a("number");
+                expect(status).to.equal(200);
+                done();
+            } catch (error) {
+                done(error);
+            }
+        });
+    });
+
+
+    it("should return message for successful update", function (done) {
+        const username = "claire.niu";
+
+        ClassController.approveSelfEnrollment(classId, username, (status, payload) => {
+            try {
+                expect(payload).to.be.an("object");
+                expect(payload.message).to.be.a("string");
+                done();
+            } catch (error) {
+                done(error);
+            }
+        });
+    });
+
+
+    afterEach(function (done) {
+        mongoose.connection.db.dropDatabase(done);
     });
 });
