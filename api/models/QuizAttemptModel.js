@@ -21,6 +21,7 @@ const attemptSchema = new mongoose.Schema({
     },
     learner: String,
     marksAwarded: Number,
+    passed: Boolean,
     questions: [ markedQuestionSchema ]
 })
 

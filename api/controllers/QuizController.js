@@ -169,6 +169,7 @@ class QuizController {
                     const modelQnAObj = await Quiz.findOne()
                         .where("_id", quizId)
                         .select({
+                            "quizMarks": true,
                             "questions": true
                         })
                         .exec();
@@ -215,9 +216,10 @@ class QuizController {
                         "quizId": quizId,
                         "learner": username,
                         "marksAwarded": totalMarks,
+                        "passed": (totalMarks / modelQnAObj.quizMarks) * 100 >= 85,
                         "questions": questionsArray
                     };
-
+                    
                     const newQuizAttempt = new QuizAttempt(markedQuizDetails)
                     newQuizAttempt.save()
                         .then(doc => {
@@ -237,7 +239,6 @@ class QuizController {
                         "questions": questionsArray
                     });
                 }
-
             } catch (error) {
                 console.error(error);
                 callback(500, {
