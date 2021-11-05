@@ -16,6 +16,14 @@ class ClassService {
       return http.post('/class/new', data)
   
     }
+    
+    getLearnerInClass(classId){
+      return http.get(`/class/${classId}/learners`)
+    }
+
+    getTrainerInClass(classId){
+      return http.get(`/class/${classId}/trainers`)
+    }
   }
 
 
