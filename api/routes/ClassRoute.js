@@ -16,6 +16,15 @@ router.put('/:classId/learners', (req, res, next) => {
 });
 
 
+router.get("/:classId/learners", (req, res, next) => {
+    const classId = req.params.classId;
+    
+    ClassController.getLearnerInClass(classId, (status, payload) => {
+        res.status(status).json(payload);
+    });
+});
+
+
 router.put('/:classId/trainers', (req, res, next) => {
     const classId = req.params.classId;
     const {
