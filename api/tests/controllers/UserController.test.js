@@ -75,6 +75,23 @@ describe('User login', function () {
 
 describe('Find User With Role', function () {
     describe('Valid Find User With Role', function () {
+        const username = "lance.fu";
+
+        beforeEach(function (done) {
+            const newUser = new User({
+                empName: "Lance Fu Dai Fa",
+                username: username,
+                designation: "Senior Engineer",
+                department: "Operations - Repair",
+                role: "Learner",
+                completedCourse: []
+            });
+
+            newUser.save()
+                .then(doc => {
+                    done()
+                });
+        });
 
         it('should return status 200 when successfully found', function () {
             const role = "Admin";
@@ -104,10 +121,36 @@ describe('Find User With Role', function () {
             });
         });
 
+
+        afterEach(function (done) {
+            User.deleteMany({}, function (err) {
+                if (err) {
+                    console.log(err);
+                }
+                done();
+            });
+        });
     });
 
 
     describe('Invalid Find User With Role', function () {
+        const username = "lance.fu";
+
+        beforeEach(function (done) {
+            const newUser = new User({
+                empName: "Lance Fu Dai Fa",
+                username: username,
+                designation: "Senior Engineer",
+                department: "Operations - Repair",
+                role: "Learner",
+                completedCourse: []
+            });
+
+            newUser.save()
+                .then(doc => {
+                    done()
+                });
+        });
 
         it('should return status 400 if not successfully found', function () {
             const role = "";
@@ -136,6 +179,74 @@ describe('Find User With Role', function () {
                     done(error);
                 }
             });
+        });
+
+
+        afterEach(function (done) {
+            User.deleteMany({}, function (err) {
+                if (err) {
+                    console.log(err);
+                }
+                done();
+            });
+        });
+    });
+});
+
+
+describe('Update User with Role', function () {
+    const username = "lance.fu";
+
+    beforeEach(function (done) {
+        const newUser = new User({
+            empName: "Lance Fu Dai Fa",
+            username: username,
+            designation: "Senior Engineer",
+            department: "Operations - Repair",
+            role: "Learner",
+            completedCourse: []
+        });
+
+        newUser.save()
+            .then(doc => {
+                done()
+            });
+    });
+
+    it('should return status 200 when successfully updated', function () {
+        const role = "Trainer";
+        UserController.updateUserWRole(username, role, (status, payload) => {
+            try {
+                expect(status).to.be.a("number");
+                expect(status).to.equal(200);
+                done();
+            } catch (error) {
+                done(error);
+            }
+        });
+    });
+
+
+    it('should return payload when successfully updated', function () {
+        const role = "Trainer";
+        UserController.updateUserWRole(username, role, (status, payload) => {
+            try {
+                expect(payload).to.be.an("object");
+                expect(payload.message).to.be.a("string");
+                done();
+            } catch (error) {
+                done(error);
+            }
+        });
+    });
+
+
+    afterEach(function (done) {
+        User.deleteMany({}, function (err) {
+            if (err) {
+                console.log(err);
+            }
+            done();
         });
     });
 });

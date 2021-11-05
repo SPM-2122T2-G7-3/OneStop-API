@@ -16,4 +16,16 @@ router.post("/login", (req, res, next) => {
 });
 
 
+router.post("/role", UserService.allowAdmin, (req, res, next) => {
+    const {
+        username,
+        role
+    } = req.body;
+    
+    UserController.setUserRole(username, role, (status, payload) => {
+        res.status(status).json(payload);
+    });
+});
+
+
 module.exports = router;
