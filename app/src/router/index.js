@@ -16,7 +16,6 @@ import approveSelfEnrollment from '../views/approveSelfEnrollment.vue'
 
 
 
-
 const routes = [
   {
     path: '/',
@@ -78,11 +77,11 @@ const routes = [
     name: 'withdrawTrainers',
     component: withdrawTrainers
   },
-
-
-
-
-  
+  {
+    path: '/eligibleCourses',
+    name: 'eligibleCourses',
+    component: eligibleCourses
+  },
   {
     path: '/approveSelfEnrollment',
     name: 'approveSelfEnrollment',
