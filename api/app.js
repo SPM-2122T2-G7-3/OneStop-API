@@ -29,7 +29,12 @@ const classRoute = require('./routes/ClassRoute');
 app.use('/api/class', classRoute);
 
 
+const userRoute = require('./routes/UserRoute');
+app.use('/api/user', userRoute);
 
+
+const courseRoute = require('./routes/CourseRoute');
+app.use('/api/course', courseRoute);
 
 
 // Server Side Error
