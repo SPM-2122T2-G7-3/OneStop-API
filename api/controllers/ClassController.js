@@ -191,6 +191,31 @@ class ClassController {
             }
         }
     }
+    
+    
+    static async getApplicants(classId, callback = (status, payload) => {}) {
+        const validationErrors = [];
+        classId ? null : validationErrors.push("classId cannot be empty");
+        
+        if (validationErrors.length == 0) {
+            try {
+
+                const classRun = await ClassRun.findOne()
+                    .where("_id", classId)
+                    .exec();
+                    
+                const applicants = classRun.learners.filter(learner => learner.enrolled == false);
+
+                callback(200, {
+                    "applicants": applicants
+                });
+            } catch (error) {
+                callback(500, {
+                    "error": error.message
+                });
+            }
+        }
+    }
 }
 
 module.exports = ClassController;
