@@ -11,10 +11,20 @@ router.post("/new", (req, res, next) => {
         courseTitle,
         preReq
     } = req.body;
-    
+
     CourseController.createCourse(courseCode, courseTitle, preReq, (status, payload) => {
         res.status(status).json(payload);
     });
+});
+
+
+
+router.get('/:courseCode/info', (req, res, next) => {
+    const courseCode = req.params.courseCode;
+
+    CourseController.getCourseInfo(courseCode, (status, payload) => {
+        res.status(status).json(payload);
+    })
 });
 
 
