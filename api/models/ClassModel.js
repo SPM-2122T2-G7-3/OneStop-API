@@ -32,7 +32,7 @@ const classSchema = new mongoose.Schema({
         }, 
         enrolled: Boolean
     }],
-    content: [ chapterSchema ]
+    chapters: [ chapterSchema ]
 });
 
 
