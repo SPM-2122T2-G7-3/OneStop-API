@@ -156,7 +156,41 @@ class ClassController {
             });
         }
     }
+    
+    
+    static async applyToClass(classId, username, callback = (status, payload) => {}) {
+        const validationErrors = [];
+        username ? null : validationErrors.push("username cannot be empty");
+        classId ? null : validationErrors.push("classId cannot be empty");
+        
+        if (validationErrors.length == 0) {
+            try {
 
+                const classRun = await ClassRun.findOne()
+                    .where("_id", classId)
+                    .exec();
+
+                const currentLearners = classRun.learners;
+                const newLearner = {
+                    username: username,
+                    enrolled: false
+                };
+                
+                currentLearners.push(newLearner);
+                
+                classRun.save()
+                    .then(doc => {
+                        callback(200, {
+                            "message": `Learner ${username} was successfully applied for course ${doc._id}`
+                        })
+                    });
+            } catch (error) {
+                callback(500, {
+                    "error": error.message
+                });
+            }
+        }
+    }
 }
 
 module.exports = ClassController;
