@@ -193,7 +193,7 @@ class ClassController {
         }
     }
     
-    
+  
     static async createNewClass(courseCode, startDateString, endDateString, capacity, callback = (status, payload) => {}) {
         const validationErrors = [];
         courseCode ? null : validationErrors.push("courseId cannot be empty");
@@ -237,7 +237,37 @@ class ClassController {
                     });
             } catch (error) {
                 console.error(error);
-                callback(500, {
+              callback(500, {
+                    "error": error.message
+                });
+            }
+          
+           } else {
+            callback(400, {
+                "errors": validationErrors
+            });
+        }
+    }
+             
+             
+    static async getApplicants(classId, callback = (status, payload) => {}) {
+        const validationErrors = [];
+        classId ? null : validationErrors.push("classId cannot be empty");
+        
+        if (validationErrors.length == 0) {
+            try {
+
+                const classRun = await ClassRun.findOne()
+                    .where("_id", classId)
+                    .exec();
+                    
+                const applicants = classRun.learners.filter(learner => learner.enrolled == false);
+
+                callback(200, {
+                    "applicants": applicants
+                });
+            } catch (error) {
+              callback(500, {
                     "error": error.message
                 });
             }

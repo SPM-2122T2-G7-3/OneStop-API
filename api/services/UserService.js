@@ -3,7 +3,7 @@ const User = require('../models/UserModel');
 class UserService {
     // Do not test the middleware
     static async allowUser(req, res, next) {
-        const username = req.header['username'];
+        const username = req.headers['username'];
         const { success, result } = await this.getUser(username);
 
         if (!success) {
@@ -18,7 +18,7 @@ class UserService {
     
     // Do not test the middleware
     static async allowAdmin(req, res, next) {
-        const username = req.header['username'];
+        const username = req.headers['username'];
         const { success, result } = await this.getUser(username);
 
         if (!success) {
@@ -33,7 +33,7 @@ class UserService {
 
     // Do not test the middleware
     static async allowTrainer(req, res, next) {
-        const username = req.header['username'];
+        const username = req.headers['username'];
         const { success, result } = await this.getUser(username);
         
         if (!success) {
@@ -48,7 +48,7 @@ class UserService {
 
     // Do not test the middleware
     static async allowUser(req, res, next) {
-        const username = req.header['username'];
+        const username = req.headers['username'];
         const { success, result } = await this.getUser(username);
 
         if (!success) {

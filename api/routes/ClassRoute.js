@@ -75,12 +75,21 @@ router.put('/approve', UserService.allowAdmin, (req, res, next) => {
 
 router.post('/:classId/apply', UserService.allowLearner, (req, res, next) => {
     const classId = req.params.classId;
-    const username = req.header["username"];
+    const username = req.headers["username"];
     
     ClassController.applyToClass(classId, username, (status, payload) => {
        res.status(status).json(payload); 
     });
-})
+});
+
+
+router.get('/:classId/applicants', (req, res, next) => {
+    const classId = req.params.classId;
+    
+    ClassController.getApplicants(classId, (status, payload) => {
+        res.status(status).json(payload);
+    });
+});
 
 
 module.exports = router;
