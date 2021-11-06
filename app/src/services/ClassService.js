@@ -24,6 +24,15 @@ class ClassService {
     getTrainerInClass(classId){
       return http.get(`/class/${classId}/trainers`)
     }
+
+    getSelfEnrollApplicants(classId){
+      return http.get(`/class/${classId}/applicants`)
+    }
+
+    approveSelfEnroll(data, adminUsername){
+      return http.put(`/class/approve`, data, { headers: { username: adminUsername } })
+    }
+
   }
 
 
