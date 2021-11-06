@@ -18,4 +18,13 @@ router.post("/new", (req, res, next) => {
 });
 
 
+router.get("/:courseCode/classes", (req, res, next) => {
+    const courseCode = req.params.courseCode;
+    
+    CourseController.getClassesByCourse(courseCode, (status, payload) => {
+        res.status(status).json(payload);
+    });
+});
+
+
 module.exports = router;

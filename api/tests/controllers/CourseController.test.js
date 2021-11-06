@@ -56,3 +56,92 @@ describe('Create New Course', function() {
         });
     });
 });
+
+
+describe('Get classes by Course Code', function () {
+    let classId = undefined;
+
+    const courseDetails = {
+        courseCode: "HP101",
+        courseTitle: "HP Foundation Repair Course",
+        preReq: [],
+    }
+
+    before(function (done) {
+        const newCourse = new Course(courseDetails);
+
+        newCourse.save()
+            .then(doc => {
+                courseId = doc.id;
+                done();
+            });
+    });
+
+    describe('Valid search of classes by course code', function () {
+        const courseCode = "HP101";
+
+        it('should return status 200 when successfully returned', function (done) {
+
+            CourseController.getClassesByCourse(courseCode, (status, payload) => {
+                try {
+                    expect(status).to.be.a("number");
+                    expect(status).to.equal(200);
+
+                    done();
+                } catch (error) {
+                    done(error);
+                }
+            });
+        });
+
+
+        it('should return payload when successfully returned', function (done) {
+            CourseController.getClassesByCourse(courseCode, (status, payload) => {
+                try {
+                    expect(payload).to.be.an("object");
+
+                    done();
+                } catch (error) {
+                    done(error);
+                }
+            });
+        });
+    });
+
+
+    describe('Invalid search of classes by course code', function () {
+        const courseCode = "";
+
+        it('should return status 400 when not found', function (done) {
+            CourseController.getClassesByCourse(courseCode, (status, payload) => {
+                try {
+                    expect(status).to.be.a("number");
+                    expect(status).to.equal(400);
+
+                    done();
+                } catch (error) {
+                    done(error);
+                }
+            });
+        });
+
+
+        it('should return error with error message', function (done) {
+            CourseController.getClassesByCourse(courseCode, (status, payload) => {
+                try {
+                    expect(payload).to.be.an("object");
+                    expect(payload.errors).to.be.a("array");
+
+                    done();
+                } catch (error) {
+                    done(error);
+                }
+            });
+        });
+    });
+
+
+    after(function (done) {
+        mongoose.connection.db.dropDatabase(done);
+    });
+});

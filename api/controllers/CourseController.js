@@ -1,5 +1,5 @@
 const Course = require('../models/CourseModel');
-
+const CourseService = require('../services/CourseService');
 
 class CourseController {
     static async createCourse(courseCode, courseTitle, preReq, callback = (status, payload) => {}) {
@@ -35,6 +35,35 @@ class CourseController {
             } catch (error) {
                 console.error(error);
                 callback(500, {
+                    "error": error.message
+                });
+            }
+        } else {
+            callback(400, {
+                "errors": validationErrors
+            });
+        }
+    }
+
+
+    static async getClassesByCourse(courseCode, callback = (status, payload) => {}) {
+        const validationErrors = [];
+        courseCode ? null : validationErrors.push("courseCode cannot be empty");
+        
+        if (validationErrors.length == 0) {
+            try {
+                const {
+                    success,
+                    result
+                } = await CourseService.getClassesByCourse(courseCode);
+                
+                const status = success ? 200 : 500;
+                
+                callback(status, result);
+            } catch (error) {
+                console.error(error);
+              
+              callback(500, {
                     "error": error.message
                 });
             }
