@@ -614,6 +614,42 @@ describe("Get all learners in class", function () {
 });
 
 
+describe("Create new Classes", function() {
+    describe("Valid data required for creating a class", function() {
+        const startDateString = "2021-10-12";
+        const endDateString = "2021-11-12";
+        const capacity = 50;
+        const courseCode = "P01";
+        
+        
+        it("should return status 200 when successfully updated into DB", function(done) {
+            ClassController.createNewClass(courseCode, startDateString, endDateString, capacity, (status, payload) => {
+                try {
+                    expect(status).to.be.a("number");
+                    expect(status).to.equal(200);
+                    done();
+                } catch (error) {
+                    done(error);
+                }
+            });
+            
+        });
+        
+        
+        it("should return message for successful update", function (done) {
+            ClassController.createNewClass(courseCode, startDateString, endDateString, capacity, (status, payload) => {
+                try {
+                    expect(payload.message).to.be.a("string");
+                    done();
+                } catch (error) {
+                    done(error);
+                }
+            }); 
+        });
+    });
+});
+
+
 describe("Get all pending approval self-enrolled engineer", function () {
     let classId = undefined;
 
