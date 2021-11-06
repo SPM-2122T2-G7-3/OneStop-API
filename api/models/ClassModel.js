@@ -3,9 +3,10 @@ const mongoose = require('mongoose');
 
 const sectionSchema = new mongoose.Schema({
     sectionTitle: String,
+    hyperlinks: [ String ],
     // Use GridFS to store the file. Hence using the ID in GFS to store here as String
     // Then we will create a separate route to stream the file directly
-    materials: [ String ]
+    files: [ String ]
 });
 
 
