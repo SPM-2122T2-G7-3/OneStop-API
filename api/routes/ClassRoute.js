@@ -4,6 +4,21 @@ const router = express.Router();
 const ClassController = require('../controllers/ClassController');
 const UserService = require('../services/UserService');
 
+
+router.post('/new', UserService.allowAdmin, (req, res, next) => {
+    const {
+        courseCode,
+        startDate,
+        endDate,
+        capacity
+    } = req.body;
+    
+    ClassController.createNewClass(courseCode, startDate, endDate, capacity, (status, payload) => {
+        res.status(status).json(payload);
+    });
+});
+
+
 router.put('/:classId/learners', (req, res, next) => {
     const classId = req.params.classId;
     const {

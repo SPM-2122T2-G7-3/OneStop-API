@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const ClassRun = require('../models/ClassModel');
+const Course = require('../models/CourseModel');
 
 class ClassController {
     static async updateClassTrainers(classId, trainers, callback = (status, payload) => {}) {
@@ -189,6 +190,61 @@ class ClassController {
                     "error": error.message
                 });
             }
+        }
+    }
+    
+    
+    static async createNewClass(courseCode, startDateString, endDateString, capacity, callback = (status, payload) => {}) {
+        const validationErrors = [];
+        courseCode ? null : validationErrors.push("courseId cannot be empty");
+        startDateString ? null : validationErrors.push("startDate cannot be empty");
+        Date.parse(startDateString) ? null : validationErrors.push("startDate is not a valid date");
+        endDateString ? null : validationErrors.push("endDate cannot be empty");
+        Date.parse(endDateString) ? null : validationErrors.push("endDate is not a valid date");
+        capacity ? null : validationErrors.push("capacity cannot be empty");
+
+        if (validationErrors.length == 0) {
+            try {
+                const courseDetails = await Course.findOne()
+                    .where("courseCode", courseCode)
+                    .exec();
+
+                const startDate = new Date(startDateString);
+                const endDate = new Date(endDateString);
+
+                // Considering that endDate is likely suppose to be 2359, we will set the endDate to the next day 0000
+                endDate.setDate(endDate.getDate() + 1);
+
+                const classDetails = {
+                    course: courseDetails,
+                    startDate: startDate,
+                    endDate: endDate,
+                    capacity: capacity,
+                    trainers: [],
+                    learners: [],
+                    content: []
+                };
+
+                const newClass = new ClassRun(classDetails);
+
+                newClass.save()
+                    .then(doc => {
+                        callback(200, {
+                            "isSuccess": true,
+                            "documentId": doc._id,
+                            "message": `Class ID ${doc._id} was successfully created`
+                        });
+                    });
+            } catch (error) {
+                console.error(error);
+                callback(500, {
+                    "error": error.message
+                });
+            }
+        } else {
+            callback(400, {
+                "errors": validationErrors
+            });
         }
     }
 }
