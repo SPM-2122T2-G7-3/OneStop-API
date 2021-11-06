@@ -65,7 +65,16 @@ router.post('/:classId/apply', UserService.allowLearner, (req, res, next) => {
     ClassController.applyToClass(classId, username, (status, payload) => {
        res.status(status).json(payload); 
     });
-})
+});
+
+
+router.get('/:classId/applicants', (req, res, next) => {
+    const classId = req.params.classId;
+    
+    ClassController.getApplicants(classId, (status, payload) => {
+        res.status(status).json(payload);
+    });
+});
 
 
 module.exports = router;
