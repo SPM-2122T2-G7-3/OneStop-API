@@ -356,6 +356,47 @@ class ClassController {
             });
         }
     }
+    
+    
+    static async newSection(classId, chapterId, sectionTitle, callback = (status, payload) => {}) {
+        const validationErrors = [];
+        classId ? null : validationErrors.push("classId cannot be empty");
+        chapterId ? null : validationErrors.push("chapterId cannot be empty");
+        sectionTitle ? null : validationErrors.push("sectionTitle cannot be empty");
+        
+        if (validationErrors.length == 0) {
+            try {
+                const classRun = await ClassRun.findOne()
+                    .where("_id", classId)
+                    .where("chapters._id", chapterId)
+                    .exec();
+                
+                const section = {
+                    sectionTitle: sectionTitle,
+                    hyperlinks: [],
+                    files: []
+                };
+                
+                classRun.chapters[0].sections.push(section);
+                
+                classRun.save()
+                    .then(doc => {
+                        callback(200, {
+                            "message": `Section ${sectionTitle} successfully created for chapter ${chapterId} of class ${classId}`
+                        });
+                    });
+            } catch (error) {
+                console.error(error);
+                callback(500, {
+                    "error": error.message
+                });
+            }
+        } else {
+            callback(400, {
+                "errors": validationErrors
+            });
+        }
+    }   
 }
 
 module.exports = ClassController;
