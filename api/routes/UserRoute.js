@@ -22,7 +22,16 @@ router.post("/role", UserService.allowAdmin, (req, res, next) => {
         role
     } = req.body;
 
-    UserController.setUserRole(username, role, (status, payload) => {
+    UserController.updateUserWRole(username, role, (status, payload) => {
+        res.status(status).json(payload);
+    });
+});
+
+
+router.get("/role/:role", (req, res, next) => {
+    const role = req.params.role;
+    
+    UserController.findUserWRole(role, (status, payload) => {
         res.status(status).json(payload);
     });
 });
