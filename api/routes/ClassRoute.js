@@ -119,6 +119,18 @@ router.post('/:classId/:chapterId/:sectionId/upload/file', FileService.uploadFil
 }); 
 
 
+router.post('/:classId/chapter/new', (req, res, next) => {
+    const classId = req.params.classId;
+    const {
+        chapterTitle
+    } = req.body;
+    
+    ClassController.newChapter(classId, chapterTitle, (status, payload) => {
+        res.status(status).json(payload);
+    });
+});
+
+
 
 router.get('/:classId/:chapterId/:sectionId/contents', (req, res, next) => {
     const classId = req.params.classId;
