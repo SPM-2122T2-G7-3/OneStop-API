@@ -1,18 +1,24 @@
 const mongoose = require('mongoose');
 
+const fileSchema = new mongoose.Schema({
+    originalFilename: String,
+    filename: String,
+    bucketName: String
+}, { _id: false });
+
 
 const sectionSchema = new mongoose.Schema({
     sectionTitle: String,
-    hyperlinks: [ String ],
+    hyperlinks: [String],
     // Use GridFS to store the file. Hence using the ID in GFS to store here as String
     // Then we will create a separate route to stream the file directly
-    files: [ String ]
+    files: [fileSchema]
 });
 
 
 const chapterSchema = new mongoose.Schema({
     chapterTitle: String,
-    sections: [ sectionSchema ]
+    sections: [sectionSchema]
 });
 
 
@@ -20,19 +26,19 @@ const classSchema = new mongoose.Schema({
     course: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Course'
-    }, 
+    },
     startDate: Date,
     endDate: Date,
     capacity: Number,
-    trainers: [ String ],
+    trainers: [String],
     learners: [{
         username: {
             type: String,
             ref: 'User'
-        }, 
+        },
         enrolled: Boolean
     }],
-    chapters: [ chapterSchema ]
+    chapters: [chapterSchema]
 });
 
 
