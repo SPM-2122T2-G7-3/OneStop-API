@@ -46,10 +46,10 @@ class QuizController {
                                 "message": `Quiz ID ${doc._id} was successfully created`
                             });
                         })
-                        .catch(err => {
-                            console.error(err);
+                        .catch(error => {
+                            console.error(error);
                             callback(500, {
-                                "errors": err.message
+                                "errors": error.message
                             });
                         });
                 } else {
@@ -124,10 +124,10 @@ class QuizController {
                                 "message": `Quiz ID ${doc._id} was successfully updated`
                             });
                         })
-                        .catch(err => {
-                            console.error(err);
+                        .catch(error => {
+                            console.error(error);
                             callback(500, {
-                                "errors": err.message
+                                "errors": error.message
                             });
                         });
 
@@ -145,7 +145,6 @@ class QuizController {
                 });
             }
         } else {
-            console.error(error);
             callback(400, {
                 "errors": validationErrors
             });
@@ -227,10 +226,10 @@ class QuizController {
                                 "message": `Quiz Attempt ID ${doc._id} was successfully created`
                             });
                         })
-                        .catch(err => {
-                            console.error(err);
+                        .catch(error => {
+                            console.error(error);
                             callback(500, {
-                                "errors": err.message
+                                "errors": error.message
                             });
                         });
                 } else {
@@ -246,7 +245,6 @@ class QuizController {
                 });
             }
         } else {
-            console.error(error);
             callback(400, {
                 "errors": validationErrors
             });

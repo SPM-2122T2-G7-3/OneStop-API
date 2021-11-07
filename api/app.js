@@ -8,9 +8,9 @@ const app = express();
 app.use(cors());
 app.use(helmet());
 app.use((req, res, next) => {
-    express.json()(req, res, err => {
-        if (err) {
-            console.error(err);
+    express.json()(req, res, error => {
+        if (error) {
+            console.error(error);
             res.status(400).json({
                 message: 'Bad Request'
             }); // Bad Request
