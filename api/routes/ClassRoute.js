@@ -119,5 +119,17 @@ router.post('/:classId/:chapterId/:sectionId/upload/file', FileService.uploadFil
 }); 
 
 
+router.post("/:classId/:chapterId/section/new", (req, res, next) => {
+    const classId = req.params.classId;
+    const chapterId = req.params.chapterId;
+    const {
+        sectionTitle
+    } = req.body;
+    
+    ClassController.newSection(classId, chapterId, sectionTitle, (status, payload) => {
+        res.status(status).json(payload);
+    });
+});
+
 
 module.exports = router;
