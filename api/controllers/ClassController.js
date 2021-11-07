@@ -358,18 +358,52 @@ class ClassController {
     }
     
     
+    static async getContent(classId, chapterId, sectionId, callback = (status, payload) => {}) {
+        const validationErrors = [];
+        classId ? null : validationErrors.push("classId cannot be empty");
+        chapterId ? null : validationErrors.push("chapterId cannot be empty");
+        sectionId ? null : validationErrors.push("sectionId cannot be empty");
+      
+      if (validationErrors.length == 0) {
+            try {
+                const classRun = await ClassRun.findOne()
+                    .where("_id", classId)
+                    .where("chapters._id", chapterId)
+                .where("chapters.sections._id", sectionId)
+                    .exec();
+                
+                
+                const section = classRun.chapters[0].sections[0];
+                callback(200, {
+                    "files": section.files,
+                    "hyperlinks": section.hyperlinks
+                });
+               } catch (error) {
+                console.error(error);
+                callback(500, {
+                    "error": error.message
+                });
+            }
+        } else {
+            callback(400, {
+                "errors": validationErrors
+            });
+        }
+    }
+
+
     static async newSection(classId, chapterId, sectionTitle, callback = (status, payload) => {}) {
         const validationErrors = [];
         classId ? null : validationErrors.push("classId cannot be empty");
         chapterId ? null : validationErrors.push("chapterId cannot be empty");
         sectionTitle ? null : validationErrors.push("sectionTitle cannot be empty");
-        
-        if (validationErrors.length == 0) {
+      
+      if (validationErrors.length == 0) {
             try {
                 const classRun = await ClassRun.findOne()
                     .where("_id", classId)
                     .where("chapters._id", chapterId)
-                    .exec();
+                  .exec();
                 
                 const section = {
                     sectionTitle: sectionTitle,
@@ -385,7 +419,7 @@ class ClassController {
                             "message": `Section ${sectionTitle} successfully created for chapter ${chapterId} of class ${classId}`
                         });
                     });
-            } catch (error) {
+               } catch (error) {
                 console.error(error);
                 callback(500, {
                     "error": error.message
@@ -396,7 +430,7 @@ class ClassController {
                 "errors": validationErrors
             });
         }
-    }   
+    }
 }
 
 module.exports = ClassController;
