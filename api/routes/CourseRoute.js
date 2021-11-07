@@ -5,6 +5,13 @@ const CourseController = require("../controllers/CourseController");
 const UserService = require("../services/UserService")
 
 
+router.get('/', (req, res, next) => {
+    CourseController.getAllCourses((status, payload) => {
+        res.status(status).json(payload);
+    });
+});
+
+
 router.post("/new", (req, res, next) => {
     const {
         courseCode,

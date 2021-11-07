@@ -261,3 +261,53 @@ describe("Get Course Information", function () {
     });
 
 });
+
+
+describe("Get all Courses", function() {
+    before(function(done) {
+        const courseCode = "HP101";
+        const courseTitle = "HP Foundation Repair Course";
+        const preReq = [];
+        
+        const courseDetails = {
+            courseCode: courseCode,
+            courseTitle: courseTitle,
+            preReq: preReq
+        }
+
+        const newCourse = new Course(courseDetails);
+        newCourse.save()
+        .then(doc => {
+            courseId = doc.id;
+            done();
+        });
+    });
+    
+    it("should return status 200 when successfully inserted into DB", function(done){
+        CourseController.getAllCourses((status, payload) => {
+            try {
+                expect(status).to.be.a("number");
+                expect(status).to.equal(200);
+                done();
+            } catch (error) {
+                done(error);
+            }
+        });
+    });
+    
+    it("should return payload with success status, document ID and message when successfully inserted into DB", function(done){
+        CourseController.getAllCourses((status, payload) => {
+            try {
+                expect(payload).to.be.an("object");
+                expect(payload.courses).to.be.a("array");
+                done();
+            } catch (error) {
+                done(error);
+            }
+        });
+    });
+    
+    after(function(done){
+        mongoose.connection.db.dropDatabase(done);
+    });
+});

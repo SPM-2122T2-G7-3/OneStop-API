@@ -135,6 +135,23 @@ class CourseController {
             });
         }
     }
+    
+    
+    static async getAllCourses(callback = (status, payload) => {}) {
+        try {
+            await Course.find()
+            .exec()
+            .then( records => {
+                callback(200, {
+                    "courses": records
+                });
+            });
+        } catch (error) {
+            callback(500, {
+                "error": error.message
+            });
+        }
+    }
 }
 
 module.exports = CourseController;
