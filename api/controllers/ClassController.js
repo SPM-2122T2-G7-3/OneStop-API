@@ -244,7 +244,7 @@ class ClassController {
                     capacity: capacity,
                     trainers: [],
                     learners: [],
-                    content: []
+                    chapter: []
                 };
 
                 const newClass = new ClassRun(classDetails);
