@@ -1131,5 +1131,70 @@ describe("Create New Section", function () {
     after(function (done) {
         mongoose.connection.db.dropDatabase(done);
     });
-
 });
+
+
+describe('Trainer get class they are teaching', function() {
+    describe('Valid Data to get classes trainer is training', function() {
+        let classId = undefined;
+
+        before(function (done) {
+            const startDate = new Date("2021-10-12");
+            const endDate = new Date("2021-11-12");
+            const capacity = 50;
+    
+            const courseDetails = new Course({
+                courseCode: "P01",
+                courseTitle: "Xerox WorkCentre 5300 User Training",
+                _id: mongoose.Types.ObjectId()
+            });
+    
+            const newClass = new ClassRun({
+                course: courseDetails,
+                startDate: startDate,
+                endDate: endDate,
+                capacity: capacity,
+                trainers: ["lance.fu"],
+                learners: ["shermin.lim", "siti.hindun"],
+                content: []
+            });
+    
+            newClass.save()
+                .then(doc => {
+                    classId = doc.id;
+                    done();
+                });
+        });
+        
+        it("should return status 200 when successfully obtained from DB", function(done) {
+            const username = 'lance.fu';
+
+            ClassController.getTeachingClass(username, (status, payload) => {
+                try {
+                    expect(status).to.be.a("number");
+                    expect(status).to.equal(200);
+                    done();
+                } catch (error) {
+                    done(error);
+                }
+            });
+
+        });
+
+
+        it("should return teaching classes when successfully obtained from DB", function (done) {
+            const username = 'lance.fu';
+
+            ClassController.getTeachingClass(username, (status, payload) => {
+                try {
+                    expect(payload.classes).to.be.a("array");
+                    done();
+                } catch (error) {
+                    done(error);
+                }
+            });
+        })
+
+    });
+});
+

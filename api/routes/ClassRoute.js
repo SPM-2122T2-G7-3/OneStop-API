@@ -155,4 +155,13 @@ router.post("/:classId/:chapterId/section/new", (req, res, next) => {
 });
 
 
+router.get('/teach', UserService.allowTrainer, (req, res, next) => {
+    const username = req.headers['username'];
+    
+    ClassController.getTeachingClass(username, (status, payload) => {
+        res.status(status).json(payload);
+    });
+});
+
+
 module.exports = router;
