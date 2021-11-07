@@ -488,6 +488,45 @@ class ClassController {
             });
         }
     }
+    
+    
+    static async getTeachingClass(username, callback = (status, payload) => {}) {
+        const validationErrors = [];
+        username ? null : validationErrors.push("username cannot be empty");
+
+        if (validationErrors.length == 0) {
+            try {
+                await ClassRun.find()
+                    .where("trainers", username)
+                    .select({
+                        "_id": true
+                    })
+                    .exec()
+                    .then(records => {
+                        const teachingClasses = [];
+
+                        for (const record of records) {
+                            teachingClasses.push(record._id.toString());
+                        }
+
+                        callback(200, {
+                            "classes": teachingClasses
+                        });
+                    });
+            } catch (error) {
+                console.error(error);
+                callback(500, {
+                    "error": error.message
+                });
+            }
+        } else {
+            callback(400, {
+                "errors": validationErrors
+            });
+        }
+    }
+    
+    
 }
 
 module.exports = ClassController;
