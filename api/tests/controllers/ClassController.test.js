@@ -27,14 +27,18 @@ describe('Update Class Learners', function () {
             const endDate = new Date("2021-11-12");
             const capacity = 50;
 
-            const courseDetails = new Course({
+            const newCourse = new Course({
                 courseCode: "P01",
                 courseTitle: "Xerox WorkCentre 5300 User Training",
                 _id: mongoose.Types.ObjectId()
             });
-
+            
+            let courseId = newCourse.id;
+            newCourse.save();
+            
+    
             const newClass = new ClassRun({
-                course: courseDetails,
+                course: courseId,
                 startDate: startDate,
                 endDate: endDate,
                 capacity: capacity,
@@ -47,7 +51,7 @@ describe('Update Class Learners', function () {
                     username: "siti.hindun",
                     enrolled: true
                 }],
-                content: []
+                chapters: []
             });
 
             newClass.save()
@@ -105,14 +109,18 @@ describe('Update Class Learners', function () {
             const endDate = new Date("2021-11-12");
             const capacity = 50;
 
-            const courseDetails = new Course({
+            const newCourse = new Course({
                 courseCode: "P01",
                 courseTitle: "Xerox WorkCentre 5300 User Training",
                 _id: mongoose.Types.ObjectId()
             });
-
+            
+            let courseId = newCourse.id;
+            newCourse.save();
+            
+    
             const newClass = new ClassRun({
-                course: courseDetails,
+                course: courseId,
                 startDate: startDate,
                 endDate: endDate,
                 capacity: capacity,
@@ -125,7 +133,7 @@ describe('Update Class Learners', function () {
                     username: "siti.hindun",
                     enrolled: true
                 }],
-                content: []
+                chapters: []
             });
 
             newClass.save()
@@ -181,14 +189,18 @@ describe("Update Class Trainer", function () {
             const endDate = new Date("2021-11-12");
             const capacity = 50;
 
-            const courseDetails = new Course({
+            const newCourse = new Course({
                 courseCode: "P01",
                 courseTitle: "Xerox WorkCentre 5300 User Training",
                 _id: mongoose.Types.ObjectId()
             });
-
+            
+            let courseId = newCourse.id;
+            newCourse.save();
+            
+    
             const newClass = new ClassRun({
-                course: courseDetails,
+                course: courseId,
                 startDate: startDate,
                 endDate: endDate,
                 capacity: capacity,
@@ -201,7 +213,7 @@ describe("Update Class Trainer", function () {
                     username: "siti.hindun",
                     enrolled: true
                 }],
-                content: []
+                chapters: []
             });
 
             newClass.save()
@@ -252,14 +264,18 @@ describe("Update Class Trainer", function () {
             const endDate = new Date("2021-11-12");
             const capacity = 50;
 
-            const courseDetails = new Course({
+            const newCourse = new Course({
                 courseCode: "P01",
                 courseTitle: "Xerox WorkCentre 5300 User Training",
                 _id: mongoose.Types.ObjectId()
             });
-
+            
+            let courseId = newCourse.id;
+            newCourse.save();
+            
+    
             const newClass = new ClassRun({
-                course: courseDetails,
+                course: courseId,
                 startDate: startDate,
                 endDate: endDate,
                 capacity: capacity,
@@ -272,7 +288,7 @@ describe("Update Class Trainer", function () {
                     username: "siti.hindun",
                     enrolled: true
                 }],
-                content: []
+                chapters: []
             });
 
             newClass.save()
@@ -327,14 +343,18 @@ describe("Approve Self Enrolled Learners", function () {
         const endDate = new Date("2021-11-12");
         const capacity = 50;
 
-        const courseDetails = new Course({
+        const newCourse = new Course({
             courseCode: "P01",
             courseTitle: "Xerox WorkCentre 5300 User Training",
             _id: mongoose.Types.ObjectId()
         });
+        
+        let courseId = newCourse.id;
+        newCourse.save();
+        
 
         const newClass = new ClassRun({
-            course: courseDetails,
+            course: courseId,
             startDate: startDate,
             endDate: endDate,
             capacity: capacity,
@@ -351,7 +371,7 @@ describe("Approve Self Enrolled Learners", function () {
                 username: "claire.niu",
                 enrolled: false
             }],
-            content: []
+            chapters: []
         });
 
         newClass.save()
@@ -405,14 +425,18 @@ describe("Get Trainer in Class", function() {
         const endDate = new Date("2021-11-12");
         const capacity = 50;
 
-        const courseDetails = new Course({
+        const newCourse = new Course({
             courseCode: "P01",
             courseTitle: "Xerox WorkCentre 5300 User Training",
             _id: mongoose.Types.ObjectId()
         });
+        
+        let courseId = newCourse.id;
+        newCourse.save();
+        
 
         const newClass = new ClassRun({
-            course: courseDetails,
+            course: courseId,
             startDate: startDate,
             endDate: endDate,
             capacity: capacity,
@@ -429,7 +453,7 @@ describe("Get Trainer in Class", function() {
                 username: "claire.niu",
                 enrolled: false
             }],
-            content: []
+            chapters: []
         });
 
         newClass.save()
@@ -479,14 +503,18 @@ describe("Learner to self enroll into class", function() {
         const endDate = new Date("2021-11-12");
         const capacity = 50;
 
-        const courseDetails = new Course({
+        const newCourse = new Course({
             courseCode: "P01",
             courseTitle: "Xerox WorkCentre 5300 User Training",
             _id: mongoose.Types.ObjectId()
         });
+        
+        let courseId = newCourse.id;
+        newCourse.save();
+        
 
         const newClass = new ClassRun({
-            course: courseDetails,
+            course: courseId,
             startDate: startDate,
             endDate: endDate,
             capacity: capacity,
@@ -499,7 +527,7 @@ describe("Learner to self enroll into class", function() {
                 username: "siti.hindun",
                 enrolled: true
             }],
-            content: []
+            chapters: []
         });
 
         newClass.save()
@@ -549,14 +577,18 @@ describe("Get all learners in class", function () {
             const endDate = new Date("2021-11-12");
             const capacity = 50;
 
-            const courseDetails = new Course({
+            const newCourse = new Course({
                 courseCode: "P01",
                 courseTitle: "Xerox WorkCentre 5300 User Training",
                 _id: mongoose.Types.ObjectId()
             });
-
+            
+            let courseId = newCourse.id;
+            newCourse.save();
+            
+    
             const newClass = new ClassRun({
-                course: courseDetails,
+                course: courseId,
                 startDate: startDate,
                 endDate: endDate,
                 capacity: capacity,
@@ -569,7 +601,7 @@ describe("Get all learners in class", function () {
                     username: "siti.hindun",
                     enrolled: true
                 }],
-                content: []
+                chapters: []
             });
 
             newClass.save()
@@ -658,14 +690,17 @@ describe("Get all pending approval self-enrolled engineer", function () {
         const endDate = new Date("2021-11-12");
         const capacity = 50;
 
-        const courseDetails = new Course({
+        const newCourse = new Course({
             courseCode: "P01",
             courseTitle: "Xerox WorkCentre 5300 User Training",
             _id: mongoose.Types.ObjectId()
         });
-
+        
+        let courseId = newCourse.id;
+        newCourse.save();
+        
         const newClass = new ClassRun({
-            course: courseDetails,
+            course: courseId,
             startDate: startDate,
             endDate: endDate,
             capacity: capacity,
@@ -682,7 +717,7 @@ describe("Get all pending approval self-enrolled engineer", function () {
                 username: "claire.niu",
                 enrolled: false
             }],
-            content: []
+            chapters: []
         });
 
         newClass.save()
@@ -720,6 +755,102 @@ describe("Get all pending approval self-enrolled engineer", function () {
 
 
     afterEach(function (done) {
+        mongoose.connection.db.dropDatabase(done);
+    });
+});
+
+
+describe("Upload hyperlinks as class materials", function() {
+    let classId = undefined;
+    let chapterId = undefined;
+    let sectionId = undefined;
+    
+    beforeEach(function (done) {
+        const startDate = new Date("2021-10-12");
+        const endDate = new Date("2021-11-12");
+        const capacity = 50;
+
+        const newCourse = new Course({
+            courseCode: "P01",
+            courseTitle: "Xerox WorkCentre 5300 User Training",
+            _id: mongoose.Types.ObjectId()
+        });
+        
+        let courseId = newCourse.id;
+        newCourse.save();
+        
+
+        const newClass = new ClassRun({
+            course: courseId,
+            startDate: startDate,
+            endDate: endDate,
+            capacity: capacity,
+            trainers: ["lance.fu"],
+            learners: [{
+                username: "shermin.lim",
+                enrolled: true
+            },
+            {
+                username: "siti.hindun",
+                enrolled: true
+            },
+            {
+                username: "claire.niu",
+                enrolled: false
+            }],
+            chapters: [{
+                _id: mongoose.Types.ObjectId(),
+                chapterTitle: "Chapter 1",
+                sections: [{
+                    _id: mongoose.Types.ObjectId(),
+                    sectionTitle: "Section 1",
+                    hyperlinks: [],
+                    files: []
+                }]
+            }]
+        });
+        
+        chapterId = newClass.chapters[0]._id;
+        sectionId = newClass.chapters[0].sections[0]._id;
+
+        newClass.save()
+            .then(doc => {
+                classId = doc.id;
+                done();
+            });
+    });
+    
+    
+    it("should return status 200 when uploaded to DB", function (done) {
+        const hyperlink =  ["https://www.google.com"];
+        
+        ClassController.uploadLinks(classId, chapterId, sectionId, hyperlink, (status, payload) => {
+            try {
+                expect(status).to.be.a("number");
+                expect(status).to.equal(200);
+                done();
+            } catch (error) {
+                done(error);
+            }
+        });
+    });
+    
+    
+    it("should return message for successful update", function (done) {
+        const hyperlink =  ["https://www.google.com"];
+        
+        ClassController.uploadLinks(classId, chapterId, sectionId, hyperlink, (status, payload) => {
+            try {
+                expect(payload).to.be.a("object");
+                expect(payload.message).to.be.a("string");
+                done();
+            } catch (error) {
+                done(error);
+            }
+        });
+    });
+    
+    after(function(done) {
         mongoose.connection.db.dropDatabase(done);
     });
 });
