@@ -46,6 +46,40 @@ class CourseController {
     }
 
 
+    static async updateCourseInfo(oldCourseCode, newCourseCode, courseTitle, callback = (status, payload) => {}) {
+        const validationErrors = [];
+        oldCourseCode ? null : validationErrors.push("oldCourseCode cannot be empty");
+        newCourseCode ? null : validationErrors.push("newCourseCode cannot be empty");
+        courseTitle ? null : validationErrors.push("courseTitle cannot be empty");
+
+        if (validationErrors.length == 0) {
+            try {
+
+                const course = await Course.findOne()
+                    .where("courseCode", oldCourseCode)
+                    .exec();
+
+                course.courseCode = newCourseCode;
+                course.courseTitle = courseTitle;
+
+                course.save()
+                    .then(doc => {
+                        callback(200, {
+                            "message": `Course ${doc._id} was successfully updated`
+                        })
+                    });
+            } catch (error) {
+                console.error(error)
+              callback(500, {
+                    "error": error.message
+                });
+            }
+        } else {
+            callback(400, {
+                "errors": validationErrors
+            });
+        }
+    }
 
 
     static async getCourseInfo(courseCode, callback = (status, payload) => {}) {

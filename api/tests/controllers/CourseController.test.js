@@ -58,12 +58,13 @@ describe('Create New Course', function () {
 });
 
 
-describe("Get Course Information", function () {
+
+describe("Update Course Information", function () {
     const courseCode = "HP101";
     let courseId = undefined;
 
-    before(function (done) {
-        const courseTitle = "HP Foundation Repair Course";
+    beforeEach(function (done) {
+      const courseTitle = "HP Foundation Repair Course";
         const preReq = [];
 
         const courseDetails = {
@@ -79,8 +80,67 @@ describe("Get Course Information", function () {
                 done();
             });
     });
+      
+      describe('Valid search of classes by course code', function () {
+        const newCourseCode = "HP110";
+        const courseTitle = "HP Printer Foundation Repair Course";
 
-    it("should return status 200 when successfully inserted into DB", function (done) {
+        it('should return status 200 when successfully returned', function (done) {
+
+            CourseController.updateCourseInfo(courseCode, newCourseCode, courseTitle, (status, payload) => {
+                try {
+                    expect(status).to.be.a("number");
+                    expect(status).to.equal(200);
+                    done();
+                } catch (error) {
+                    done(error);
+                }
+            });
+        });
+
+
+        it('should return payload when successfully returned', function (done) {
+            CourseController.updateCourseInfo(courseCode, newCourseCode, courseTitle, (status, payload) => {
+                try {
+                    expect(payload).to.be.an("object");
+                    done();
+                } catch (error) {
+                    done(error);
+                }
+            });
+        });
+    });
+
+    afterEach(function (done) {
+        mongoose.connection.db.dropDatabase(done);
+    });
+  
+});
+      
+      
+describe("Get Course Information", function () {
+    const courseCode = "HP101";
+    let courseId = undefined;
+
+    before(function (done) {
+      const courseTitle = "HP Foundation Repair Course";
+        const preReq = [];
+
+        const courseDetails = {
+            courseCode: courseCode,
+            courseTitle: courseTitle,
+            preReq: preReq
+        }
+
+        const newCourse = new Course(courseDetails);
+        newCourse.save()
+            .then(doc => {
+                courseId = doc.id;
+                done();
+            });
+    });
+      
+      it("should return status 200 when successfully inserted into DB", function (done) {
         CourseController.getCourseInfo(courseCode, (status, payload) => {
             try {
                 expect(status).to.be.a("number");
