@@ -46,10 +46,10 @@ class QuizController {
                                 "message": `Quiz ID ${doc._id} was successfully created`
                             });
                         })
-                        .catch(err => {
-                            console.error(err);
+                        .catch(error => {
+                            console.error(error);
                             callback(500, {
-                                "errors": err.message
+                                "errors": error.message
                             });
                         });
                 } else {
@@ -70,6 +70,7 @@ class QuizController {
             });
         }
     }
+    
     
     static async deleteQuiz(quizId, callback = (status, payload) => {}) {
         const validationErrors = [];
@@ -98,6 +99,7 @@ class QuizController {
         }
     }
   
+    
     static async updateQuizQuestions(quizId, questions, callback = (status, payload) => { }) {
         const validationErrors = [];
         quizId ? null : validationErrors.push("quizId cannot be empty");
@@ -124,10 +126,10 @@ class QuizController {
                                 "message": `Quiz ID ${doc._id} was successfully updated`
                             });
                         })
-                        .catch(err => {
-                            console.error(err);
+                        .catch(error => {
+                            console.error(error);
                             callback(500, {
-                                "errors": err.message
+                                "errors": error.message
                             });
                         });
 
@@ -145,13 +147,40 @@ class QuizController {
                 });
             }
         } else {
-            console.error(error);
             callback(400, {
                 "errors": validationErrors
             });
         }
     }
   
+    
+    static async getQuizAttempt(quizAttemptId, callback = (status, payload) => {}) {
+        const validationErrors = [];
+        quizAttemptId ? null : validationErrors.push("quizAttemptId cannot be empty");
+        
+        if (validationErrors.length == 0){
+            try {
+                await QuizAttempt.findOne()
+                    .where("_id", quizAttemptId)
+                    .exec()
+                    .then( record => {
+                        callback(200, {
+                            "quizAttempt": record,
+                        })
+                    });
+            } catch (error) {
+                callback(500, {
+                    "error": error.message
+                });
+            }
+        } else {
+            callback(400, {
+                "errors": validationErrors
+            });
+        }
+    }
+    
+    
     static async markQuiz(quizId, questions, username, callback = (status, payload) => { }) {
         const validationErrors = [];
         quizId ? null : validationErrors.push("quizId cannot be empty");
@@ -224,13 +253,14 @@ class QuizController {
                     newQuizAttempt.save()
                         .then(doc => {
                             callback(200, {
+                                "quizAttemptId": doc._id,
                                 "message": `Quiz Attempt ID ${doc._id} was successfully created`
                             });
                         })
-                        .catch(err => {
-                            console.error(err);
+                        .catch(error => {
+                            console.error(error);
                             callback(500, {
-                                "errors": err.message
+                                "errors": error.message
                             });
                         });
                 } else {
@@ -246,13 +276,13 @@ class QuizController {
                 });
             }
         } else {
-            console.error(error);
             callback(400, {
                 "errors": validationErrors
             });
         }
     }
 
+    
     static async getQuizQuestions(quizId, getCorrectAns, callback = (status, payload) => {}) {
         const validationErrors = [];
         quizId ? null : validationErrors.push("quizId cannot be empty");
@@ -287,6 +317,9 @@ class QuizController {
             });
         }
     }
+    
+    
+    
 }
 
 module.exports = QuizController;

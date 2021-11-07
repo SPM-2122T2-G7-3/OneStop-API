@@ -375,14 +375,47 @@ class ClassController {
                 };
                 
                 classRun.chapters.push(chapter);
-                
-                classRun.save()
+                  classRun.save()
                     .then(doc => {
                         callback(200, {
-                            "message": `Chapter ${chapterTitle} successfully created for class ${classId}`
+                              "message": `Chapter ${chapterTitle} successfully created for class ${classId}`
                         });
                     });
             } catch (error) {
+               console.error(error);
+                callback(500, {
+                    "error": error.message
+                });
+            }
+        } else {
+            callback(400, {
+                "errors": validationErrors
+            });
+        }
+    }
+
+
+    static async getContent(classId, chapterId, sectionId, callback = (status, payload) => {}) {
+        const validationErrors = [];
+        classId ? null : validationErrors.push("classId cannot be empty");
+        chapterId ? null : validationErrors.push("chapterId cannot be empty");
+        sectionId ? null : validationErrors.push("sectionId cannot be empty");
+      
+      if (validationErrors.length == 0) {
+            try {
+                const classRun = await ClassRun.findOne()
+                    .where("_id", classId)
+                    .where("chapters._id", chapterId)
+                .where("chapters.sections._id", sectionId)
+                    .exec();
+                
+                
+                const section = classRun.chapters[0].sections[0];
+                callback(200, {
+                    "files": section.files,
+                    "hyperlinks": section.hyperlinks
+                });
+               } catch (error) {
                 console.error(error);
                 callback(500, {
                     "error": error.message
@@ -394,8 +427,47 @@ class ClassController {
             });
         }
     }
-    
-    
+
+
+    static async newSection(classId, chapterId, sectionTitle, callback = (status, payload) => {}) {
+        const validationErrors = [];
+        classId ? null : validationErrors.push("classId cannot be empty");
+        chapterId ? null : validationErrors.push("chapterId cannot be empty");
+        sectionTitle ? null : validationErrors.push("sectionTitle cannot be empty");
+      
+      if (validationErrors.length == 0) {
+            try {
+                const classRun = await ClassRun.findOne()
+                    .where("_id", classId)
+                    .where("chapters._id", chapterId)
+                  .exec();
+                
+                const section = {
+                    sectionTitle: sectionTitle,
+                    hyperlinks: [],
+                    files: []
+                };
+                
+                classRun.chapters[0].sections.push(section);
+                  classRun.save()
+                    .then(doc => {
+                        callback(200, {
+                           "message": `Section ${sectionTitle} successfully created for chapter ${chapterId} of class ${classId}`
+                        });
+                    });
+               } catch (error) {
+                  console.error(error);
+                callback(500, {
+                    "error": error.message
+                });
+            }
+        } else {
+            callback(400, {
+                "errors": validationErrors
+            });
+        }
+    }
+
 }
 
 module.exports = ClassController;

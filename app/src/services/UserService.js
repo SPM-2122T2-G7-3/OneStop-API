@@ -5,6 +5,11 @@ class UserService {
     getUsersByRole(role){
       return http.get(`/user/role/${role}`)
     }
+
+    login(data){
+      return http.post('/user/login', data)
+  
+    }
   
 
     

@@ -13,19 +13,13 @@
             <li class="nav-item">
               <router-link :class="{active: $route.name==='home'}" class="nav-link" to="/">Home</router-link> 
             </li>
-            <li class="nav-item">
-              Course
-            </li>
           </ul>
           <div class="nav-item dropdown">
             <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
               Profile
             </button>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
+              <li><a class="dropdown-item" @click="logout()">Logout</a></li>
             </ul>
           </div>
         </div>
@@ -45,9 +39,24 @@ export default {
     }
   },
   methods: {
+    readCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0;i < ca.length;i++) {
+            var c = ca[i];
+            while (c.charAt(0)==' ') c = c.substring(1,c.length);
+            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+        }
+        return null;
+    },
+    logout(){
+      document.cookie = 'username' +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+      this.$router.push('/')
 
+    },
   },
   computed: {
+    
   }
 }
 </script>
