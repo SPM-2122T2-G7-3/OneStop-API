@@ -80,9 +80,9 @@ class UserService {
             .catch(err => {
                 res.status(500).json({ "error": err.message })
             });
-    } 
-    
-    
+    }
+
+
     static async getUser(username) {
         let success = true;
 

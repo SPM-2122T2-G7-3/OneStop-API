@@ -40,7 +40,7 @@ const storage = new GridFsStorage({
                     filename: filename,
                     bucketName: "materials"
                 };
-                
+
                 req.body["fileInfo"] = fileInfo;
                 resolve(fileInfo);
             });
@@ -60,20 +60,20 @@ const downloadFile = (filename) => {
         gfs.find({
             filename: filename
         })
-        .toArray((err, files) => {
-            if (err || files.length === 0) {
-                return reject(err);
-            }
+            .toArray((err, files) => {
+                if (err || files.length === 0) {
+                    return reject(err);
+                }
 
-            const readstream = gfs.openDownloadStreamByName(filename);
-            resolve(readstream);
-        });
+                const readstream = gfs.openDownloadStreamByName(filename);
+                resolve(readstream);
+            });
     });
 }
 
 
 const FileService = {
-    uploadFile, 
+    uploadFile,
     downloadFile
 }
 

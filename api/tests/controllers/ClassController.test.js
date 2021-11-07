@@ -32,11 +32,11 @@ describe('Update Class Learners', function () {
                 courseTitle: "Xerox WorkCentre 5300 User Training",
                 _id: mongoose.Types.ObjectId()
             });
-            
+
             let courseId = newCourse.id;
             newCourse.save();
-            
-    
+
+
             const newClass = new ClassRun({
                 course: courseId,
                 startDate: startDate,
@@ -66,9 +66,9 @@ describe('Update Class Learners', function () {
         });
 
         it("should return status 200 when successfully updated into DB", function (done) {
-            const learners = [{ 
-                username: "joen.chua", 
-                enrolled: true 
+            const learners = [{
+                username: "joen.chua",
+                enrolled: true
             }];
 
             ClassController.updateClassLearners(classId, learners, (status, payload) => {
@@ -84,9 +84,9 @@ describe('Update Class Learners', function () {
 
 
         it("should return message for successful update", function (done) {
-            const learners = [{ 
-                username: "joen.chua", 
-                enrolled: true 
+            const learners = [{
+                username: "joen.chua",
+                enrolled: true
             }];
 
             ClassController.updateClassLearners(classId, learners, (status, payload) => {
@@ -114,11 +114,11 @@ describe('Update Class Learners', function () {
                 courseTitle: "Xerox WorkCentre 5300 User Training",
                 _id: mongoose.Types.ObjectId()
             });
-            
+
             let courseId = newCourse.id;
             newCourse.save();
-            
-    
+
+
             const newClass = new ClassRun({
                 course: courseId,
                 startDate: startDate,
@@ -174,6 +174,7 @@ describe('Update Class Learners', function () {
         });
     });
 
+    
     afterEach(function (done) {
         mongoose.connection.db.dropDatabase(done);
     });
@@ -194,11 +195,11 @@ describe("Update Class Trainer", function () {
                 courseTitle: "Xerox WorkCentre 5300 User Training",
                 _id: mongoose.Types.ObjectId()
             });
-            
+
             let courseId = newCourse.id;
             newCourse.save();
-            
-    
+
+
             const newClass = new ClassRun({
                 course: courseId,
                 startDate: startDate,
@@ -256,6 +257,7 @@ describe("Update Class Trainer", function () {
         });
     });
 
+    
     describe("Invalid Update of Class Learners", function () {
         let classId = undefined;
 
@@ -269,11 +271,11 @@ describe("Update Class Trainer", function () {
                 courseTitle: "Xerox WorkCentre 5300 User Training",
                 _id: mongoose.Types.ObjectId()
             });
-            
+
             let courseId = newCourse.id;
             newCourse.save();
-            
-    
+
+
             const newClass = new ClassRun({
                 course: courseId,
                 startDate: startDate,
@@ -348,10 +350,10 @@ describe("Approve Self Enrolled Learners", function () {
             courseTitle: "Xerox WorkCentre 5300 User Training",
             _id: mongoose.Types.ObjectId()
         });
-        
+
         let courseId = newCourse.id;
         newCourse.save();
-        
+
 
         const newClass = new ClassRun({
             course: courseId,
@@ -417,7 +419,7 @@ describe("Approve Self Enrolled Learners", function () {
 });
 
 
-describe("Get Trainer in Class", function() {
+describe("Get Trainer in Class", function () {
     let classId = undefined;
 
     before(function (done) {
@@ -430,10 +432,10 @@ describe("Get Trainer in Class", function() {
             courseTitle: "Xerox WorkCentre 5300 User Training",
             _id: mongoose.Types.ObjectId()
         });
-        
+
         let courseId = newCourse.id;
         newCourse.save();
-        
+
 
         const newClass = new ClassRun({
             course: courseId,
@@ -474,8 +476,8 @@ describe("Get Trainer in Class", function() {
             }
         });
     });
-    
-    it("should return list of trainers when successfully query from DB", function(done) {
+
+    it("should return list of trainers when successfully query from DB", function (done) {
         ClassController.getTrainerInClass(classId, (status, payload) => {
             try {
                 expect(payload).to.be.an("object");
@@ -484,18 +486,18 @@ describe("Get Trainer in Class", function() {
             } catch (error) {
                 done(error);
             }
-          
-          
+
+
         });
     });
-    
+
     after(function (done) {
         mongoose.connection.db.dropDatabase(done);
     });
 });
 
 
-describe("Learner to self enroll into class", function() {
+describe("Learner to self enroll into class", function () {
     let classId = undefined;
 
     before(function (done) {
@@ -508,10 +510,10 @@ describe("Learner to self enroll into class", function() {
             courseTitle: "Xerox WorkCentre 5300 User Training",
             _id: mongoose.Types.ObjectId()
         });
-        
+
         let courseId = newCourse.id;
         newCourse.save();
-        
+
 
         const newClass = new ClassRun({
             course: courseId,
@@ -550,8 +552,8 @@ describe("Learner to self enroll into class", function() {
             }
         });
     });
-    
-    
+
+
     it("should return message for successful insert", function (done) {
         const username = "clarie.niu";
 
@@ -566,7 +568,7 @@ describe("Learner to self enroll into class", function() {
         });
     });
 });
-   
+
 
 describe("Get all learners in class", function () {
     describe('Valid Query of Class Learners', function () {
@@ -582,11 +584,11 @@ describe("Get all learners in class", function () {
                 courseTitle: "Xerox WorkCentre 5300 User Training",
                 _id: mongoose.Types.ObjectId()
             });
-            
+
             let courseId = newCourse.id;
             newCourse.save();
-            
-    
+
+
             const newClass = new ClassRun({
                 course: courseId,
                 startDate: startDate,
@@ -639,6 +641,7 @@ describe("Get all learners in class", function () {
             });
         });
     });
+
     
     after(function (done) {
         mongoose.connection.db.dropDatabase(done);
@@ -646,15 +649,15 @@ describe("Get all learners in class", function () {
 });
 
 
-describe("Create new Classes", function() {
-    describe("Valid data required for creating a class", function() {
+describe("Create new Classes", function () {
+    describe("Valid data required for creating a class", function () {
         const startDateString = "2021-10-12";
         const endDateString = "2021-11-12";
         const capacity = 50;
         const courseCode = "P01";
-        
-        
-        it("should return status 200 when successfully updated into DB", function(done) {
+
+
+        it("should return status 200 when successfully updated into DB", function (done) {
             ClassController.createNewClass(courseCode, startDateString, endDateString, capacity, (status, payload) => {
                 try {
                     expect(status).to.be.a("number");
@@ -664,10 +667,10 @@ describe("Create new Classes", function() {
                     done(error);
                 }
             });
-            
+
         });
-        
-        
+
+
         it("should return message for successful update", function (done) {
             ClassController.createNewClass(courseCode, startDateString, endDateString, capacity, (status, payload) => {
                 try {
@@ -676,7 +679,7 @@ describe("Create new Classes", function() {
                 } catch (error) {
                     done(error);
                 }
-            }); 
+            });
         });
     });
 });
@@ -695,10 +698,10 @@ describe("Get all pending approval self-enrolled engineer", function () {
             courseTitle: "Xerox WorkCentre 5300 User Training",
             _id: mongoose.Types.ObjectId()
         });
-        
+
         let courseId = newCourse.id;
         newCourse.save();
-        
+
         const newClass = new ClassRun({
             course: courseId,
             startDate: startDate,
@@ -726,8 +729,8 @@ describe("Get all pending approval self-enrolled engineer", function () {
                 done();
             });
     });
-    
-    
+
+
     it("should return status 200 when retrieved from DB", function (done) {
         ClassController.getApplicants(classId, (status, payload) => {
             try {
@@ -760,11 +763,11 @@ describe("Get all pending approval self-enrolled engineer", function () {
 });
 
 
-describe("Upload hyperlinks as class materials", function() {
+describe("Upload hyperlinks as class materials", function () {
     let classId = undefined;
     let chapterId = undefined;
     let sectionId = undefined;
-    
+
     beforeEach(function (done) {
         const startDate = new Date("2021-10-12");
         const endDate = new Date("2021-11-12");
@@ -775,10 +778,10 @@ describe("Upload hyperlinks as class materials", function() {
             courseTitle: "Xerox WorkCentre 5300 User Training",
             _id: mongoose.Types.ObjectId()
         });
-        
+
         let courseId = newCourse.id;
         newCourse.save();
-        
+
 
         const newClass = new ClassRun({
             course: courseId,
@@ -809,7 +812,7 @@ describe("Upload hyperlinks as class materials", function() {
                 }]
             }]
         });
-        
+
         chapterId = newClass.chapters[0]._id;
         sectionId = newClass.chapters[0].sections[0]._id;
 
@@ -819,11 +822,11 @@ describe("Upload hyperlinks as class materials", function() {
                 done();
             });
     });
-    
-    
+
+
     it("should return status 200 when uploaded to DB", function (done) {
-        const hyperlink =  ["https://www.google.com"];
-        
+        const hyperlink = ["https://www.google.com"];
+
         ClassController.uploadLinks(classId, chapterId, sectionId, hyperlink, (status, payload) => {
             try {
                 expect(status).to.be.a("number");
@@ -834,11 +837,11 @@ describe("Upload hyperlinks as class materials", function() {
             }
         });
     });
-    
-    
+
+
     it("should return message for successful update", function (done) {
-        const hyperlink =  ["https://www.google.com"];
-        
+        const hyperlink = ["https://www.google.com"];
+
         ClassController.uploadLinks(classId, chapterId, sectionId, hyperlink, (status, payload) => {
             try {
                 expect(payload).to.be.a("object");
@@ -849,19 +852,20 @@ describe("Upload hyperlinks as class materials", function() {
             }
         });
     });
+
     
-    after(function(done) {
+    after(function (done) {
         mongoose.connection.db.dropDatabase(done);
     });
 });
 
 
-describe("Create new chapter", function(done) {
+describe("Create new chapter", function (done) {
     let classId = undefined;
-    
+
     before(function (done) {
         const startDate = new Date("2021-10-12");
-       const endDate = new Date("2021-11-12");
+        const endDate = new Date("2021-11-12");
         const capacity = 50;
 
         const newCourse = new Course({
@@ -869,10 +873,10 @@ describe("Create new chapter", function(done) {
             courseTitle: "Xerox WorkCentre 5300 User Training",
             _id: mongoose.Types.ObjectId()
         });
-       
+
         let courseId = newCourse.id;
         newCourse.save();
-      
+
         const newClass = new ClassRun({
             course: courseId,
             startDate: startDate,
@@ -899,11 +903,13 @@ describe("Create new chapter", function(done) {
                 done();
             });
     });
- it("should return status 200 when uploaded to DB", function (done) {
-        const chapterTitle =  "Chapter 1";
-        
+    
+    
+    it("should return status 200 when uploaded to DB", function (done) {
+        const chapterTitle = "Chapter 1";
+
         ClassController.newChapter(classId, chapterTitle, (status, payload) => {
-             try {
+            try {
                 expect(status).to.be.a("number");
                 expect(status).to.equal(200);
                 done();
@@ -912,38 +918,40 @@ describe("Create new chapter", function(done) {
             }
         });
     });
-  
-  it("should return message for successful update", function (done) {
-        const chapterTitle =  "Chapter 1";
-        
+    
+
+    it("should return message for successful update", function (done) {
+        const chapterTitle = "Chapter 1";
+
         ClassController.newChapter(classId, chapterTitle, (status, payload) => {
             try {
                 expect(payload).to.be.a("object");
                 expect(payload.message).to.be.a("string");
                 done();
-              
+
             } catch (error) {
                 done(error);
             }
         });
     });
+
     
-    after(function(done) {
+    after(function (done) {
         mongoose.connection.db.dropDatabase(done);
     });
-  
+
 });
 
 
 
-describe("Get contents based on class, chapter, section", function() {
+describe("Get contents based on class, chapter, section", function () {
     let classId = undefined;
     let chapterId = undefined;
     let sectionId = undefined;
-    
+
     beforeEach(function (done) {
-      const startDate = new Date("2021-10-12");
-       const endDate = new Date("2021-11-12");
+        const startDate = new Date("2021-10-12");
+        const endDate = new Date("2021-11-12");
         const capacity = 50;
 
         const newCourse = new Course({
@@ -951,12 +959,12 @@ describe("Get contents based on class, chapter, section", function() {
             courseTitle: "Xerox WorkCentre 5300 User Training",
             _id: mongoose.Types.ObjectId()
         });
-      
-        
+
+
         let courseId = newCourse.id;
         newCourse.save();
-      
-      
+
+
         const newClass = new ClassRun({
             course: courseId,
             startDate: startDate,
@@ -978,8 +986,8 @@ describe("Get contents based on class, chapter, section", function() {
             chapters: [{
                 _id: mongoose.Types.ObjectId(),
                 chapterTitle: "Chapter 1",
-              
-              sections: [{
+
+                sections: [{
                     _id: mongoose.Types.ObjectId(),
                     sectionTitle: "Section 1",
                     hyperlinks: [
@@ -987,12 +995,12 @@ describe("Get contents based on class, chapter, section", function() {
                     ],
                     files: []
                 }]
-                }]
+            }]
         });
-        
+
         chapterId = newClass.chapters[0]._id;
-      sectionId = newClass.chapters[0].sections[0]._id;
-      
+        sectionId = newClass.chapters[0].sections[0]._id;
+
 
         newClass.save()
             .then(doc => {
@@ -1000,11 +1008,11 @@ describe("Get contents based on class, chapter, section", function() {
                 done();
             });
     });
-    
-    
+
+
     it("should return status 200 when uploaded to DB", function (done) {
-      ClassController.getContent(classId, chapterId, sectionId, (status, payload) => {
-        
+        ClassController.getContent(classId, chapterId, sectionId, (status, payload) => {
+
             try {
                 expect(status).to.be.a("number");
                 expect(status).to.equal(200);
@@ -1014,34 +1022,34 @@ describe("Get contents based on class, chapter, section", function() {
             }
         });
     });
-    
-    
+
+
     it("should return message for successful update", function (done) {
-       ClassController.getContent(classId, chapterId, sectionId, (status, payload) => {
+        ClassController.getContent(classId, chapterId, sectionId, (status, payload) => {
             try {
                 expect(payload).to.be.a("object");
                 expect(payload.files).to.be.a("array");
                 expect(payload.hyperlinks).to.be.a("array");
-              done();
+                done();
             } catch (error) {
                 done(error);
             }
         });
     });
-    
-    after(function(done) {
+
+    after(function (done) {
         mongoose.connection.db.dropDatabase(done);
     });
-                
+
 });
 
 
-describe("Create New Section", function() {
+describe("Create New Section", function () {
     let classId = undefined;
     let chapterId = undefined;
 
     before(function (done) {
-      const startDate = new Date("2021-10-12");
+        const startDate = new Date("2021-10-12");
         const endDate = new Date("2021-11-12");
         const capacity = 50;
 
@@ -1050,12 +1058,12 @@ describe("Create New Section", function() {
             courseTitle: "Xerox WorkCentre 5300 User Training",
             _id: mongoose.Types.ObjectId()
         });
-      
-      
+
+
         let courseId = newCourse.id;
         newCourse.save();
-      
-      const newClass = new ClassRun({
+
+        const newClass = new ClassRun({
             course: courseId,
             startDate: startDate,
             endDate: endDate,
@@ -1073,13 +1081,13 @@ describe("Create New Section", function() {
                 username: "claire.niu",
                 enrolled: false
             }],
-         chapters: [{
+            chapters: [{
                 _id: mongoose.Types.ObjectId(),
                 chapterTitle: "Chapter 1",
                 sections: []
-                }]
+            }]
         });
-        
+
         chapterId = newClass.chapters[0]._id;
         newClass.save()
             .then(doc => {
@@ -1087,12 +1095,13 @@ describe("Create New Section", function() {
                 done();
             });
     });
-  
+
+    
     it("should return status 200 when uploaded to DB", function (done) {
-      const sectionTitle = "Section 1";
-        
+        const sectionTitle = "Section 1";
+
         ClassController.newSection(classId, chapterId, sectionTitle, (status, payload) => {
-             try {
+            try {
                 expect(status).to.be.a("number");
                 expect(status).to.equal(200);
                 done();
@@ -1101,24 +1110,26 @@ describe("Create New Section", function() {
             }
         });
     });
-              
-              it("should return message for successful update", function (done) {
-       const sectionTitle = "Section 1";
-        
+
+    
+    it("should return message for successful update", function (done) {
+        const sectionTitle = "Section 1";
+
         ClassController.newSection(classId, chapterId, sectionTitle, (status, payload) => {
             try {
                 expect(payload).to.be.a("object");
                 expect(payload.message).to.be.a("string");
-              done();
-              
+                done();
+
             } catch (error) {
                 done(error);
             }
         });
     });
     
-    after(function(done) {
+
+    after(function (done) {
         mongoose.connection.db.dropDatabase(done);
     });
-          
+
 });

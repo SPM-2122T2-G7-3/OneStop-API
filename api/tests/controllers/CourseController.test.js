@@ -68,13 +68,13 @@ describe('Get classes by Course Code', function () {
 
     before(function (done) {
         const newCourse = new Course(courseDetails);
-      newCourse.save()
+        newCourse.save()
             .then(doc => {
                 courseId = doc.id;
                 done();
             });
     });
-    
+
     describe('Valid search of classes by course code', function () {
         const courseCode = "HP101";
 
@@ -90,18 +90,19 @@ describe('Get classes by Course Code', function () {
                 }
             });
         });
-        
-         it('should return payload when successfully returned', function (done) {
+
+        it('should return payload when successfully returned', function (done) {
             CourseController.getClassesByCourse(courseCode, (status, payload) => {
                 try {
                     expect(payload).to.be.an("object");
-                     done();
+                    done();
                 } catch (error) {
                     done(error);
                 }
             });
         });
     });
+
     
     describe('Invalid search of classes by course code', function () {
         const courseCode = "";
@@ -138,7 +139,7 @@ describe('Get classes by Course Code', function () {
     after(function (done) {
         mongoose.connection.db.dropDatabase(done);
     });
-    
+
 });
 
 
@@ -147,7 +148,7 @@ describe("Update Course Information", function () {
     let courseId = undefined;
 
     beforeEach(function (done) {
-      const courseTitle = "HP Foundation Repair Course";
+        const courseTitle = "HP Foundation Repair Course";
         const preReq = [];
 
         const courseDetails = {
@@ -163,6 +164,7 @@ describe("Update Course Information", function () {
                 done();
             });
     });
+
     
     describe('Valid search of classes by course code', function () {
         const newCourseCode = "HP110";
@@ -180,32 +182,33 @@ describe("Update Course Information", function () {
                 }
             });
         });
-        
+
         it('should return payload when successfully returned', function (done) {
             CourseController.updateCourseInfo(courseCode, newCourseCode, courseTitle, (status, payload) => {
                 try {
                     expect(payload).to.be.an("object");
-                     done();
+                    done();
                 } catch (error) {
                     done(error);
                 }
             });
         });
     });
+
     
     afterEach(function (done) {
         mongoose.connection.db.dropDatabase(done);
     });
-  
+
 });
-      
-      
+
+
 describe("Get Course Information", function () {
     const courseCode = "HP101";
     let courseId = undefined;
 
     before(function (done) {
-      const courseTitle = "HP Foundation Repair Course";
+        const courseTitle = "HP Foundation Repair Course";
         const preReq = [];
 
         const courseDetails = {
@@ -221,8 +224,9 @@ describe("Get Course Information", function () {
                 done();
             });
     });
-      
-      it("should return status 200 when successfully inserted into DB", function (done) {
+
+    
+    it("should return status 200 when successfully inserted into DB", function (done) {
         CourseController.getCourseInfo(courseCode, (status, payload) => {
             try {
                 expect(status).to.be.a("number");
@@ -234,6 +238,7 @@ describe("Get Course Information", function () {
         });
     });
 
+    
     it("should return payload with success status, document ID and message when successfully inserted into DB", function (done) {
         CourseController.getCourseInfo(courseCode, (status, payload) => {
             try {
@@ -249,6 +254,7 @@ describe("Get Course Information", function () {
             }
         });
     });
+    
 
     after(function (done) {
         mongoose.connection.db.dropDatabase(done);

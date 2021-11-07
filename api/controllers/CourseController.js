@@ -2,7 +2,7 @@ const Course = require('../models/CourseModel');
 const CourseService = require('../services/CourseService');
 
 class CourseController {
-    static async createCourse(courseCode, courseTitle, preReq, callback = (status, payload) => {}) {
+    static async createCourse(courseCode, courseTitle, preReq, callback = (status, payload) => { }) {
         const validationErrors = [];
         courseCode ? null : validationErrors.push("courseId cannot be empty");
         courseTitle ? null : validationErrors.push("courseTitle cannot be empty");
@@ -46,24 +46,23 @@ class CourseController {
     }
 
 
-  
-    static async getClassesByCourse(courseCode, callback = (status, payload) => {}) {
+    static async getClassesByCourse(courseCode, callback = (status, payload) => { }) {
         const validationErrors = [];
         courseCode ? null : validationErrors.push("courseCode cannot be empty");
-        
+
         if (validationErrors.length == 0) {
             try {
                 const {
                     success,
                     result
                 } = await CourseService.getClassesByCourse(courseCode);
-                
+
                 const status = success ? 200 : 500;
-                
+
                 callback(status, result);
             } catch (error) {
                 console.error(error);
-              callback(500, {
+                callback(500, {
                     "error": error.message
                 });
             }
@@ -73,9 +72,9 @@ class CourseController {
             });
         }
     }
-       
 
-    static async updateCourseInfo(oldCourseCode, newCourseCode, courseTitle, callback = (status, payload) => {}) {
+
+    static async updateCourseInfo(oldCourseCode, newCourseCode, courseTitle, callback = (status, payload) => { }) {
         const validationErrors = [];
         oldCourseCode ? null : validationErrors.push("oldCourseCode cannot be empty");
         newCourseCode ? null : validationErrors.push("newCourseCode cannot be empty");
@@ -99,7 +98,7 @@ class CourseController {
                     });
             } catch (error) {
                 console.error(error)
-              callback(500, {
+                callback(500, {
                     "error": error.message
                 });
             }
@@ -109,10 +108,9 @@ class CourseController {
             });
         }
     }
-              
 
 
-    static async getCourseInfo(courseCode, callback = (status, payload) => {}) {
+    static async getCourseInfo(courseCode, callback = (status, payload) => { }) {
         const validationErrors = [];
         courseCode ? null : validationErrors.push("courseCode cannot be empty");
 

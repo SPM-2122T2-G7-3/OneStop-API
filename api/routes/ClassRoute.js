@@ -13,7 +13,7 @@ router.post('/new', UserService.allowAdmin, (req, res, next) => {
         endDate,
         capacity
     } = req.body;
-    
+
     ClassController.createNewClass(courseCode, startDate, endDate, capacity, (status, payload) => {
         res.status(status).json(payload);
     });
@@ -34,7 +34,7 @@ router.put('/:classId/learners', (req, res, next) => {
 
 router.get("/:classId/learners", (req, res, next) => {
     const classId = req.params.classId;
-    
+
     ClassController.getLearnerInClass(classId, (status, payload) => {
         res.status(status).json(payload);
     });
@@ -64,10 +64,10 @@ router.get('/:classId/trainers', (req, res, next) => {
 
 router.put('/approve', UserService.allowAdmin, (req, res, next) => {
     const {
-        username, 
+        username,
         classId
     } = req.body;
-    
+
     ClassController.approveSelfEnrollment(classId, username, (status, payload) => {
         res.status(status).json(payload);
     })
@@ -77,16 +77,16 @@ router.put('/approve', UserService.allowAdmin, (req, res, next) => {
 router.post('/:classId/apply', UserService.allowLearner, (req, res, next) => {
     const classId = req.params.classId;
     const username = req.headers["username"];
-    
+
     ClassController.applyToClass(classId, username, (status, payload) => {
-       res.status(status).json(payload); 
+        res.status(status).json(payload);
     });
 });
 
 
 router.get('/:classId/applicants', (req, res, next) => {
     const classId = req.params.classId;
-    
+
     ClassController.getApplicants(classId, (status, payload) => {
         res.status(status).json(payload);
     });
@@ -100,7 +100,7 @@ router.put('/:classId/:chapterId/:sectionId/upload/links', (req, res, next) => {
     const {
         links
     } = req.body;
-    
+
     ClassController.uploadLinks(classId, chapterId, sectionId, links, (status, payload) => {
         res.status(status).json(payload);
     });
@@ -112,11 +112,11 @@ router.post('/:classId/:chapterId/:sectionId/upload/file', FileService.uploadFil
     const chapterId = req.params.chapterId;
     const sectionId = req.params.sectionId;
     const fileInfo = req.body.fileInfo;
-    
-    ClassController.uploadContent(classId, chapterId, sectionId, fileInfo, (status, payload) => { 
+
+    ClassController.uploadContent(classId, chapterId, sectionId, fileInfo, (status, payload) => {
         res.status(status).json(payload);
     });
-}); 
+});
 
 
 router.post('/:classId/chapter/new', (req, res, next) => {
@@ -124,21 +124,20 @@ router.post('/:classId/chapter/new', (req, res, next) => {
     const {
         chapterTitle
     } = req.body;
-    
+
     ClassController.newChapter(classId, chapterTitle, (status, payload) => {
         res.status(status).json(payload);
     });
 });
 
 
-
 router.get('/:classId/:chapterId/:sectionId/contents', (req, res, next) => {
     const classId = req.params.classId;
     const chapterId = req.params.chapterId;
     const sectionId = req.params.sectionId;
-    
+
     ClassController.getContent(classId, chapterId, sectionId, (status, payload) => {
-       res.status(status).json(payload);
+        res.status(status).json(payload);
     });
 });
 
@@ -149,9 +148,9 @@ router.post("/:classId/:chapterId/section/new", (req, res, next) => {
     const {
         sectionTitle
     } = req.body;
-    
+
     ClassController.newSection(classId, chapterId, sectionTitle, (status, payload) => {
-       res.status(status).json(payload);
+        res.status(status).json(payload);
     });
 });
 

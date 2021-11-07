@@ -7,7 +7,7 @@ const courseSchema = new mongoose.Schema({
         unique: true
     },
     courseTitle: String,
-    preReq: [ {
+    preReq: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Course'
     }]

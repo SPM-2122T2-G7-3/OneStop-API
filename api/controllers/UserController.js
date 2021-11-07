@@ -1,7 +1,7 @@
 const UserService = require('../services/UserService');
 
 class UserController {
-    static async login(username, callback = (status, payload) => {}) {
+    static async login(username, callback = (status, payload) => { }) {
         const validationErrors = [];
         username ? null : validationErrors.push("username cannot be empty");
 
@@ -32,7 +32,8 @@ class UserController {
         }
     }
 
-    static async findUserWRole(role, callback = (status, payload) => {}) {
+    
+    static async findUserWRole(role, callback = (status, payload) => { }) {
         const validationErrors = [];
         role ? null : validationErrors.push("role cannot be empty");
 
@@ -56,30 +57,30 @@ class UserController {
             });
         }
     }
-    
-    
-    static async updateUserWRole(username, role, callback = (status, payload) => {}) {
+
+
+    static async updateUserWRole(username, role, callback = (status, payload) => { }) {
         const validationErrors = [];
         username ? null : validationErrors.push("username cannot be empty");
         role ? null : validationErrors.push("role cannot be empty");
-        
+
         if (validationErrors.length == 0) {
             await User.findOneAndUpdate({
                 username: username
             }, {
                 role: role
             })
-            .exec()
-            .then(result => {
-                callback(200, {
-                    "message": "User role updated"
-                });
-            })
-            .catch(error => {
-                callback(500, {
-                    "error": error.message
+                .exec()
+                .then(result => {
+                    callback(200, {
+                        "message": "User role updated"
+                    });
                 })
-            });
+                .catch(error => {
+                    callback(500, {
+                        "error": error.message
+                    })
+                });
         } else {
             callback(400, {
                 "errors": validationErrors

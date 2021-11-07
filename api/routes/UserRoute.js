@@ -7,7 +7,7 @@ const UserService = require("../services/UserService");
 // User login
 router.post("/login", (req, res, next) => {
     const { username } = req.body;
-    
+
     console.log(username)
 
     UserController.login(username, (status, payload) => {
@@ -21,7 +21,7 @@ router.post("/role", UserService.allowAdmin, (req, res, next) => {
         username,
         role
     } = req.body;
-    
+
     UserController.setUserRole(username, role, (status, payload) => {
         res.status(status).json(payload);
     });
