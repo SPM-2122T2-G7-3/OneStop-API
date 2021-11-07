@@ -4,6 +4,7 @@ const expect = require('chai').expect;
 
 const QuizController = require('../../controllers/QuizController');
 const Quiz = require('../../models/QuizModel')
+const QuizAttempt = require('../../models/QuizAttemptModel')
 
 
 before(function (done) {
@@ -607,9 +608,93 @@ describe("Mark Quiz" , function (){
         });
     });
 
-    afterEach(function(done){
-        mongoose.connection.db.dropDatabase(done);
-    });
+    // afterEach(function(done){
+    //     mongoose.connection.db.dropDatabase(done);
+    // });
 });
 
 
+describe("Get Quiz Attempts", function(){
+    describe("Valid Quiz Attempts", function(){
+        let quizAttemptId = undefined;
+        let quizId = undefined;
+        let questionId = undefined;
+        
+        beforeEach(function(done){
+            const quizDetails = {
+                courseCode: "HP101",
+                section: 1,
+                quizName: "Printer Functions",
+                quizMarks: 1,
+                timeAllowed: 3600,
+                questions:  [{
+                    "questionText": "HP OfficeJet Pro 7740 can accept A3 size paper",
+                    "questionMarks": 1,
+                    "questionType": "TF",
+                    "answerOptions": ["True", "False"],
+                    "correctAnswers": ["True"]
+                }]
+            };
+    
+            const newQuiz = new Quiz(quizDetails);
+    
+            newQuiz.save()
+            .then( doc => {
+                quizId = doc.id;
+                questionId = doc.questions[0]._id;
+            });
+            
+            
+            const quizAttemptDetails = {
+                quizId: quizId,
+                learner: "lance.fu",
+                marksAwarded: 1,
+                passed: true,
+                questions: [{
+                    questionId: questionId,
+                    answers: [{
+                        "answer": "True",
+                        "isCorrect": true
+                    }]
+                }]
+            };
+            
+            const newQuizAttempt = new QuizAttempt(quizAttemptDetails);
+            
+            newQuizAttempt.save()
+            .then( doc => {
+                quizAttemptId = doc.id;
+                done();
+            });
+        });
+        
+        
+        it("should return status 200 when answer is valid", function(done) {
+            QuizController.getQuizAttempt(quizAttemptId, (status, payload) => {
+                try{
+                    expect(status).to.be.a("number");
+                    expect(status).to.equal(200);
+                    done();
+                } catch (error) {
+                    done(error);
+                }
+            });
+        });
+  
+        it('should return Quiz Attempt object', function(done) {
+            QuizController.getQuizAttempt(quizAttemptId, (status, payload) => {
+                try{
+                    expect(payload).to.be.a("object");
+                    expect(payload.quizAttempt).to.be.a("object");
+                    done();
+                } catch (error) {
+                    done(error);
+                }
+            });
+        });
+        
+        
+        
+        
+    });
+});
