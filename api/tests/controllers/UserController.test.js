@@ -213,6 +213,7 @@ describe('Update User with Role', function () {
             });
     });
 
+    
     it('should return status 200 when successfully updated', function () {
         const role = "Trainer";
         UserController.updateUserWRole(username, role, (status, payload) => {

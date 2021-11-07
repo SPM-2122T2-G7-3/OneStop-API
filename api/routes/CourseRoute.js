@@ -5,6 +5,13 @@ const CourseController = require("../controllers/CourseController");
 const UserService = require("../services/UserService")
 
 
+router.get('/', (req, res, next) => {
+    CourseController.getAllCourses((status, payload) => {
+        res.status(status).json(payload);
+    });
+});
+
+
 router.post("/new", (req, res, next) => {
     const {
         courseCode,
@@ -18,12 +25,11 @@ router.post("/new", (req, res, next) => {
 });
 
 
-
 router.get("/:courseCode/classes", (req, res, next) => {
     const courseCode = req.params.courseCode;
-    
+
     CourseController.getClassesByCourse(courseCode, (status, payload) => {
-      res.status(status).json(payload);
+        res.status(status).json(payload);
     });
 });
 
@@ -45,7 +51,7 @@ router.get('/:courseCode/info', (req, res, next) => {
     const courseCode = req.params.courseCode;
 
     CourseController.getCourseInfo(courseCode, (status, payload) => {
-      res.status(status).json(payload);
+        res.status(status).json(payload);
     });
 });
 

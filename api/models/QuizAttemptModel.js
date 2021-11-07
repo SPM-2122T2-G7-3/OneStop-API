@@ -10,7 +10,7 @@ const answerSchema = new mongoose.Schema({
 const markedQuestionSchema = new mongoose.Schema({
     questionId: mongoose.Schema.Types.ObjectId,
     markedAwarded: Number,
-    answers: [ answerSchema ]
+    answers: [answerSchema]
 }, { _id: false });
 
 
@@ -22,7 +22,7 @@ const attemptSchema = new mongoose.Schema({
     learner: String,
     marksAwarded: Number,
     passed: Boolean,
-    questions: [ markedQuestionSchema ]
+    questions: [markedQuestionSchema]
 })
 
 

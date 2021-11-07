@@ -3,14 +3,13 @@ const ClassRun = require('../models/ClassModel');
 const Course = require('../models/CourseModel');
 
 class ClassController {
-    static async updateClassTrainers(classId, trainers, callback = (status, payload) => {}) {
+    static async updateClassTrainers(classId, trainers, callback = (status, payload) => { }) {
         const validationErrors = [];
         classId ? null : validationErrors.push("classId cannot be empty");
         trainers.length ? null : validationErrors.push("trainers cannot be empty");
 
         if (validationErrors.length == 0) {
             try {
-
                 const classRun = await ClassRun.findOne()
                     .where("_id", classId)
                     .exec();
@@ -22,7 +21,6 @@ class ClassController {
                             "message": `Trainers for course ${doc._id} was successfully updated`
                         })
                     });
-
             } catch (error) {
                 callback(500, {
                     "error": error.message
@@ -36,18 +34,17 @@ class ClassController {
     }
 
 
-    static async updateClassLearners(classId, learners, callback = (status, payload) => {}) {
+    static async updateClassLearners(classId, learners, callback = (status, payload) => { }) {
         const validationErrors = [];
         classId ? null : validationErrors.push("classId cannot be empty");
         learners.length ? null : validationErrors.push("learners cannot be empty");
 
         if (validationErrors.length == 0) {
             try {
-
                 const classRun = await ClassRun.findOne()
                     .where("_id", classId)
                     .exec();
-                    
+
                 const pendingApproval = classRun.learners.find(learners => learners.enrolled == false);
                 learners.concat(pendingApproval);
 
@@ -58,7 +55,6 @@ class ClassController {
                             "message": `Learners for course ${doc._id} was successfully updated`
                         })
                     });
-
             } catch (error) {
                 callback(500, {
                     "error": error.message
@@ -71,15 +67,14 @@ class ClassController {
         }
     }
 
-    
-    static async approveSelfEnrollment(classId, username, callback = (status, payload) => {}) {
+
+    static async approveSelfEnrollment(classId, username, callback = (status, payload) => { }) {
         const validationErrors = [];
         username ? null : validationErrors.push("username cannot be empty");
         classId ? null : validationErrors.push("classId cannot be empty");
-        
+
         if (validationErrors.length == 0) {
             try {
-
                 const classRun = await ClassRun.findOne()
                     .where("_id", classId)
                     .exec();
@@ -102,24 +97,23 @@ class ClassController {
                 "errors": validationErrors
             });
         }
-    }   
-    
-    
-    static async getTrainerInClass(classId, callback = (status, payload) => {}) {
-      const validationErrors = [];
+    }
+
+
+    static async getTrainerInClass(classId, callback = (status, payload) => { }) {
+        const validationErrors = [];
         classId ? null : validationErrors.push("classId cannot be empty");
-        
+
         if (validationErrors.length == 0) {
             try {
-
                 const classRun = await ClassRun.findOne()
                     .where("_id", classId)
                     .exec();
 
                 callback(200, {
-       "trainers": classRun.trainers
+                    "trainers": classRun.trainers
                 });
-       } catch (error) {
+            } catch (error) {
                 callback(500, {
                     "error": error.message
                 });
@@ -130,15 +124,14 @@ class ClassController {
             });
         }
     }
-  
-  
-    static async getLearnerInClass(classId, callback = (status, payload) => {}) {
+
+
+    static async getLearnerInClass(classId, callback = (status, payload) => { }) {
         const validationErrors = [];
         classId ? null : validationErrors.push("classId cannot be empty");
-        
+
         if (validationErrors.length == 0) {
             try {
-
                 const classRun = await ClassRun.findOne()
                     .where("_id", classId)
                     .exec();
@@ -157,16 +150,15 @@ class ClassController {
             });
         }
     }
-    
-    
-    static async applyToClass(classId, username, callback = (status, payload) => {}) {
+
+
+    static async applyToClass(classId, username, callback = (status, payload) => { }) {
         const validationErrors = [];
         username ? null : validationErrors.push("username cannot be empty");
         classId ? null : validationErrors.push("classId cannot be empty");
-        
+
         if (validationErrors.length == 0) {
             try {
-
                 const classRun = await ClassRun.findOne()
                     .where("_id", classId)
                     .exec();
@@ -176,9 +168,9 @@ class ClassController {
                     username: username,
                     enrolled: false
                 };
-                
+
                 currentLearners.push(newLearner);
-                
+
                 classRun.save()
                     .then(doc => {
                         callback(200, {
@@ -192,9 +184,9 @@ class ClassController {
             }
         }
     }
-    
-  
-    static async createNewClass(courseCode, startDateString, endDateString, capacity, callback = (status, payload) => {}) {
+
+
+    static async createNewClass(courseCode, startDateString, endDateString, capacity, callback = (status, payload) => { }) {
         const validationErrors = [];
         courseCode ? null : validationErrors.push("courseId cannot be empty");
         startDateString ? null : validationErrors.push("startDate cannot be empty");
@@ -237,37 +229,36 @@ class ClassController {
                     });
             } catch (error) {
                 console.error(error);
-              callback(500, {
+                callback(500, {
                     "error": error.message
                 });
             }
-          
-           } else {
+
+        } else {
             callback(400, {
                 "errors": validationErrors
             });
         }
     }
-             
-             
-    static async getApplicants(classId, callback = (status, payload) => {}) {
+
+
+    static async getApplicants(classId, callback = (status, payload) => { }) {
         const validationErrors = [];
         classId ? null : validationErrors.push("classId cannot be empty");
-        
+
         if (validationErrors.length == 0) {
             try {
-
                 const classRun = await ClassRun.findOne()
                     .where("_id", classId)
                     .exec();
-                    
+
                 const applicants = classRun.learners.filter(learner => learner.enrolled == false);
 
                 callback(200, {
                     "applicants": applicants
                 });
             } catch (error) {
-              callback(500, {
+                callback(500, {
                     "error": error.message
                 });
             }
@@ -277,15 +268,15 @@ class ClassController {
             });
         }
     }
-    
-    
-    static async uploadLinks(classId, chapterId, sectionId, links, callback = (status, payload) => {}) {
+
+
+    static async uploadLinks(classId, chapterId, sectionId, links, callback = (status, payload) => { }) {
         const validationErrors = [];
         classId ? null : validationErrors.push("classId cannot be empty");
         chapterId ? null : validationErrors.push("chapterId cannot be empty");
         sectionId ? null : validationErrors.push("sectionId cannot be empty");
         links.length ? null : validationErrors.push("links cannot be empty");
-        
+
         if (validationErrors.length == 0) {
             try {
                 const classRun = await ClassRun.findOne()
@@ -293,11 +284,11 @@ class ClassController {
                     .where("chapters._id", chapterId)
                     .where("chapters.sections._id", sectionId)
                     .exec();
-                
-                
+
+
                 const section = classRun.chapters[0].sections[0];
                 section.links = links;
-                
+
                 classRun.save()
                     .then(doc => {
                         callback(200, {
@@ -316,15 +307,15 @@ class ClassController {
             });
         }
     }
-    
-    
-    static async uploadContent(classId, chapterId, sectionId, fileInfo, callback = (status, payload) => {}) {
+
+
+    static async uploadContent(classId, chapterId, sectionId, fileInfo, callback = (status, payload) => { }) {
         const validationErrors = [];
         classId ? null : validationErrors.push("classId cannot be empty");
         chapterId ? null : validationErrors.push("chapterId cannot be empty");
         sectionId ? null : validationErrors.push("sectionId cannot be empty");
         fileInfo ? null : validationErrors.push("fileInfo cannot be empty");
-        
+
         if (validationErrors.length == 0) {
             try {
                 const classRun = await ClassRun.findOne()
@@ -332,12 +323,12 @@ class ClassController {
                     .where("chapters._id", chapterId)
                     .where("chapters.sections._id", sectionId)
                     .exec();
-                
-                
+
+
                 const section = classRun.chapters[0].sections[0];
-                console.log(typeof(fileInfo))
+                console.log(typeof (fileInfo))
                 section.files.push(fileInfo);
-                
+
                 classRun.save()
                     .then(doc => {
                         callback(200, {
@@ -356,66 +347,32 @@ class ClassController {
             });
         }
     }
-    
-    
-    static async newChapter(classId, chapterTitle, callback = (status, payload) => {}) {
+
+
+    static async newChapter(classId, chapterTitle, callback = (status, payload) => { }) {
         const validationErrors = [];
         classId ? null : validationErrors.push("classId cannot be empty");
         chapterTitle ? null : validationErrors.push("chapterTitle cannot be empty");
-        
+
         if (validationErrors.length == 0) {
             try {
                 const classRun = await ClassRun.findOne()
                     .where("_id", classId)
                     .exec();
-                
+
                 const chapter = {
                     chapterTitle: chapterTitle,
                     sections: []
                 };
-                
+
                 classRun.chapters.push(chapter);
-                  classRun.save()
+                classRun.save()
                     .then(doc => {
                         callback(200, {
-                              "message": `Chapter ${chapterTitle} successfully created for class ${classId}`
+                            "message": `Chapter ${chapterTitle} successfully created for class ${classId}`
                         });
                     });
             } catch (error) {
-               console.error(error);
-                callback(500, {
-                    "error": error.message
-                });
-            }
-        } else {
-            callback(400, {
-                "errors": validationErrors
-            });
-        }
-    }
-
-
-    static async getContent(classId, chapterId, sectionId, callback = (status, payload) => {}) {
-        const validationErrors = [];
-        classId ? null : validationErrors.push("classId cannot be empty");
-        chapterId ? null : validationErrors.push("chapterId cannot be empty");
-        sectionId ? null : validationErrors.push("sectionId cannot be empty");
-      
-      if (validationErrors.length == 0) {
-            try {
-                const classRun = await ClassRun.findOne()
-                    .where("_id", classId)
-                    .where("chapters._id", chapterId)
-                .where("chapters.sections._id", sectionId)
-                    .exec();
-                
-                
-                const section = classRun.chapters[0].sections[0];
-                callback(200, {
-                    "files": section.files,
-                    "hyperlinks": section.hyperlinks
-                });
-               } catch (error) {
                 console.error(error);
                 callback(500, {
                     "error": error.message
@@ -429,34 +386,28 @@ class ClassController {
     }
 
 
-    static async newSection(classId, chapterId, sectionTitle, callback = (status, payload) => {}) {
+    static async getContent(classId, chapterId, sectionId, callback = (status, payload) => { }) {
         const validationErrors = [];
         classId ? null : validationErrors.push("classId cannot be empty");
         chapterId ? null : validationErrors.push("chapterId cannot be empty");
-        sectionTitle ? null : validationErrors.push("sectionTitle cannot be empty");
-      
-      if (validationErrors.length == 0) {
+        sectionId ? null : validationErrors.push("sectionId cannot be empty");
+
+        if (validationErrors.length == 0) {
             try {
                 const classRun = await ClassRun.findOne()
                     .where("_id", classId)
                     .where("chapters._id", chapterId)
-                  .exec();
-                
-                const section = {
-                    sectionTitle: sectionTitle,
-                    hyperlinks: [],
-                    files: []
-                };
-                
-                classRun.chapters[0].sections.push(section);
-                  classRun.save()
-                    .then(doc => {
-                        callback(200, {
-                           "message": `Section ${sectionTitle} successfully created for chapter ${chapterId} of class ${classId}`
-                        });
-                    });
-               } catch (error) {
-                  console.error(error);
+                    .where("chapters.sections._id", sectionId)
+                    .exec();
+
+
+                const section = classRun.chapters[0].sections[0];
+                callback(200, {
+                    "files": section.files,
+                    "hyperlinks": section.hyperlinks
+                });
+            } catch (error) {
+                console.error(error);
                 callback(500, {
                     "error": error.message
                 });
@@ -468,6 +419,45 @@ class ClassController {
         }
     }
 
+
+    static async newSection(classId, chapterId, sectionTitle, callback = (status, payload) => { }) {
+        const validationErrors = [];
+        classId ? null : validationErrors.push("classId cannot be empty");
+        chapterId ? null : validationErrors.push("chapterId cannot be empty");
+        sectionTitle ? null : validationErrors.push("sectionTitle cannot be empty");
+
+        if (validationErrors.length == 0) {
+            try {
+                const classRun = await ClassRun.findOne()
+                    .where("_id", classId)
+                    .where("chapters._id", chapterId)
+                    .exec();
+
+                const section = {
+                    sectionTitle: sectionTitle,
+                    hyperlinks: [],
+                    files: []
+                };
+
+                classRun.chapters[0].sections.push(section);
+                classRun.save()
+                    .then(doc => {
+                        callback(200, {
+                            "message": `Section ${sectionTitle} successfully created for chapter ${chapterId} of class ${classId}`
+                        });
+                    });
+            } catch (error) {
+                console.error(error);
+                callback(500, {
+                    "error": error.message
+                });
+            }
+        } else {
+            callback(400, {
+                "errors": validationErrors
+            });
+        }
+    }
 }
 
 module.exports = ClassController;

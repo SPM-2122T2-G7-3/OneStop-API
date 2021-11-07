@@ -31,12 +31,12 @@ describe('getUser Function', function () {
             role: "trainer",
             completedCourse: []
         });
-        
+
         newUser.save()
-        .then(doc => {
-            userId = doc.id;
-            done()
-        });
+            .then(doc => {
+                userId = doc.id;
+                done()
+            });
     });
 
 

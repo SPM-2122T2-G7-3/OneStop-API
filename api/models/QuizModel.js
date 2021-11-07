@@ -16,7 +16,7 @@ const quizSchema = new mongoose.Schema({
     quizName: String,
     timeAllowed: Number,
     quizMarks: Number,
-    questions: [ questionSchema ]
+    questions: [questionSchema]
 });
 
 

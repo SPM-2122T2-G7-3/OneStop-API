@@ -42,7 +42,7 @@ class QuizService {
                 quizMarks += questionValid ? questionDetails.questionMarks : 0;
             }
         }
-        
+
         const questionsArray = allValid ? validQuestions : invalidQuestions;
         return {
             allValid,
@@ -50,16 +50,17 @@ class QuizService {
             quizMarks
         };
     }
+
     
-    static checkTrueFalseAnswer(correctAnswer){
+    static checkTrueFalseAnswer(correctAnswer) {
         const standardAns = ["True", "False"];
         return standardAns.includes(correctAnswer);
     }
-    
-    
-    static checkMCQAnswer(answerOptions, correctAnswers){
-        for (const answer of correctAnswers){
-            if (!answerOptions.includes(answer)){
+
+
+    static checkMCQAnswer(answerOptions, correctAnswers) {
+        for (const answer of correctAnswers) {
+            if (!answerOptions.includes(answer)) {
                 return false;
             }
         }
@@ -71,15 +72,15 @@ class QuizService {
         let allValid = true;
         let validQuestions = [];
         let invalidQuestions = [];
-        
+
         for (const question of questions) {
             if (question.hasOwnProperty("questionId") && question.hasOwnProperty('answers')) {
                 let answerNoIssue = question.answers.length > 0;
-                
+
                 for (const answer in question.answers) {
                     answerNoIssue = answerNoIssue && answer;
                 }
-                
+
                 if (question.questionId && answerNoIssue) {
                     validQuestions.push(question);
                 } else {
@@ -88,15 +89,15 @@ class QuizService {
                 }
             }
         }
-        
+
         const questionsArray = allValid ? validQuestions : invalidQuestions;
         return {
             allValid,
             questionsArray
         };
     }
-    
-    
+
+
     static async markQuiz(quizId, username, questions) {
         const answerKey = await this.createAnswerKey(quizId);
 
@@ -118,21 +119,21 @@ class QuizService {
 
         const newQuizAttempt = new QuizAttempt(markedQuizDetails)
         const savedAttempt = await newQuizAttempt.save();
-        
+
         const result = {
             "success": savedAttempt._id ? true : false
         }
-        
+
         if (result.success) {
             result["attemptId"] = savedAttempt._id;
         } else {
             result["error"] = savedAttempt;
         }
-        
+
         return result;
     }
-    
-    
+
+
     static async createAnswerKey(quizId) {
         const modelQnA = await Quiz.findOne()
             .where("_id", quizId)
@@ -140,7 +141,7 @@ class QuizService {
                 "questions": true
             })
             .exec();
-        
+
         const answerKey = {};
 
         for (const question of modelQnA.questions) {
@@ -149,11 +150,11 @@ class QuizService {
                 "marks": question.questionMarks
             };
         }
-        
+
         return answerKey;
     }
-    
-    
+
+
     static markOneQuestion(answerKey, question) {
         const answers = answerKey[question.questionId].answers;
         const markedAnswerArray = [];
@@ -178,8 +179,6 @@ class QuizService {
         question["answers"] = markedAnswerArray;
         return question;
     }
-    
-    
 }
 
 module.exports = QuizService;

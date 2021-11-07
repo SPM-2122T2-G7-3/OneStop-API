@@ -22,7 +22,7 @@ before(function (done) {
 describe('getClassByCourse Function', function () {
     describe('Valid getClassByCourse Function', function () {
         const courseCode = "P01";
-        
+
         beforeEach(function (done) {
             const startDate = new Date("2021-10-12");
             const endDate = new Date("2021-11-12");
@@ -33,11 +33,11 @@ describe('getClassByCourse Function', function () {
                 courseTitle: "Xerox WorkCentre 5300 User Training",
                 _id: mongoose.Types.ObjectId()
             });
-            
+
             let courseId = newCourse.id;
             newCourse.save();
-            
-    
+
+
             const newClass = new ClassRun({
                 course: courseId,
                 startDate: startDate,
@@ -67,17 +67,17 @@ describe('getClassByCourse Function', function () {
 
 
         it('should return "true" in success when successfully retrived from DB', async function () {
-            const {success, result} = await CourseService.getClassesByCourse(courseCode);
+            const { success, result } = await CourseService.getClassesByCourse(courseCode);
             expect(success).to.be.a("boolean");
             expect(success).to.equal(true);
         });
 
 
         it('should return correct payload when successfully retrived from DB', async function () {
-            const {success, result} = await CourseService.getClassesByCourse(courseCode);
+            const { success, result } = await CourseService.getClassesByCourse(courseCode);
             expect(result).to.be.a("object");
-            
-            expect(result.classes).to.be.an("array");            
+
+            expect(result.classes).to.be.an("array");
         });
     });
 });
