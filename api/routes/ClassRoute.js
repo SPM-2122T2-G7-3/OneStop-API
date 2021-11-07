@@ -41,6 +41,15 @@ router.get("/:classId/learners", (req, res, next) => {
 });
 
 
+router.get('/enrolled', UserService.allowLearner, (req, res, next) => {
+    const username = req.headers['username'];
+    
+    ClassController.getEnrolledClass(username, (status, payload) => {
+        res.status(status).json(payload);
+    });
+});
+
+
 router.put('/:classId/trainers', (req, res, next) => {
     const classId = req.params.classId;
     const {
