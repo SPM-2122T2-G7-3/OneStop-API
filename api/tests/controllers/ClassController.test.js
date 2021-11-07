@@ -649,6 +649,78 @@ describe("Get all learners in class", function () {
 });
 
 
+describe('Learner get class they are enrolled in', function() {
+    describe('Valid Data to get classes learner is enrolled in', function() {
+        let classId = undefined;
+
+        before(function (done) {
+            const startDate = new Date("2021-10-12");
+            const endDate = new Date("2021-11-12");
+            const capacity = 50;
+    
+            const courseDetails = new Course({
+                courseCode: "P01",
+                courseTitle: "Xerox WorkCentre 5300 User Training",
+                _id: mongoose.Types.ObjectId()
+            });
+    
+            const newClass = new ClassRun({
+                course: courseDetails,
+                startDate: startDate,
+                endDate: endDate,
+                capacity: capacity,
+                trainers: ["lance.fu"],
+                learners: [{
+                    username: "shermin.lim",
+                    enrolled: true
+                },
+                {
+                    username: "siti.hindun",
+                    enrolled: true
+                }],
+                content: []
+            });
+    
+            newClass.save()
+                .then(doc => {
+                    classId = doc.id;
+                    done();
+                });
+        });
+        
+        it("should return status 200 when successfully obtained from DB", function(done) {
+            const username = 'shermin.lim';
+
+            ClassController.getEnrolledClass(username, (status, payload) => {
+                try {
+                    expect(status).to.be.a("number");
+                    expect(status).to.equal(200);
+                    done();
+                } catch (error) {
+                    done(error);
+                }
+            });
+
+        });
+
+
+        it("should return enrolled classes when successfully obtained from DB", function (done) {
+            const username = 'shermin.lim';
+
+            ClassController.getEnrolledClass(username, (status, payload) => {
+                try {
+                    expect(payload.classes).to.be.a("array");
+                    done();
+                } catch (error) {
+                    done(error);
+                }
+            });
+        })
+
+    });
+});
+
+
 describe("Create new Classes", function () {
     describe("Valid data required for creating a class", function () {
         const startDateString = "2021-10-12";
