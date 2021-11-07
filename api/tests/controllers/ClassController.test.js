@@ -178,7 +178,73 @@ describe('Update Class Learners', function () {
     afterEach(function (done) {
         mongoose.connection.db.dropDatabase(done);
     });
-}); // Enroll learners to course
+}); 
+
+
+describe('Get Class Info', function () {
+    let classId = undefined;
+
+    before(function (done) {
+        const startDate = new Date("2021-10-12");
+        const endDate = new Date("2021-11-12");
+        const capacity = 50;
+
+        const courseDetails = new Course({
+            courseCode: "P01",
+            courseTitle: "Xerox WorkCentre 5300 User Training",
+            _id: mongoose.Types.ObjectId()
+        });
+
+        const newClass = new ClassRun({
+            course: courseDetails,
+            startDate: startDate,
+            endDate: endDate,
+            capacity: capacity,
+            trainers: ["lance.fu"],
+            learners: ["shermin.lim", "siti.hindun"],
+            content: []
+        });
+
+        newClass.save()
+            .then(doc => {
+                classId = doc.id;
+                done()
+            });
+    });
+
+
+    it('should return status 200 when successfully retrived from DB', function () {
+        ClassController.getClassInfo(classId, (status, payload) => {
+            try {
+                expect(status).to.be.a("number");
+                expect(status).to.equal(200);
+                done();
+            } catch (error) {
+                done(error);
+            }
+        });
+    });
+
+    
+    it('should return payload when successfully retrived from DB', function () {
+        ClassController.getClassInfo(classId, (status, payload) => {
+            try {
+                
+                expect(payload).to.be.an("object");
+
+                expect(payload.capacity).to.be.a("number");
+                expect(payload.capacity).to.equal(50);
+                
+                expect(payload.availableCapacity).to.be.a("number");
+                expect(payload.availableCapacity).to.equal(48);
+
+                done();
+            } catch (error) {
+                done(error);
+            }
+        });
+    });
+});
 
 
 describe("Update Class Trainer", function () {

@@ -32,6 +32,28 @@ class ClassController {
             });
         }
     }
+    
+    
+    static async getClassInfo(classId, callback = (status, results) => {}) {
+        const validationErrors = [];
+        classId ? null : validationErrors.push("classId cannot be empty");
+        
+        if (validationErrors.length == 0) {
+            const {
+                success,
+                result
+            } = await ClassService.getClassInfo(classId);
+            
+            const status = success ? 200 : 500;
+            
+            callback(status, result);
+            
+        } else {
+            callback(400, {
+                "errors": validationErrors
+            });
+        }
+    }
 
 
     static async updateClassLearners(classId, learners, callback = (status, payload) => { }) {
