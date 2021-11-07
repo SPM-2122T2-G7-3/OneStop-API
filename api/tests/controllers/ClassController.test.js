@@ -943,7 +943,6 @@ describe("Create new chapter", function (done) {
 });
 
 
-
 describe("Get contents based on class, chapter, section", function () {
     let classId = undefined;
     let chapterId = undefined;
@@ -1155,7 +1154,14 @@ describe('Trainer get class they are teaching', function() {
                 endDate: endDate,
                 capacity: capacity,
                 trainers: ["lance.fu"],
-                learners: ["shermin.lim", "siti.hindun"],
+                learners: [{
+                    username: "shermin.lim",
+                    enrolled: true
+                },
+                {
+                    username: "siti.hindun",
+                    enrolled: true
+                }],
                 content: []
             });
     
