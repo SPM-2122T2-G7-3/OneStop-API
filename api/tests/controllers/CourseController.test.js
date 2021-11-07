@@ -59,7 +59,6 @@ describe('Create New Course', function() {
 
 
 describe('Get classes by Course Code', function () {
-    let classId = undefined;
 
     const courseDetails = {
         courseCode: "HP101",

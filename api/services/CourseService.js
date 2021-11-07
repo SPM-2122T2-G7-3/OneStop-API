@@ -1,6 +1,5 @@
-const CourseModel = require('../models/CourseModel');
-const ClassRun = CourseModel.classRun;
-const Course = CourseModel.course;
+const Course = require('../models/CourseModel');
+const ClassRun = require('../models/ClassModel');
 
 
 class CourseService {
