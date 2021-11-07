@@ -854,3 +854,83 @@ describe("Upload hyperlinks as class materials", function() {
         mongoose.connection.db.dropDatabase(done);
     });
 });
+
+
+describe("Create new chapter", function(done) {
+    let classId = undefined;
+    
+    before(function (done) {
+        const startDate = new Date("2021-10-12");
+        const endDate = new Date("2021-11-12");
+        const capacity = 50;
+
+        const newCourse = new Course({
+            courseCode: "P01",
+            courseTitle: "Xerox WorkCentre 5300 User Training",
+            _id: mongoose.Types.ObjectId()
+        });
+        
+        let courseId = newCourse.id;
+        newCourse.save();
+        
+
+        const newClass = new ClassRun({
+            course: courseId,
+            startDate: startDate,
+            endDate: endDate,
+            capacity: capacity,
+            trainers: ["lance.fu"],
+            learners: [{
+                username: "shermin.lim",
+                enrolled: true
+            },
+            {
+                username: "siti.hindun",
+                enrolled: true
+            },
+            {
+                username: "claire.niu",
+                enrolled: false
+            }],
+            chapters: []
+        });
+
+        newClass.save()
+            .then(doc => {
+                classId = doc.id;
+                done();
+            });
+    });
+    
+    it("should return status 200 when uploaded to DB", function (done) {
+        const chapterTitle =  "Chapter 1";
+        
+        ClassController.newChapter(classId, chapterTitle, (status, payload) => {
+            try {
+                expect(status).to.be.a("number");
+                expect(status).to.equal(200);
+                done();
+            } catch (error) {
+                done(error);
+            }
+        });
+    });
+    
+    it("should return message for successful update", function (done) {
+        const chapterTitle =  "Chapter 1";
+        
+        ClassController.newChapter(classId, chapterTitle, (status, payload) => {
+            try {
+                expect(payload).to.be.a("object");
+                expect(payload.message).to.be.a("string");
+                done();
+            } catch (error) {
+                done(error);
+            }
+        });
+    });
+    
+    after(function(done) {
+        mongoose.connection.db.dropDatabase(done);
+    });
+});
