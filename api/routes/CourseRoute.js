@@ -56,4 +56,13 @@ router.get('/:courseCode/info', (req, res, next) => {
 });
 
 
+router.get('/eligible', UserService.allowUser, (req, req, next) => {
+    const username = req.headers['username'];
+    
+    CourseController.getEligibleCourses(username, (status, payload) => {
+        res.status(status).json(payload);
+    });
+});
+
+
 module.exports = router;
