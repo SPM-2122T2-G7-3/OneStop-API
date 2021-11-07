@@ -37,6 +37,10 @@ export default {
                       this.$router.push('/home')
                   }
               )
+              .catch(() => {
+                    alert("No such username exists!")
+                  })
+
 
 
           }
