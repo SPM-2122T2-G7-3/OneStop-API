@@ -70,7 +70,7 @@ class CourseController {
                     });
             } catch (error) {
                 console.error(error)
-                callback(500, {
+              callback(500, {
                     "error": error.message
                 });
             }
@@ -82,6 +82,31 @@ class CourseController {
     }
 
 
+    static async getCourseInfo(courseCode, callback = (status, payload) => {}) {
+        const validationErrors = [];
+        courseCode ? null : validationErrors.push("courseCode cannot be empty");
+
+        if (validationErrors.length == 0) {
+            try {
+                await Course.findOne()
+                    .where("courseCode", courseCode)
+                    .exec()
+                    .then(records => {
+                        callback(200, {
+                            "courses": records
+                        });
+                    })
+            } catch (error) {
+                callback(500, {
+                    "error": error.message
+                });
+            }
+        } else {
+            callback(400, {
+                "errors": validationErrors
+            });
+        }
+    }
 }
 
 module.exports = CourseController;

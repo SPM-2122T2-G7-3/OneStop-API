@@ -58,12 +58,13 @@ describe('Create New Course', function () {
 });
 
 
+
 describe("Update Course Information", function () {
     const courseCode = "HP101";
     let courseId = undefined;
 
     beforeEach(function (done) {
-        const courseTitle = "HP Foundation Repair Course";
+      const courseTitle = "HP Foundation Repair Course";
         const preReq = [];
 
         const courseDetails = {
@@ -79,8 +80,8 @@ describe("Update Course Information", function () {
                 done();
             });
     });
-
-    describe('Valid search of classes by course code', function () {
+      
+      describe('Valid search of classes by course code', function () {
         const newCourseCode = "HP110";
         const courseTitle = "HP Printer Foundation Repair Course";
 
@@ -113,4 +114,62 @@ describe("Update Course Information", function () {
     afterEach(function (done) {
         mongoose.connection.db.dropDatabase(done);
     });
+  
+});
+      
+      
+describe("Get Course Information", function () {
+    const courseCode = "HP101";
+    let courseId = undefined;
+
+    before(function (done) {
+      const courseTitle = "HP Foundation Repair Course";
+        const preReq = [];
+
+        const courseDetails = {
+            courseCode: courseCode,
+            courseTitle: courseTitle,
+            preReq: preReq
+        }
+
+        const newCourse = new Course(courseDetails);
+        newCourse.save()
+            .then(doc => {
+                courseId = doc.id;
+                done();
+            });
+    });
+      
+      it("should return status 200 when successfully inserted into DB", function (done) {
+        CourseController.getCourseInfo(courseCode, (status, payload) => {
+            try {
+                expect(status).to.be.a("number");
+                expect(status).to.equal(200);
+                done();
+            } catch (error) {
+                done(error);
+            }
+        });
+    });
+
+    it("should return payload with success status, document ID and message when successfully inserted into DB", function (done) {
+        CourseController.getCourseInfo(courseCode, (status, payload) => {
+            try {
+                expect(payload).to.be.an("object");
+
+                expect(payload.courses).to.be.a("object");
+                expect(payload.courses.id).to.be.a.a("string");
+                expect(payload.courses.id).to.equal(courseId);
+
+                done();
+            } catch (error) {
+                done(error);
+            }
+        });
+    });
+
+    after(function (done) {
+        mongoose.connection.db.dropDatabase(done);
+    });
+
 });

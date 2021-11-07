@@ -32,4 +32,13 @@ router.put("/:courseCode", (req, res, next) => {
 });
 
 
+router.get('/:courseCode/info', (req, res, next) => {
+    const courseCode = req.params.courseCode;
+
+    CourseController.getCourseInfo(courseCode, (status, payload) => {
+        res.status(status).json(payload);
+    });
+});
+
+
 module.exports = router;
