@@ -92,4 +92,18 @@ router.get('/:classId/applicants', (req, res, next) => {
 });
 
 
+router.put('/:classId/:chapterId/:sectionId/upload/links', (req, res, next) => {
+    const classId = req.params.classId;
+    const chapterId = req.params.chapterId;
+    const sectionId = req.params.sectionId;
+    const {
+        links
+    } = req.body;
+    
+    ClassController.uploadLinks(classId, chapterId, sectionId, links, (status, payload) => {
+        res.status(status).json(payload);
+    });
+})
+
+
 module.exports = router;
