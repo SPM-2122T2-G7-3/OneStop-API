@@ -854,3 +854,99 @@ describe("Upload hyperlinks as class materials", function() {
         mongoose.connection.db.dropDatabase(done);
     });
 });
+
+
+describe("Get contents based on class, chapter, section", function() {
+    let classId = undefined;
+    let chapterId = undefined;
+    let sectionId = undefined;
+    
+    beforeEach(function (done) {
+        const startDate = new Date("2021-10-12");
+        const endDate = new Date("2021-11-12");
+        const capacity = 50;
+
+        const newCourse = new Course({
+            courseCode: "P01",
+            courseTitle: "Xerox WorkCentre 5300 User Training",
+            _id: mongoose.Types.ObjectId()
+        });
+        
+        let courseId = newCourse.id;
+        newCourse.save();
+        
+
+        const newClass = new ClassRun({
+            course: courseId,
+            startDate: startDate,
+            endDate: endDate,
+            capacity: capacity,
+            trainers: ["lance.fu"],
+            learners: [{
+                username: "shermin.lim",
+                enrolled: true
+            },
+            {
+                username: "siti.hindun",
+                enrolled: true
+            },
+            {
+                username: "claire.niu",
+                enrolled: false
+            }],
+            chapters: [{
+                _id: mongoose.Types.ObjectId(),
+                chapterTitle: "Chapter 1",
+                sections: [{
+                    _id: mongoose.Types.ObjectId(),
+                    sectionTitle: "Section 1",
+                    hyperlinks: [
+                        "https://www.google.com"
+                    ],
+                    files: []
+                }]
+            }]
+        });
+        
+        chapterId = newClass.chapters[0]._id;
+        sectionId = newClass.chapters[0].sections[0]._id;
+
+        newClass.save()
+            .then(doc => {
+                classId = doc.id;
+                done();
+            });
+    });
+    
+    
+    it("should return status 200 when uploaded to DB", function (done) {
+        ClassController.getContent(classId, chapterId, sectionId, (status, payload) => {
+            try {
+                expect(status).to.be.a("number");
+                expect(status).to.equal(200);
+                done();
+            } catch (error) {
+                done(error);
+            }
+        });
+    });
+    
+    
+    it("should return message for successful update", function (done) {
+        ClassController.getContent(classId, chapterId, sectionId, (status, payload) => {
+            try {
+                expect(payload).to.be.a("object");
+                expect(payload.files).to.be.a("array");
+                expect(payload.hyperlinks).to.be.a("array");
+                
+                done();
+            } catch (error) {
+                done(error);
+            }
+        });
+    });
+    
+    after(function(done) {
+        mongoose.connection.db.dropDatabase(done);
+    });
+});

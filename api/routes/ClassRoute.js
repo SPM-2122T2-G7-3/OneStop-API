@@ -119,5 +119,16 @@ router.post('/:classId/:chapterId/:sectionId/upload/file', FileService.uploadFil
 }); 
 
 
+router.get('/:classId/:chapterId/:sectionId/contents', (req, res, next) => {
+    const classId = req.params.classId;
+    const chapterId = req.params.chapterId;
+    const sectionId = req.params.sectionId;
+    
+    ClassController.getContent(classId, chapterId, sectionId, (status, payload) => {
+        res.status(status).json(payload);
+    });
+});
+
+
 
 module.exports = router;
