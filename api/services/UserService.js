@@ -47,7 +47,7 @@ class UserService {
 
 
     // Do not test the middleware
-    static async allowUser(req, res, next) {
+    static async allowLearner(req, res, next) {
         const username = req.headers['username'];
         const { success, result } = await this.getUser(username);
 

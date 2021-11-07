@@ -277,6 +277,85 @@ class ClassController {
             });
         }
     }
+    
+    
+    static async uploadLinks(classId, chapterId, sectionId, links, callback = (status, payload) => {}) {
+        const validationErrors = [];
+        classId ? null : validationErrors.push("classId cannot be empty");
+        chapterId ? null : validationErrors.push("chapterId cannot be empty");
+        sectionId ? null : validationErrors.push("sectionId cannot be empty");
+        links.length ? null : validationErrors.push("links cannot be empty");
+        
+        if (validationErrors.length == 0) {
+            try {
+                const classRun = await ClassRun.findOne()
+                    .where("_id", classId)
+                    .where("chapters._id", chapterId)
+                    .where("chapters.sections._id", sectionId)
+                    .exec();
+                
+                
+                const section = classRun.chapters[0].sections[0];
+                section.links = links;
+                
+                classRun.save()
+                    .then(doc => {
+                        callback(200, {
+                            "message": `Links successfully uploaded for section ${sectionId} of class ${classId}`
+                        });
+                    });
+            } catch (error) {
+                console.error(error);
+                callback(500, {
+                    "error": error.message
+                });
+            }
+        } else {
+            callback(400, {
+                "errors": validationErrors
+            });
+        }
+    }
+    
+    
+    static async uploadContent(classId, chapterId, sectionId, fileInfo, callback = (status, payload) => {}) {
+        const validationErrors = [];
+        classId ? null : validationErrors.push("classId cannot be empty");
+        chapterId ? null : validationErrors.push("chapterId cannot be empty");
+        sectionId ? null : validationErrors.push("sectionId cannot be empty");
+        fileInfo ? null : validationErrors.push("fileInfo cannot be empty");
+        
+        if (validationErrors.length == 0) {
+            try {
+                const classRun = await ClassRun.findOne()
+                    .where("_id", classId)
+                    .where("chapters._id", chapterId)
+                    .where("chapters.sections._id", sectionId)
+                    .exec();
+                
+                
+                const section = classRun.chapters[0].sections[0];
+                console.log(typeof(fileInfo))
+                section.files.push(fileInfo);
+                
+                classRun.save()
+                    .then(doc => {
+                        callback(200, {
+                            "message": `File ${fileInfo.filename} successfully uploaded for section ${sectionId} of class ${classId}`
+                        });
+                    });
+            } catch (error) {
+                console.error(error);
+                callback(500, {
+                    "error": error.message
+                });
+            }
+        } else {
+            callback(400, {
+                "errors": validationErrors
+            });
+        }
+    }
 }
 
 module.exports = ClassController;
