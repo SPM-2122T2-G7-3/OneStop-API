@@ -12,7 +12,7 @@ import createCourse from '../views/createCourse.vue'
 import withdrawLearners from '../views/withdrawLearners.vue'
 import withdrawTrainers from '../views/withdrawTrainers.vue'
 import eligibleCourses from '../views/eligibleCourses.vue'
-
+import approveSelfEnrollment from '../views/approveSelfEnrollment.vue'
 
 
 
@@ -82,6 +82,11 @@ const routes = [
     name: 'eligibleCourses',
     component: eligibleCourses
   },
+  {
+    path: '/approveSelfEnrollment',
+    name: 'approveSelfEnrollment',
+    component: approveSelfEnrollment
+  }
 ]
 
 const router = createRouter({
