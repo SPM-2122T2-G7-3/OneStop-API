@@ -81,6 +81,34 @@ class UserService {
                 res.status(500).json({ "error": err.message })
             });
     } 
+    
+    
+    static async getUser(username) {
+        let success = true;
+
+        try {
+            const result = await User.findOne()
+                .where("username", username)
+                .exec()
+
+            return {
+                success,
+                result
+            }
+        } catch (error) {
+            console.error(error);
+            const result = {
+                "error": error.message
+            }
+
+            success = false;
+
+            return {
+                success,
+                result
+            };
+        }
+    }
 }
 
 module.exports = UserService;
