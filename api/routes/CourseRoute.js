@@ -19,6 +19,15 @@ router.post("/new", (req, res, next) => {
 
 
 
+router.get("/:courseCode/classes", (req, res, next) => {
+    const courseCode = req.params.courseCode;
+    
+    CourseController.getClassesByCourse(courseCode, (status, payload) => {
+      res.status(status).json(payload);
+    });
+});
+
+
 router.put("/:courseCode", (req, res, next) => {
     const oldCourseCode = req.params.courseCode;
     const {
@@ -36,7 +45,7 @@ router.get('/:courseCode/info', (req, res, next) => {
     const courseCode = req.params.courseCode;
 
     CourseController.getCourseInfo(courseCode, (status, payload) => {
-        res.status(status).json(payload);
+      res.status(status).json(payload);
     });
 });
 
