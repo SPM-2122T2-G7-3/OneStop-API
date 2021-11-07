@@ -37,6 +37,10 @@ const courseRoute = require('./routes/CourseRoute');
 app.use('/api/course', courseRoute);
 
 
+const fileRoute = require('./routes/FileRoute');
+app.use('/api/file', fileRoute);
+
+
 // Server Side Error
 app.use((error, req, res, next) => {
     res

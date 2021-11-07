@@ -3,6 +3,7 @@ const router = express.Router();
 
 const ClassController = require('../controllers/ClassController');
 const UserService = require('../services/UserService');
+const FileService = require('../services/FileService');
 
 
 router.post('/new', UserService.allowAdmin, (req, res, next) => {
@@ -90,6 +91,33 @@ router.get('/:classId/applicants', (req, res, next) => {
         res.status(status).json(payload);
     });
 });
+
+
+router.put('/:classId/:chapterId/:sectionId/upload/links', (req, res, next) => {
+    const classId = req.params.classId;
+    const chapterId = req.params.chapterId;
+    const sectionId = req.params.sectionId;
+    const {
+        links
+    } = req.body;
+    
+    ClassController.uploadLinks(classId, chapterId, sectionId, links, (status, payload) => {
+        res.status(status).json(payload);
+    });
+});
+
+
+router.post('/:classId/:chapterId/:sectionId/upload/file', FileService.uploadFile.single("file"), (req, res, next) => {
+    const classId = req.params.classId;
+    const chapterId = req.params.chapterId;
+    const sectionId = req.params.sectionId;
+    const fileInfo = req.body.fileInfo;
+    
+    ClassController.uploadContent(classId, chapterId, sectionId, fileInfo, (status, payload) => { 
+        res.status(status).json(payload);
+    });
+}); 
+
 
 
 module.exports = router;

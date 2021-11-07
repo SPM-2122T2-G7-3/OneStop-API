@@ -13,7 +13,7 @@ class CourseService {
     getClassesByCourse(courseCode){
       return http.get(`/course/${courseCode}/classes`)
     }
-    
+  
     getEligibleCourse(username){
       return http.get('/course/eligible', { headers: { 'username': username } })
     }
