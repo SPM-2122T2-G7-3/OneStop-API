@@ -89,6 +89,7 @@ router.get('/:quizId/questions', (req, res, next) => {
     QuizController.getQuizQuestions(quizId, true, (status, payload) => {
         res.status(status).json(payload);
     });
+});
 
 
 module.exports = router;
