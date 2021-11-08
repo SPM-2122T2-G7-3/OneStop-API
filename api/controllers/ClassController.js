@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const ClassService = require('../services/ClassService');
 const ClassRun = require('../models/ClassModel');
 const Course = require('../models/CourseModel');
 

@@ -80,7 +80,16 @@ router.get('/attempt/:quizAttemptId', (req, res, next) => {
     QuizController.getQuizAttempt(quizAttemptId, (status, payload) => {
         res.status(status).json(payload);
     });
-})
+});
+
+
+router.get('/:quizId/questions', (req, res, next) => {
+    const quizId = req.params.quizId;
+
+    QuizController.getQuizQuestions(quizId, true, (status, payload) => {
+        res.status(status).json(payload);
+    });
+});
 
 
 module.exports = router;
