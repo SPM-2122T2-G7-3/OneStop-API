@@ -95,8 +95,16 @@ export default {
       )
     },
     enrollLearners(){
+      var payloadInput = []
+      for (let learner of this.selectedLearners){
+        var newInput = {
+          username: learner,
+          enrolled: true
+        }
+        payloadInput.push(newInput)
+      }
       var payload = {
-        "learners": this.selectedLearners
+        "learners": payloadInput
       }
       ClassService.updateClassLearners(this.classId, payload)
       .then(response => {
@@ -144,12 +152,12 @@ export default {
       }
       return result
     }
-    
+      
 
   },
   created: function(){
     this.getAllCourses()
-    UserService.getUsersByRole('learner')
+    UserService.getUsersByRole('Learner')
       .then(response => {
         var allLearners = response.data.users;
         for (const learner of allLearners){

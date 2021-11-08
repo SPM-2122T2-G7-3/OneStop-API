@@ -150,7 +150,7 @@ export default {
   },
   created: function(){
     this.getAllCourses()
-    UserService.getUsersByRole('trainer')
+    UserService.getUsersByRole('Trainer')
       .then(response => {
         var allTrainers = response.data.users;
         for (const trainer of allTrainers){
