@@ -3,7 +3,7 @@ import http from "../http-common";
 class CourseService {
 
     getAllCourses(){
-      return http.get('/course/all')
+      return http.get('/course/')
     }
 
     addNewCourse(data){
