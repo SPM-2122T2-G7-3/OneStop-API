@@ -7,8 +7,9 @@ const QuizController = require('../controllers/QuizController');
 // Create Quiz for a given course and section
 router.post('/new', (req, res, next) => {
     const {
-        courseCode,
-        section,
+        classId,
+        chapterId,
+        sectionId,
         timeAllowed,
         quizName,
         questions
@@ -20,7 +21,7 @@ router.post('/new', (req, res, next) => {
         "timeAllowed": timeAllowed
     };
 
-    QuizController.createQuizBySection(courseCode, section, quizJSON, (status, payload) => {
+    QuizController.createQuizBySection(classId, chapterId, sectionId, quizJSON, (status, payload) => {
         res.status(status).json(payload);
     });
 });
