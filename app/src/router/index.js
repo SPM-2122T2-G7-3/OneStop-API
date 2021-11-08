@@ -5,6 +5,7 @@ import Course from '../views/Course.vue'
 import newQuiz from '../views/newQuiz.vue'
 import editQuiz from '../views/editQuiz.vue'
 import Quiz from '../views/Quiz.vue'
+import Result from '../views/result.vue'
 import enrollLearners from '../views/enrollLearners.vue'
 import assignTrainers from '../views/assignTrainers.vue'
 import createClass from '../views/createClass.vue'
@@ -23,7 +24,7 @@ const routes = [
     component: login
   },
   {
-    path: '/',
+    path: '/home',
     name: 'home',
     component: Home
   },
@@ -43,9 +44,14 @@ const routes = [
     component: editQuiz
   },
   {
-    path: '/quiz/:quizID',
+    path: '/class/:classID/quiz/:quizID',
     name: 'Quiz',
     component: Quiz
+  },
+  {
+    path: '/class/:classID/quiz/:quizID/result/:attemptID',
+    name: 'Result',
+    component: Result
   },
   {
     path: '/enrollLearners',
