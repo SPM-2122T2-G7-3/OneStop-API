@@ -1,59 +1,100 @@
 <template>
     <div id='course'>
-      <h2>{{courseCode}}</h2>
-      <h2>{{courseTitle}}</h2>
-      <router-link :to="{ name: 'Quiz', params: { quizID: quizid } }" class='text-primary'>Quiz</router-link><br>
-      <router-link :to="{ name: 'manageCourse', params: { courseID: courseCode } }" class='text-primary'>Manage Course</router-link>
-      <nav class="project-tab">
-        <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Content</a>
-            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Discussions</a>
-            <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Quizzes</a>
-        </div>
-      </nav>
-      <div class="tab-content" id="nav-tabContent">
-        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-          
-        </div>
-        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-          
-        </div>
-        <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
-          <div class="container justify-content-center">
-            <table class="table table-hover ">
-              <thead class="thead-dark">
-                <tr class="row">
-                  <th class="col-sm-4 text-center">Quiz</th>
-                  <th class="col-sm-4 text-center">Status</th>
-                  <th class="col-sm-4 text-center">Score</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="row" v-for="quiz in quizzes" :key='quiz'>
-                  <td class="col-sm-4 text-center">{{ quiz.quizName }}</td>  
-                  <td class="col-sm-4 text-center">Completed</td> 
-                  <td class="col-sm-4 text-center">Pass</td>  
-                </tr>
-              </tbody>
-            </table>
+      <div class="container">
+      <h2>{{courseID}}</h2>
+      <h3>{{courseTitle}}</h3>
+      <div class="container">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="content-tab" data-bs-toggle="tab" data-bs-target="#content" type="button" role="tab" aria-controls="home" aria-selected="true">Content</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="quiz-tab" data-bs-toggle="tab" data-bs-target="#quiz" type="button" role="tab" aria-controls="profile" aria-selected="false">Quiz</button>
+          </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade show active" id="content" role="tabpanel" aria-labelledby="home-tab">
+            <div class="container mt-3">
+              <div class="row">
+                <div class="col-md-3">
+                  <h4>Chapter</h4>
+                </div>
+                <div class="col-md-6">
+                  <h4>Sections</h4>
+                </div>
+                <div class="col-md-3">
+                  <h4>Materials</h4>
+                </div>
+              </div>
+            </div>
+            <div class="container justify-content-center" >
+              <div class="row"  v-for="(chapter) in this.chapters" :key='chapter'>
+                <div class="col-md-3" style="border:1px solid;">
+                  {{chapter.chapterTitle}}
+                </div>
+                <div class="col-md-6 mx-0 px-1" style="border:1px solid;"> 
+                  <div class="container px-3">
+                      <div class="row" v-for="section in chapter.sections" :key='section'>
+                        {{section.sectionTitle}}
+                      </div>
+                  </div>
+                </div>                      
+
+                <div class="col-md-3" style="border:1px solid;">
+                  <div class="container px-3">
+                    <div class="row" v-for="section in chapter.sections" :key='section'>
+                      <a v-for="(file, index) in section.files" :key="file" @click.prevent="downloadFile(section.files[index].filename)" href="">
+                        {{section.hyperlinks[index]}}
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
+          <div class="tab-pane fade" id="quiz" role="tabpanel" aria-labelledby="profile-tab">
+            <div class="container justify-content-center">
+              <table class="table table-hover ">
+                <thead class="thead-dark">
+                  <tr class="row">
+                    <th class="col-sm-4 text-center"></th>
+                    <th class="col-sm-4 text-center">Quiz</th>
+                    <th class="col-sm-4 text-center"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="row" v-for="(quiz, index) in this.allQuizzes" :key='quiz'>
+                    <td class="col-sm-4 text-center">Chapter {{ index+1 }}</td>  
+                    <td class="col-sm-4 text-center">{{ quiz.quizName }}</td>  
+                    <td class="col-sm-4 text-center">
+                        <router-link :to="{ name: 'Quiz', params: { classID: this.classID, quizID: quiz._id } }" class='text-primary'>
+                          <button type="button" class="btn btn-secondary">Take quiz</button>
+                        </router-link> &nbsp;
+                    </td>  
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="discussions" role="tabpanel" aria-labelledby="contact-tab">...</div>
+        </div>
         </div>
       </div>
     </div>
 </template>
 
 <script>
+  import ClassService from '../services/ClassService'
   import CourseService from '../services/CourseService'
 
   export default{
     name: 'course',
     data(){
       return{
-        courseCode: '',
-        courseInfo: null,
-        courseTitle: '',
-        quizid: 5,
-        quizzes: [],
+        courseID: '',
+        classID: '',
+        chapters: [],
+        allQuizzes: []
       }
     },
     methods: {
@@ -69,10 +110,27 @@
       
     },
     created: function(){
-      this.courseCode = this.$route.params.courseID;
-      this.actualQuiz();
-      this.retrieveCourseInfo()
-       
+      this.classID = this.$route.params.classID.split('-')[0];
+      this.courseID = this.$route.params.classID.split('-')[1];
+
+      CourseService.getCourseInfo(this.courseID)
+        .then(response => {
+          this.courseTitle = response.data.courses[0].courseTitle;
+      })
+      ClassService.getClassContent(this.classID)
+        .then(response => {
+          this.chapters = response.data.chapters
+        })
+        .then(() => {
+        })
+
+      ClassService.getQuizQuestions(this.classID)
+        .then(response => {
+          this.allQuizzes = response.data.quizzes
+
+        })
+
+
     }
   }
 </script>
@@ -83,32 +141,7 @@ h2 {
   text-align: center;
 }
 
-.project-tab {
-    padding: 3%
-}
-
-.project-tab #tabs .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
-    color: #0062cc;
-    background-color: transparent;
-    border-color: transparent transparent #f3f3f3;
-    border-bottom: 3px solid !important;
-    font-size: 16px;
-    font-weight: bold;
-}
-.project-tab .nav-link {
-    border-top-left-radius: .25rem;
-    border-top-right-radius: .25rem;
-    color: #0062cc;
-    font-size: 16px;
-    font-weight: 600;
-}
-.project-tab .nav-link:hover {
-    border: none;
-}
-
-.project-tab a{
-    text-decoration: none;
-    color: #333;
-    font-weight: 600;
+h4, h3 {
+    text-align: center;
 }
 </style>
