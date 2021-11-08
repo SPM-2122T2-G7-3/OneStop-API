@@ -17,7 +17,7 @@ import eligibleCourses from '../views/eligibleCourses.vue'
 import approveSelfEnrollment from '../views/approveSelfEnrollment.vue'
 import myCourses from '../views/myCourses.vue'
 import myTeachingCourses from '../views/myTeachingCourses.vue'
-
+import AllCourses from '../views/AllCourses.vue'
 
 
 const routes = [
