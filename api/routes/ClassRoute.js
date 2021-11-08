@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const ClassController = require('../controllers/ClassController');
+const QuizController = require('../controllers/QuizController');
 const UserService = require('../services/UserService');
 const FileService = require('../services/FileService');
 
@@ -189,6 +190,15 @@ router.get('/teach', UserService.allowTrainer, (req, res, next) => {
         res.status(status).json(payload);
     });
 });
+
+
+router.get('/:classId/quizzes', (req, res, next) => {
+    const classId = req.params.classId;
+    
+    QuizController.getQuizzesByClass(classId, (status, payload) => {
+        res.status(status).json(payload);
+    });
+})
 
 
 module.exports = router;

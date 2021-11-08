@@ -26,9 +26,9 @@ describe("Create Quiz", function () {
     const classId = mongoose.Types.ObjectId();
     const chapterId = mongoose.Types.ObjectId();
     const sectionId = mongoose.Types.ObjectId();
-    
+
     // Create Course Class Instance
-    before(function(done) {
+    before(function (done) {
         const courseId = mongoose.Types.ObjectId();
         const newCourse = new Course({
             _id: courseId,
@@ -36,13 +36,13 @@ describe("Create Quiz", function () {
             courseTitle: "HP Foundation Repair Course",
             preReq: [],
         });
-        
+
         newCourse.save();
-        
+
         const startDate = new Date("2021-10-12");
         const endDate = new Date("2021-11-12");
         const capacity = 50;
-        
+
         const newClass = new ClassRun({
             course: courseId,
             startDate: startDate,
@@ -68,13 +68,13 @@ describe("Create Quiz", function () {
                 }]
             }]
         });
-        
+
         newClass.save()
-        .then(doc => {
-            done();
-        });
+            .then(doc => {
+                done();
+            });
     });
-    
+
     describe("True/False Question", function () {
         describe("Valid Data", function () {
             const quizName = "Printer Functions";
@@ -136,7 +136,7 @@ describe("Create Quiz", function () {
                     "correctAnswers": ["Truety"]
                 }]
             };
-            
+
             console.log(quizName);
 
             it("Should return status 400 when called with invalid question(s)", function (done) {
@@ -167,7 +167,7 @@ describe("Create Quiz", function () {
         }); // Invalid Data
     }); // True/False Question
 
-    
+
     describe("MCQ Questions", function () {
         describe("Valid Data", function () {
             const quizName = "Printer Functions";
@@ -326,7 +326,7 @@ describe("Create Quiz", function () {
         }); // Invalid Data
     });
 
-    
+
     // Clean up database after testing "Create Quiz"
     after(function (done) {
         mongoose.connection.db.dropDatabase(done);
@@ -362,7 +362,7 @@ describe("Delete Quiz", function () {
                 });
         });
 
-        
+
         it("Should return status 200 when question successfully deleted", function (done) {
             QuizController.deleteQuiz(quizId, (status, payload) => {
                 try {
@@ -375,7 +375,7 @@ describe("Delete Quiz", function () {
             })
         })
 
-        
+
         it("Should return Delete Quiz Message", function (done) {
             QuizController.deleteQuiz(quizId, (status, payload) => {
                 try {
@@ -416,7 +416,7 @@ describe("Delete Quiz", function () {
                 });
         });
 
-        
+
         it("Should return error 400 when not successfully deleted", function (done) {
             quizId = "";
 
@@ -431,7 +431,7 @@ describe("Delete Quiz", function () {
             });
         });
 
-        
+
         it("Should return error with error message", function (done) {
             quizId = "";
 
@@ -502,7 +502,7 @@ describe("Update Quiz Questions", function () {
             });
         });
 
-        
+
         it("Should return Update Quiz Info message", function (done) {
             const questions = [{
                 "questionText": "HP OfficeJet Pro 7740 can accept A3 size paper",
@@ -522,7 +522,7 @@ describe("Update Quiz Questions", function () {
         });
     });
 
-    
+
     describe(" Invalid Quiz Questions Update", function () {
         let quizId = undefined;
 
@@ -664,7 +664,7 @@ describe("Mark Quiz", function () {
         });
     });
 
-    afterEach(function(done){
+    afterEach(function (done) {
         mongoose.connection.db.dropDatabase(done);
     });
 });

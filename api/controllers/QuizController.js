@@ -319,7 +319,29 @@ class QuizController {
             });
         }
     }
-
+    
+    
+    static async getQuizzesByClass(classId, callback = (status, payload) => { }) {
+        const validationErrors = [];
+        classId ? null : validationErrors.push("classId cannot be empty");
+        
+        if (validationErrors.length == 0) {
+            try {
+                await Quiz.find()
+                    .where("classId", classId)
+                    .exec()
+                    .then(quizzes => {
+                        callback(200, {
+                            "quizzes": quizzes
+                        });
+                    });
+            } catch (error) {
+                callback(500, {
+                    "error": error.message
+                });
+            }
+        }
+    }
 }
 
 module.exports = QuizController;
