@@ -107,21 +107,23 @@ class CourseController {
                 
                 const allEligibleCourses = new Set();
                 
-                for (const course of currentUser.completedCourse) {
-                    const courseId = course.toString();
-                    
-                    const eligibleCourses = await Course.find()
-                    .where("preReq", courseId)
-                    .select({
-                        "_id": true
-                    })
-                    .exec();
-                    
-                    for(const eligible of eligibleCourses) {
-                        allEligibleCourses.add(eligible.id);
+                if (currentUser.completedCourse.length > 0) {
+                    for (const course of currentUser.completedCourse) {
+                        const courseId = course.toString();
+                        
+                        const eligibleCourses = await Course.find()
+                        .where("preReq", courseId)
+                        .select({
+                            "_id": true
+                        })
+                        .exec();
+                        
+                        for(const eligible of eligibleCourses) {
+                            allEligibleCourses.add(eligible.id);
+                        }
                     }
                 }
-                
+                    
                 const noReqCourses = await Course.find()
                 .where("preReq")
                 .size(0)

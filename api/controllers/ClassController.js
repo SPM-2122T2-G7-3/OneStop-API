@@ -157,6 +157,32 @@ class ClassController {
             });
         }
     }
+    
+    
+    static async getClassContent(classId, callback = (status, payload) => { }) {
+        const validationErrors = [];
+        classId ? null : validationErrors.push("classId cannot be empty");
+        
+        if (validationErrors.length == 0) {
+            try {
+                const classContent = await ClassRun.findOne()
+                    .where("_id", classId)
+                    .select({
+                        "chapters": true,
+                    })
+                    .exec();
+
+                callback(200, {
+                    "chapters": classContent.chapters
+                });
+            } catch (error) {
+                console.error(error);
+                callback(500, {
+                    "error": error.message
+                });
+            }
+        }
+    }
 
 
     static async getTeachingClass(username, callback = (status, payload) => { }) {
