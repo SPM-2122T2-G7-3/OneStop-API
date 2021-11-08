@@ -17,8 +17,8 @@ class QuizController {
         chapterId ? null : validationErrors.push("chapterId cannot be empty");
         sectionId ? null : validationErrors.push("sectionId cannot be empty");
         quizName ? null : validationErrors.push("quizName cannot be empty");
-        
-        
+
+
         if (validationErrors.length == 0) {
             try {
                 const {
@@ -74,20 +74,28 @@ class QuizController {
     }
 
 
-    static async deleteQuiz(quizId, callback = (status, payload) => { }) {
+    static async getQuizQuestions(quizId, getCorrectAns, callback = (status, payload) => { }) {
         const validationErrors = [];
         quizId ? null : validationErrors.push("quizId cannot be empty");
+
         if (validationErrors.length == 0) {
             try {
-                await Quiz.deleteOne()
+                const selectParams = {
+                    "_id": false
+                };
+
+                if (!getCorrectAns) {
+                    selectParams["questions.correctAnswers"] = false
+                }
+
+                await Quiz.findOne()
                     .where("_id", quizId)
+                    .select(selectParams)
                     .exec()
-                    .then(ok => {
-                        if (ok) {
-                            callback(200, {
-                                "message": `Quiz ${quizId} deleted successfully`
-                            });
-                        }
+                    .then(record => {
+                        callback(200, {
+                            "quiz": record.toObject(),
+                        })
                     });
             } catch (error) {
                 callback(500, {
@@ -144,6 +152,34 @@ class QuizController {
                 }
             } catch (error) {
                 console.error(error);
+                callback(500, {
+                    "error": error.message
+                });
+            }
+        } else {
+            callback(400, {
+                "errors": validationErrors
+            });
+        }
+    }
+
+
+    static async deleteQuiz(quizId, callback = (status, payload) => { }) {
+        const validationErrors = [];
+        quizId ? null : validationErrors.push("quizId cannot be empty");
+        if (validationErrors.length == 0) {
+            try {
+                await Quiz.deleteOne()
+                    .where("_id", quizId)
+                    .exec()
+                    .then(ok => {
+                        if (ok) {
+                            callback(200, {
+                                "message": `Quiz ${quizId} deleted successfully`
+                            });
+                        }
+                    });
+            } catch (error) {
                 callback(500, {
                     "error": error.message
                 });
@@ -284,41 +320,6 @@ class QuizController {
         }
     }
 
-
-    static async getQuizQuestions(quizId, getCorrectAns, callback = (status, payload) => { }) {
-        const validationErrors = [];
-        quizId ? null : validationErrors.push("quizId cannot be empty");
-
-        if (validationErrors.length == 0) {
-            try {
-                const selectParams = {
-                    "_id": false
-                };
-
-                if (!getCorrectAns) {
-                    selectParams["questions.correctAnswers"] = false
-                }
-
-                await Quiz.findOne()
-                    .where("_id", quizId)
-                    .select(selectParams)
-                    .exec()
-                    .then(record => {
-                        callback(200, {
-                            "quiz": record.toObject(),
-                        })
-                    });
-            } catch (error) {
-                callback(500, {
-                    "error": error.message
-                });
-            }
-        } else {
-            callback(400, {
-                "errors": validationErrors
-            });
-        }
-    }
 }
 
 module.exports = QuizController;
