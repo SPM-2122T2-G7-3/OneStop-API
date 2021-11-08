@@ -32,7 +32,7 @@ const routes = [
     component: Home
   },
   {
-    path: '/course/:courseID',
+    path: '/myCourse/:classID',
     name: 'Course',
     component: Course
   },
