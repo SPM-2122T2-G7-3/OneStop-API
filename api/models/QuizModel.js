@@ -11,8 +11,9 @@ const questionSchema = new mongoose.Schema({
 
 
 const quizSchema = new mongoose.Schema({
-    courseCode: String,
-    section: Number,
+    classId: mongoose.Schema.Types.ObjectId,
+    chapterId: mongoose.Schema.Types.ObjectId,
+    sectionId: mongoose.Schema.Types.ObjectId,
     quizName: String,
     timeAllowed: Number,
     quizMarks: Number,

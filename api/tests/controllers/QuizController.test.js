@@ -3,8 +3,11 @@ const mongoose = require('mongoose');
 const expect = require('chai').expect;
 
 const QuizController = require('../../controllers/QuizController');
-const Quiz = require('../../models/QuizModel')
-const QuizAttempt = require('../../models/QuizAttemptModel')
+const Quiz = require('../../models/QuizModel');
+const QuizAttempt = require('../../models/QuizAttemptModel');
+
+const Course = require('../../models/CourseModel');
+const ClassRun = require('../../models/ClassModel');
 
 
 before(function (done) {
@@ -20,10 +23,60 @@ before(function (done) {
 
 
 describe("Create Quiz", function () {
+    const classId = mongoose.Types.ObjectId();
+    const chapterId = mongoose.Types.ObjectId();
+    const sectionId = mongoose.Types.ObjectId();
+    
+    // Create Course Class Instance
+    before(function(done) {
+        const courseId = mongoose.Types.ObjectId();
+        const newCourse = new Course({
+            _id: courseId,
+            courseCode: "HP101",
+            courseTitle: "HP Foundation Repair Course",
+            preReq: [],
+        });
+        
+        newCourse.save();
+        
+        const startDate = new Date("2021-10-12");
+        const endDate = new Date("2021-11-12");
+        const capacity = 50;
+        
+        const newClass = new ClassRun({
+            course: courseId,
+            startDate: startDate,
+            endDate: endDate,
+            capacity: capacity,
+            trainers: ["lance.fu"],
+            learners: [{
+                username: "shermin.lim",
+                enrolled: true
+            },
+            {
+                username: "siti.hindun",
+                enrolled: true
+            }],
+            chapters: [{
+                _id: chapterId,
+                chapterTitle: "Chapter 1",
+                sections: [{
+                    _id: sectionId,
+                    sectionTitle: "Section 1",
+                    hyperlinks: [],
+                    files: [],
+                }]
+            }]
+        });
+        
+        newClass.save()
+        .then(doc => {
+            done();
+        });
+    });
+    
     describe("True/False Question", function () {
         describe("Valid Data", function () {
-            const courseCode = "HP101";
-            const section = 1;
             const quizName = "Printer Functions";
             const timeAllowed = 3600;
             const quizJSON = {
@@ -39,7 +92,7 @@ describe("Create Quiz", function () {
 
 
             it("Should return status 200 when successfully inserted into DB", function (done) {
-                QuizController.createQuizBySection(courseCode, section, quizJSON, (status, payload) => {
+                QuizController.createQuizBySection(classId, chapterId, sectionId, quizJSON, (status, payload) => {
                     try {
                         expect(status).to.be.a("number");
                         expect(status).to.equal(200);
@@ -52,7 +105,7 @@ describe("Create Quiz", function () {
 
 
             it("Should return payload with success status, document ID and message when successfully inserted into DB", function (done) {
-                QuizController.createQuizBySection(courseCode, section, quizJSON, (status, payload) => {
+                QuizController.createQuizBySection(classId, chapterId, sectionId, quizJSON, (status, payload) => {
                     try {
                         expect(payload).to.be.an("object");
 
@@ -71,11 +124,11 @@ describe("Create Quiz", function () {
         }); // Valid Data
 
         describe("Invalid Data", function () {
-            const courseCode = "HP101";
-            const section = 1;
             const quizName = "Printer Functions";
+            const timeAllowed = 3600;
             const quizJSON = {
                 "quizName": quizName,
+                "timeAllowed": timeAllowed,
                 "questions": [{
                     "questionText": "HP OfficeJet Pro 7740 can accept A3 size paper",
                     "questionType": "TF",
@@ -83,10 +136,11 @@ describe("Create Quiz", function () {
                     "correctAnswers": ["Truety"]
                 }]
             };
-
+            
+            console.log(quizName);
 
             it("Should return status 400 when called with invalid question(s)", function (done) {
-                QuizController.createQuizBySection(courseCode, section, quizJSON, (status, payload) => {
+                QuizController.createQuizBySection(classId, chapterId, sectionId, quizJSON, (status, payload) => {
                     try {
                         expect(status).to.be.a("number");
                         expect(status).to.equal(400);
@@ -99,7 +153,7 @@ describe("Create Quiz", function () {
 
 
             it("Should return error with error message when called with invalid question(s)", function (done) {
-                QuizController.createQuizBySection(courseCode, section, quizJSON, (status, payload) => {
+                QuizController.createQuizBySection(classId, chapterId, sectionId, quizJSON, (status, payload) => {
                     try {
                         expect(payload).to.be.an("object");
                         expect(payload.errors).to.be.a("string");
@@ -116,8 +170,6 @@ describe("Create Quiz", function () {
     
     describe("MCQ Questions", function () {
         describe("Valid Data", function () {
-            const courseCode = "HP101";
-            const section = 1;
             const quizName = "Printer Functions";
             const timeAllowed = 3600;
 
@@ -140,7 +192,7 @@ describe("Create Quiz", function () {
                 };
 
                 it("Should return status 200 when successfully inserted into DB", function (done) {
-                    QuizController.createQuizBySection(courseCode, section, quizJSON, (status, payload) => {
+                    QuizController.createQuizBySection(classId, chapterId, sectionId, quizJSON, (status, payload) => {
                         try {
                             expect(status).to.be.a("number");
                             expect(status).to.equal(200);
@@ -153,7 +205,7 @@ describe("Create Quiz", function () {
 
 
                 it("Should return payload with success status, document ID and message when successfully inserted into DB", function (done) {
-                    QuizController.createQuizBySection(courseCode, section, quizJSON, (status, payload) => {
+                    QuizController.createQuizBySection(classId, chapterId, sectionId, quizJSON, (status, payload) => {
                         try {
                             expect(payload).to.be.an("object");
 
@@ -192,7 +244,7 @@ describe("Create Quiz", function () {
                 };
 
                 it("Should return status 200 when successfully inserted into DB", function (done) {
-                    QuizController.createQuizBySection(courseCode, section, quizJSON, (status, payload) => {
+                    QuizController.createQuizBySection(classId, chapterId, sectionId, quizJSON, (status, payload) => {
                         try {
                             expect(status).to.be.a("number");
                             expect(status).to.equal(200);
@@ -205,7 +257,7 @@ describe("Create Quiz", function () {
 
 
                 it("Should return payload with success status, document ID and message when successfully inserted into DB", function (done) {
-                    QuizController.createQuizBySection(courseCode, section, quizJSON, (status, payload) => {
+                    QuizController.createQuizBySection(classId, chapterId, sectionId, quizJSON, (status, payload) => {
                         try {
                             expect(payload).to.be.an("object");
 
@@ -228,8 +280,6 @@ describe("Create Quiz", function () {
 
 
         describe("Invalid Data", function () {
-            const courseCode = "HP101";
-            const section = 1;
             const quizName = "Printer Functions";
             const quizJSON = {
                 "quizName": quizName,
@@ -249,7 +299,7 @@ describe("Create Quiz", function () {
 
 
             it("Should return status 400 when called with invalid question(s)", function (done) {
-                QuizController.createQuizBySection(courseCode, section, quizJSON, (status, payload) => {
+                QuizController.createQuizBySection(classId, chapterId, sectionId, quizJSON, (status, payload) => {
                     try {
                         expect(status).to.be.a("number");
                         expect(status).to.equal(400);
@@ -262,7 +312,7 @@ describe("Create Quiz", function () {
 
 
             it("Should return error with error message when called with invalid question(s)", function (done) {
-                QuizController.createQuizBySection(courseCode, section, quizJSON, (status, payload) => {
+                QuizController.createQuizBySection(classId, chapterId, sectionId, quizJSON, (status, payload) => {
                     try {
                         expect(payload).to.be.an("object");
                         expect(payload.errors).to.be.a("string");

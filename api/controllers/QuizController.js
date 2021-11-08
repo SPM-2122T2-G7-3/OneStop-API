@@ -5,7 +5,7 @@ const QuizService = require('../services/QuizService');
 
 
 class QuizController {
-    static async createQuizBySection(courseCode, section, quizJSON, callback = (status, payload) => { }) {
+    static async createQuizBySection(classId, chapterId, sectionId, quizJSON, callback = (status, payload) => { }) {
         const {
             quizName,
             questions,
@@ -13,10 +13,12 @@ class QuizController {
         } = quizJSON;
 
         const validationErrors = [];
-        courseCode ? null : validationErrors.push("courseId cannot be empty");
-        section ? null : validationErrors.push("sectionId cannot be empty");
+        classId ? null : validationErrors.push("classId cannot be empty");
+        chapterId ? null : validationErrors.push("chapterId cannot be empty");
+        sectionId ? null : validationErrors.push("sectionId cannot be empty");
         quizName ? null : validationErrors.push("quizName cannot be empty");
-
+        
+        
         if (validationErrors.length == 0) {
             try {
                 const {
@@ -25,11 +27,11 @@ class QuizController {
                     quizMarks
                 } = QuizService.checkQuestionsValidity(questions);
 
-
                 if (allValid) {
                     const quizDetails = {
-                        courseCode: courseCode,
-                        section: section,
+                        classId: classId,
+                        chapterId: chapterId,
+                        sectionId: sectionId,
                         questions: questionsArray,
                         quizMarks: quizMarks,
                         timeAllowed: timeAllowed ? timeAllowed : 0, // If timeAllowed is not set, implicit no limit and hence 0.
