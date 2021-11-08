@@ -17,6 +17,15 @@ class CourseService {
     getEligibleCourse(username){
       return http.get('/course/eligible', { headers: { 'username': username } })
     }
+
+    retrieveContent(filename){
+      return http.get(`/file/${filename}`, {responseType: 'blob'})
+    }
+
+    getCourseInfo(courseCode){
+      return http.get(`/course/${courseCode}/info`)
+    }
+
   }
 
 
