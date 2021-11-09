@@ -1,3 +1,5 @@
+// Primary Author: Siti Hindun Binte Murtaza
+
 require('dotenv').config();
 const mongoose = require('mongoose');
 const expect = require('chai').expect;
@@ -44,13 +46,14 @@ describe('Update Class Learners', function () {
                 capacity: capacity,
                 trainers: ["lance.fu"],
                 learners: [{
-                    username: "shermin.lim",
-                    enrolled: true
-                },
-                {
-                    username: "siti.hindun",
-                    enrolled: true
-                }],
+                        username: "shermin.lim",
+                        enrolled: true
+                    },
+                    {
+                        username: "siti.hindun",
+                        enrolled: true
+                    }
+                ],
                 chapters: []
             });
 
@@ -126,13 +129,14 @@ describe('Update Class Learners', function () {
                 capacity: capacity,
                 trainers: ["lance.fu"],
                 learners: [{
-                    username: "shermin.lim",
-                    enrolled: true
-                },
-                {
-                    username: "siti.hindun",
-                    enrolled: true
-                }],
+                        username: "shermin.lim",
+                        enrolled: true
+                    },
+                    {
+                        username: "siti.hindun",
+                        enrolled: true
+                    }
+                ],
                 chapters: []
             });
 
@@ -202,13 +206,14 @@ describe('Get Class Info', function () {
             capacity: capacity,
             trainers: ["lance.fu"],
             learners: [{
-                username: "shermin.lim",
-                enrolled: true
-            },
-            {
-                username: "siti.hindun",
-                enrolled: true
-            }],
+                    username: "shermin.lim",
+                    enrolled: true
+                },
+                {
+                    username: "siti.hindun",
+                    enrolled: true
+                }
+            ],
             content: []
         });
 
@@ -275,13 +280,14 @@ describe('Get Class Info', function () {
             capacity: capacity,
             trainers: ["lance.fu"],
             learners: [{
-                username: "shermin.lim",
-                enrolled: true
-            },
-            {
-                username: "siti.hindun",
-                enrolled: true
-            }],
+                    username: "shermin.lim",
+                    enrolled: true
+                },
+                {
+                    username: "siti.hindun",
+                    enrolled: true
+                }
+            ],
             chapters: []
         });
 
@@ -353,13 +359,14 @@ describe("Update Class Trainer", function () {
                 capacity: capacity,
                 trainers: ["lance.fu"],
                 learners: [{
-                    username: "shermin.lim",
-                    enrolled: true
-                },
-                {
-                    username: "siti.hindun",
-                    enrolled: true
-                }],
+                        username: "shermin.lim",
+                        enrolled: true
+                    },
+                    {
+                        username: "siti.hindun",
+                        enrolled: true
+                    }
+                ],
                 chapters: []
             });
 
@@ -429,13 +436,14 @@ describe("Update Class Trainer", function () {
                 capacity: capacity,
                 trainers: ["lance.fu"],
                 learners: [{
-                    username: "shermin.lim",
-                    enrolled: true
-                },
-                {
-                    username: "siti.hindun",
-                    enrolled: true
-                }],
+                        username: "shermin.lim",
+                        enrolled: true
+                    },
+                    {
+                        username: "siti.hindun",
+                        enrolled: true
+                    }
+                ],
                 chapters: []
             });
 
@@ -508,17 +516,18 @@ describe("Approve Self Enrolled Learners", function () {
             capacity: capacity,
             trainers: ["lance.fu"],
             learners: [{
-                username: "shermin.lim",
-                enrolled: true
-            },
-            {
-                username: "siti.hindun",
-                enrolled: true
-            },
-            {
-                username: "claire.niu",
-                enrolled: false
-            }],
+                    username: "shermin.lim",
+                    enrolled: true
+                },
+                {
+                    username: "siti.hindun",
+                    enrolled: true
+                },
+                {
+                    username: "claire.niu",
+                    enrolled: false
+                }
+            ],
             chapters: []
         });
 
@@ -590,17 +599,18 @@ describe("Get Trainer in Class", function () {
             capacity: capacity,
             trainers: ["lance.fu"],
             learners: [{
-                username: "shermin.lim",
-                enrolled: true
-            },
-            {
-                username: "siti.hindun",
-                enrolled: true
-            },
-            {
-                username: "claire.niu",
-                enrolled: false
-            }],
+                    username: "shermin.lim",
+                    enrolled: true
+                },
+                {
+                    username: "siti.hindun",
+                    enrolled: true
+                },
+                {
+                    username: "claire.niu",
+                    enrolled: false
+                }
+            ],
             chapters: []
         });
 
@@ -668,13 +678,14 @@ describe("Learner to self enroll into class", function () {
             capacity: capacity,
             trainers: ["lance.fu"],
             learners: [{
-                username: "shermin.lim",
-                enrolled: true
-            },
-            {
-                username: "siti.hindun",
-                enrolled: true
-            }],
+                    username: "shermin.lim",
+                    enrolled: true
+                },
+                {
+                    username: "siti.hindun",
+                    enrolled: true
+                }
+            ],
             chapters: []
         });
 
@@ -742,13 +753,14 @@ describe("Get all learners in class", function () {
                 capacity: capacity,
                 trainers: ["lance.fu"],
                 learners: [{
-                    username: "shermin.lim",
-                    enrolled: true
-                },
-                {
-                    username: "siti.hindun",
-                    enrolled: true
-                }],
+                        username: "shermin.lim",
+                        enrolled: true
+                    },
+                    {
+                        username: "siti.hindun",
+                        enrolled: true
+                    }
+                ],
                 chapters: []
             });
 
@@ -817,13 +829,14 @@ describe('Learner get class they are enrolled in', function () {
                 capacity: capacity,
                 trainers: ["lance.fu"],
                 learners: [{
-                    username: "shermin.lim",
-                    enrolled: true
-                },
-                {
-                    username: "siti.hindun",
-                    enrolled: true
-                }],
+                        username: "shermin.lim",
+                        enrolled: true
+                    },
+                    {
+                        username: "siti.hindun",
+                        enrolled: true
+                    }
+                ],
                 chapters: []
             });
 
@@ -927,17 +940,18 @@ describe("Get all pending approval self-enrolled engineer", function () {
             capacity: capacity,
             trainers: ["lance.fu"],
             learners: [{
-                username: "shermin.lim",
-                enrolled: true
-            },
-            {
-                username: "siti.hindun",
-                enrolled: true
-            },
-            {
-                username: "claire.niu",
-                enrolled: false
-            }],
+                    username: "shermin.lim",
+                    enrolled: true
+                },
+                {
+                    username: "siti.hindun",
+                    enrolled: true
+                },
+                {
+                    username: "claire.niu",
+                    enrolled: false
+                }
+            ],
             chapters: []
         });
 
@@ -1008,17 +1022,18 @@ describe("Upload hyperlinks as class materials", function () {
             capacity: capacity,
             trainers: ["lance.fu"],
             learners: [{
-                username: "shermin.lim",
-                enrolled: true
-            },
-            {
-                username: "siti.hindun",
-                enrolled: true
-            },
-            {
-                username: "claire.niu",
-                enrolled: false
-            }],
+                    username: "shermin.lim",
+                    enrolled: true
+                },
+                {
+                    username: "siti.hindun",
+                    enrolled: true
+                },
+                {
+                    username: "claire.niu",
+                    enrolled: false
+                }
+            ],
             chapters: [{
                 _id: mongoose.Types.ObjectId(),
                 chapterTitle: "Chapter 1",
@@ -1102,17 +1117,18 @@ describe("Create new chapter", function (done) {
             capacity: capacity,
             trainers: ["lance.fu"],
             learners: [{
-                username: "shermin.lim",
-                enrolled: true
-            },
-            {
-                username: "siti.hindun",
-                enrolled: true
-            },
-            {
-                username: "claire.niu",
-                enrolled: false
-            }],
+                    username: "shermin.lim",
+                    enrolled: true
+                },
+                {
+                    username: "siti.hindun",
+                    enrolled: true
+                },
+                {
+                    username: "claire.niu",
+                    enrolled: false
+                }
+            ],
             chapters: []
         });
         newClass.save()
@@ -1189,17 +1205,18 @@ describe("Get contents based on class, chapter, section", function () {
             capacity: capacity,
             trainers: ["lance.fu"],
             learners: [{
-                username: "shermin.lim",
-                enrolled: true
-            },
-            {
-                username: "siti.hindun",
-                enrolled: true
-            },
-            {
-                username: "claire.niu",
-                enrolled: false
-            }],
+                    username: "shermin.lim",
+                    enrolled: true
+                },
+                {
+                    username: "siti.hindun",
+                    enrolled: true
+                },
+                {
+                    username: "claire.niu",
+                    enrolled: false
+                }
+            ],
             chapters: [{
                 _id: mongoose.Types.ObjectId(),
                 chapterTitle: "Chapter 1",
@@ -1287,17 +1304,18 @@ describe("Create New Section", function () {
             capacity: capacity,
             trainers: ["lance.fu"],
             learners: [{
-                username: "shermin.lim",
-                enrolled: true
-            },
-            {
-                username: "siti.hindun",
-                enrolled: true
-            },
-            {
-                username: "claire.niu",
-                enrolled: false
-            }],
+                    username: "shermin.lim",
+                    enrolled: true
+                },
+                {
+                    username: "siti.hindun",
+                    enrolled: true
+                },
+                {
+                    username: "claire.niu",
+                    enrolled: false
+                }
+            ],
             chapters: [{
                 _id: mongoose.Types.ObjectId(),
                 chapterTitle: "Chapter 1",
@@ -1373,13 +1391,14 @@ describe('Trainer get class they are teaching', function () {
                 capacity: capacity,
                 trainers: ["lance.fu"],
                 learners: [{
-                    username: "shermin.lim",
-                    enrolled: true
-                },
-                {
-                    username: "siti.hindun",
-                    enrolled: true
-                }],
+                        username: "shermin.lim",
+                        enrolled: true
+                    },
+                    {
+                        username: "siti.hindun",
+                        enrolled: true
+                    }
+                ],
                 chapters: []
             });
 
@@ -1444,13 +1463,14 @@ describe("Get class content", function () {
                 capacity: capacity,
                 trainers: ["lance.fu"],
                 learners: [{
-                    username: "shermin.lim",
-                    enrolled: true
-                },
-                {
-                    username: "siti.hindun",
-                    enrolled: true
-                }],
+                        username: "shermin.lim",
+                        enrolled: true
+                    },
+                    {
+                        username: "siti.hindun",
+                        enrolled: true
+                    }
+                ],
                 chapters: [{
                     _id: mongoose.Types.ObjectId(),
                     chapterTitle: "Chapter 1",
@@ -1469,7 +1489,7 @@ describe("Get class content", function () {
                     done();
                 });
         });
-        
+
 
         it("should return status 200 when successfully obtained from DB", function (done) {
             ClassController.getClassContent(classId, (status, payload) => {
@@ -1482,8 +1502,8 @@ describe("Get class content", function () {
                 }
             });
         });
-        
-        
+
+
         it("should return class content when successfully obtained from DB", function (done) {
             ClassController.getClassContent(classId, (status, payload) => {
                 try {

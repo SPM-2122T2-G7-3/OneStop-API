@@ -1,3 +1,5 @@
+// Primary Author: Niu Siyu
+
 require('dotenv').config();
 const mongoose = require('mongoose');
 const expect = require('chai').expect;
@@ -104,7 +106,7 @@ describe('Get classes by Course Code', function () {
         });
     });
 
-    
+
     describe('Invalid search of classes by course code', function () {
         const courseCode = "";
 
@@ -166,7 +168,7 @@ describe("Update Course Information", function () {
             });
     });
 
-    
+
     describe('Valid search of classes by course code', function () {
         const newCourseCode = "HP110";
         const courseTitle = "HP Printer Foundation Repair Course";
@@ -196,7 +198,7 @@ describe("Update Course Information", function () {
         });
     });
 
-    
+
     afterEach(function (done) {
         mongoose.connection.db.dropDatabase(done);
     });
@@ -226,7 +228,7 @@ describe("Get Course Information", function () {
             });
     });
 
-    
+
     it("should return status 200 when successfully inserted into DB", function (done) {
         CourseController.getCourseInfo(courseCode, (status, payload) => {
             try {
@@ -239,7 +241,7 @@ describe("Get Course Information", function () {
         });
     });
 
-    
+
     it("should return payload with success status, document ID and message when successfully inserted into DB", function (done) {
         CourseController.getCourseInfo(courseCode, (status, payload) => {
             try {
@@ -255,7 +257,7 @@ describe("Get Course Information", function () {
             }
         });
     });
-    
+
 
     after(function (done) {
         mongoose.connection.db.dropDatabase(done);
@@ -264,12 +266,12 @@ describe("Get Course Information", function () {
 });
 
 
-describe("Get all Courses", function() {
-    before(function(done) {
+describe("Get all Courses", function () {
+    before(function (done) {
         const courseCode = "HP101";
         const courseTitle = "HP Foundation Repair Course";
         const preReq = [];
-        
+
         const courseDetails = {
             courseCode: courseCode,
             courseTitle: courseTitle,
@@ -278,13 +280,13 @@ describe("Get all Courses", function() {
 
         const newCourse = new Course(courseDetails);
         newCourse.save()
-        .then(doc => {
-            courseId = doc.id;
-            done();
-        });
+            .then(doc => {
+                courseId = doc.id;
+                done();
+            });
     });
-    
-    it("should return status 200 when successfully inserted into DB", function(done){
+
+    it("should return status 200 when successfully inserted into DB", function (done) {
         CourseController.getAllCourses((status, payload) => {
             try {
                 expect(status).to.be.a("number");
@@ -295,8 +297,8 @@ describe("Get all Courses", function() {
             }
         });
     });
-    
-    it("should return payload with success status, document ID and message when successfully inserted into DB", function(done){
+
+    it("should return payload with success status, document ID and message when successfully inserted into DB", function (done) {
         CourseController.getAllCourses((status, payload) => {
             try {
                 expect(payload).to.be.an("object");
@@ -307,17 +309,17 @@ describe("Get all Courses", function() {
             }
         });
     });
-    
-    after(function(done){
+
+    after(function (done) {
         mongoose.connection.db.dropDatabase(done);
     });
 });
 
 
-describe("Get User Eligible Courses", function() {
+describe("Get User Eligible Courses", function () {
     const username = "lance.fu";
-    
-    before(function(done) {
+
+    before(function (done) {
         const newUser = new User({
             empName: "Lance Fu Dai Fa",
             username: username,
@@ -331,11 +333,11 @@ describe("Get User Eligible Courses", function() {
             .then(doc => {
                 userId = doc.id;
             });
-        
+
         const courseCode = "HP101";
         const courseTitle = "HP Foundation Repair Course";
         const preReq = [];
-        
+
         const courseDetails = {
             courseCode: courseCode,
             courseTitle: courseTitle,
@@ -344,14 +346,14 @@ describe("Get User Eligible Courses", function() {
 
         const newCourse = new Course(courseDetails);
         newCourse.save()
-        .then(doc => {
-            courseId = doc.id;
-            done();
-        });
-        
+            .then(doc => {
+                courseId = doc.id;
+                done();
+            });
+
     });
-    
-    it("should return status 200 when successfully inserted into DB", function(done){
+
+    it("should return status 200 when successfully inserted into DB", function (done) {
         CourseController.getEligibleCourses(username, (status, payload) => {
             try {
                 expect(status).to.be.a("number");
@@ -362,8 +364,8 @@ describe("Get User Eligible Courses", function() {
             }
         });
     });
-    
-    it("should return payload with success status, document ID and message when successfully inserted into DB", function(done){
+
+    it("should return payload with success status, document ID and message when successfully inserted into DB", function (done) {
         CourseController.getEligibleCourses(username, (status, payload) => {
             try {
                 expect(payload).to.be.an("object");
@@ -374,8 +376,8 @@ describe("Get User Eligible Courses", function() {
             }
         });
     });
-    
-    after(function(done){
+
+    after(function (done) {
         mongoose.connection.db.dropDatabase(done);
     });
 });
