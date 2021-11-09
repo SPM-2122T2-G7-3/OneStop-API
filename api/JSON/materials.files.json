@@ -1,0 +1,23 @@
+[{
+  "_id": {
+    "$oid": "6188d1b92bcb9090e29abec7"
+  },
+  "length": 1764947,
+  "chunkSize": 261120,
+  "uploadDate": {
+    "$date": "2021-11-08T07:28:57.909Z"
+  },
+  "filename": "6698dac66b637959a5071371eb373103.pptx",
+  "contentType": "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+},{
+  "_id": {
+    "$oid": "618927fec34cbccfbe3846d7"
+  },
+  "length": 1764947,
+  "chunkSize": 261120,
+  "uploadDate": {
+    "$date": "2021-11-08T13:37:02.219Z"
+  },
+  "filename": "faf50270338e41407a3e77ca4accff0c.pptx",
+  "contentType": "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+}]
