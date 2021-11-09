@@ -1,4 +1,4 @@
-// Primary Author: Lim Hui Ann Shermin
+// Primary Author: Lim Hui An Shermin
 
 const expect = require('chai').expect;
 const QuestionService = require('../../services/QuizService');

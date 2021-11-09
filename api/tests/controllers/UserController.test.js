@@ -1,4 +1,4 @@
-// Primary Author: Lim Hui Ann Shermin
+// Primary Author: Lim Hui An Shermin
 
 require('dotenv').config();
 const mongoose = require('mongoose');
