@@ -1,4 +1,5 @@
 const UserService = require('../services/UserService');
+const User = require('../models/UserModel');
 
 class UserController {
     static async login(username, callback = (status, payload) => { }) {
