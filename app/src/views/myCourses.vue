@@ -64,7 +64,7 @@ export default {
                         return obj._id == courseId
                       })
                       response.data.courseDetails = course
-                      response.data.classId = eachClass
+                      response.data.classId = eachClass._id
                       result.push(response.data)
                     })
                 )
