@@ -8,7 +8,7 @@
       </h3>
     </div>
     <div class="container">
-      <div v-if="role == 'admin'">
+      <div v-if="role.toLowerCase() == 'admin'">
         <h4 class="mt-5"><router-link to="/enrollLearners">Enroll Learners</router-link> </h4>
         <h4 class="mt-4"><router-link to="/withdrawLearners">Withdraw Learners</router-link> </h4>
         <h4 class="mt-4"><router-link to="/assignTrainers">Assign Trainers</router-link> </h4>
@@ -17,7 +17,7 @@
         <h4 class="mt-4"><router-link to="/createClass">Create Class</router-link> </h4>
         <h4 class="mt-4"><router-link to="/approveSelfEnrollment">Approve Self Enrollment Applications</router-link> </h4>
       </div>
-      <div v-else-if="role == 'trainer'">
+      <div v-else-if="role.toLowerCase() == 'trainer'">
         <h4 class="mt-5"><router-link to="/myTeachingCourses">Manage Classes</router-link> </h4>
       </div>
       <div v-else>
