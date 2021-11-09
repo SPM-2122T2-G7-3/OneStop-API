@@ -1,3 +1,5 @@
+// Primary Author: Lance Fu Dai Fa
+
 require('dotenv').config();
 const mongoose = require('mongoose');
 const expect = require('chai').expect;
@@ -45,13 +47,14 @@ describe('getClassByCourse Function', function () {
                 capacity: capacity,
                 trainers: ["lance.fu"],
                 learners: [{
-                    username: "shermin.lim",
-                    enrolled: true
-                },
-                {
-                    username: "siti.hindun",
-                    enrolled: true
-                }],
+                        username: "shermin.lim",
+                        enrolled: true
+                    },
+                    {
+                        username: "siti.hindun",
+                        enrolled: true
+                    }
+                ],
                 chapters: []
             });
 
@@ -67,14 +70,20 @@ describe('getClassByCourse Function', function () {
 
 
         it('should return "true" in success when successfully retrived from DB', async function () {
-            const { success, result } = await CourseService.getClassesByCourse(courseCode);
+            const {
+                success,
+                result
+            } = await CourseService.getClassesByCourse(courseCode);
             expect(success).to.be.a("boolean");
             expect(success).to.equal(true);
         });
 
 
         it('should return correct payload when successfully retrived from DB', async function () {
-            const { success, result } = await CourseService.getClassesByCourse(courseCode);
+            const {
+                success,
+                result
+            } = await CourseService.getClassesByCourse(courseCode);
             expect(result).to.be.a("object");
 
             expect(result.classes).to.be.an("array");

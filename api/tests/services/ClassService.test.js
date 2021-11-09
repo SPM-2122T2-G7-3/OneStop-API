@@ -1,3 +1,5 @@
+// Primary Author: Loo Yang Kai
+
 require('dotenv').config();
 const mongoose = require('mongoose');
 const expect = require('chai').expect;
@@ -33,7 +35,7 @@ describe('getClassInfo Function', function () {
             courseTitle: "Xerox WorkCentre 5300 User Training",
             _id: mongoose.Types.ObjectId()
         });
-        
+
         courseDetails.save();
 
         const newClass = new ClassRun({
@@ -43,13 +45,14 @@ describe('getClassInfo Function', function () {
             capacity: capacity,
             trainers: ["lance.fu"],
             learners: [{
-                username: "shermin.lim",
-                enrolled: true
-            },
-            {
-                username: "siti.hindun",
-                enrolled: true
-            }],
+                    username: "shermin.lim",
+                    enrolled: true
+                },
+                {
+                    username: "siti.hindun",
+                    enrolled: true
+                }
+            ],
             content: []
         });
 
@@ -62,19 +65,25 @@ describe('getClassInfo Function', function () {
 
 
     it('should return "true" in success when successfully retrived from DB', async function () {
-        const {success, result} = await ClassService.getClassInfo(classId);
+        const {
+            success,
+            result
+        } = await ClassService.getClassInfo(classId);
         expect(success).to.be.a("boolean");
         expect(success).to.equal(true);
     });
 
-    
+
     it('should return correct payload when successfully retrived from DB', async function () {
-        const {success, result} = await ClassService.getClassInfo(classId);
+        const {
+            success,
+            result
+        } = await ClassService.getClassInfo(classId);
         expect(result).to.be.a("object");
-        
+
         expect(result.capacity).to.be.a("number");
         expect(result.capacity).to.equal(50);
-        
+
         expect(result.availableCapacity).to.be.a("number");
         expect(result.availableCapacity).to.equal(48);
     });

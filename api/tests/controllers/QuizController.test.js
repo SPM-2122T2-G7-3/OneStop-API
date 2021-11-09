@@ -1,3 +1,5 @@
+// Primary Author: Lance Fu Dai Fa
+
 require('dotenv').config();
 const mongoose = require('mongoose');
 const expect = require('chai').expect;
@@ -50,13 +52,14 @@ describe("Create Quiz", function () {
             capacity: capacity,
             trainers: ["lance.fu"],
             learners: [{
-                username: "shermin.lim",
-                enrolled: true
-            },
-            {
-                username: "siti.hindun",
-                enrolled: true
-            }],
+                    username: "shermin.lim",
+                    enrolled: true
+                },
+                {
+                    username: "siti.hindun",
+                    enrolled: true
+                }
+            ],
             chapters: [{
                 _id: chapterId,
                 chapterTitle: "Chapter 1",

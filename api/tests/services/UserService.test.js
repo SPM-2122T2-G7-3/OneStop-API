@@ -1,3 +1,5 @@
+// Primary Author: Loo Yang Kai
+
 require('dotenv').config();
 const mongoose = require('mongoose');
 const expect = require('chai').expect;
@@ -41,14 +43,20 @@ describe('getUser Function', function () {
 
 
     it('should return "true" in success when successfully retrived from DB', async function () {
-        const { success, result } = await UserService.getUser(username);
+        const {
+            success,
+            result
+        } = await UserService.getUser(username);
         expect(success).to.be.a("boolean");
         expect(success).to.equal(true);
     });
 
 
     it('should return correct payload when successfully retrived from DB', async function () {
-        const { success, result } = await UserService.getUser(username);
+        const {
+            success,
+            result
+        } = await UserService.getUser(username);
         expect(result).to.be.a("object");
 
         expect(result.empName).to.be.a("string");
