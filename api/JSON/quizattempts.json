@@ -1,0 +1,117 @@
+[{
+  "_id": {
+    "$oid": "6189498a0702ec885f43c21f"
+  },
+  "quizId": {
+    "$oid": "61852927252668a5a858f91d"
+  },
+  "learner": "ykloo",
+  "marksAwarded": 0,
+  "passed": false,
+  "questions": [
+    {
+      "questionId": {
+        "$oid": "61852927252668a5a858f91e"
+      },
+      "answers": [
+        {
+          "answer": "Follow the Canon manual",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "questionId": {
+        "$oid": "61852927252668a5a858f91f"
+      },
+      "answers": [
+        {
+          "answer": "False",
+          "isCorrect": false
+        }
+      ]
+    }
+  ],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "618954946c8701780a6592f2"
+  },
+  "quizId": {
+    "$oid": "617d1f70cce8e8bdcd761dee"
+  },
+  "learner": "ykloo",
+  "marksAwarded": 1,
+  "passed": false,
+  "questions": [
+    {
+      "questionId": {
+        "$oid": "618943a8e1c993f924e4a02d"
+      },
+      "answers": [
+        {
+          "answer": "True",
+          "isCorrect": true
+        }
+      ]
+    },
+    {
+      "questionId": {
+        "$oid": "618943a8e1c993f924e4a02e"
+      },
+      "answers": [
+        {
+          "answer": "From discount stores",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "questionId": {
+        "$oid": "618943a8e1c993f924e4a02f"
+      },
+      "answers": [
+        {
+          "answer": "At the back",
+          "isCorrect": false
+        }
+      ]
+    }
+  ],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "618954c46c8701780a65930f"
+  },
+  "quizId": {
+    "$oid": "61852927252668a5a858f91d"
+  },
+  "learner": "ykloo",
+  "marksAwarded": 3,
+  "passed": false,
+  "questions": [
+    {
+      "questionId": {
+        "$oid": "61852927252668a5a858f91e"
+      },
+      "answers": [
+        {
+          "answer": "Look up for information on Canon's website",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "questionId": {
+        "$oid": "61852927252668a5a858f91f"
+      },
+      "answers": [
+        {
+          "answer": "True",
+          "isCorrect": true
+        }
+      ]
+    }
+  ],
+  "__v": 0
+}]

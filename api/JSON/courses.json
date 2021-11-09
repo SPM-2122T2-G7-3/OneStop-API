@@ -1,0 +1,35 @@
+[{
+  "_id": {
+    "$oid": "617760fbcdd6ce483d71936b"
+  },
+  "courseCode": "HP101",
+  "courseTitle": "HP Foundation Repair Course",
+  "preReq": []
+},{
+  "_id": {
+    "$oid": "617bd1d26fdba347bc30cb18"
+  },
+  "courseCode": "P01",
+  "courseTitle": "Xerox WorkCentre 5300 User Training",
+  "preReq": []
+},{
+  "_id": {
+    "$oid": "617fe1341eeae12ad3e34160"
+  },
+  "courseCode": "C102",
+  "courseTitle": "Canon Foundation Repair Course",
+  "preReq": [],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6182cc12976b473f15a52cb8"
+  },
+  "courseCode": "C202",
+  "courseTitle": "Canon User Training",
+  "preReq": [
+    {
+      "$oid": "617fe1341eeae12ad3e34160"
+    }
+  ],
+  "__v": 0
+}]

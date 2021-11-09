@@ -1,0 +1,65 @@
+[{
+  "_id": {
+    "$oid": "617571e9f37bfd044dc66398"
+  },
+  "empName": "Loo Yang Kai",
+  "designation": "Engineer",
+  "department": "Operations - Repair",
+  "username": "ykloo",
+  "role": "Learner",
+  "completedCourse": [
+    {
+      "$oid": "617fe1341eeae12ad3e34160"
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "6176c8d7fa1eeecc6b7536e3"
+  },
+  "empName": "Lance Fu Dai Fa",
+  "username": "lance.fu",
+  "designation": "Senior Engineer",
+  "department": "Operations - Repair",
+  "role": "Trainer",
+  "completedCourse": []
+},{
+  "_id": {
+    "$oid": "617d3f58ec360b58e1d834e5"
+  },
+  "empName": "Shermin Lim",
+  "username": "shermin.lim",
+  "designation": "Senior HR",
+  "department": "HR",
+  "role": "Admin",
+  "completedCourse": []
+},{
+  "_id": {
+    "$oid": "6180a0bc49389b18577e21bc"
+  },
+  "empName": "Siti Hindun",
+  "username": "siti.hindun",
+  "designation": "Senior Learner",
+  "department": "Engineer",
+  "role": "Learner",
+  "completedCourse": []
+},{
+  "_id": {
+    "$oid": "6180a36649389b18577e21bd"
+  },
+  "empName": "Claire Niu",
+  "username": "claire.niu",
+  "designation": "Junior Learner",
+  "department": "Engineer",
+  "role": "Learner",
+  "completedCourse": []
+},{
+  "_id": {
+    "$oid": "6180e9b549389b18577e21c4"
+  },
+  "empName": "Joen Chua",
+  "username": "joen.chua",
+  "designation": "Senior Trainer",
+  "department": "Engineer",
+  "role": "Trainer",
+  "completedCourse": []
+}]

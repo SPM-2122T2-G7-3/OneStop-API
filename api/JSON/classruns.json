@@ -1,0 +1,104 @@
+[{
+  "_id": {
+    "$oid": "61815d5d916595878605f1aa"
+  },
+  "course": {
+    "$oid": "617fe1341eeae12ad3e34160"
+  },
+  "startDate": {
+    "$date": "2021-11-12T00:00:00Z"
+  },
+  "endDate": {
+    "$date": "2021-12-12T00:00:00Z"
+  },
+  "capacity": 30,
+  "trainers": [
+    "joen.chua",
+    "lance.fu"
+  ],
+  "learners": [
+    {
+      "username": "ykloo",
+      "enrolled": true,
+      "_id": {
+        "$oid": "61849129e0bc6bf0b663f854"
+      }
+    }
+  ],
+  "content": [],
+  "__v": 21,
+  "chapters": [
+    {
+      "chapterTitle": "Chapter 1",
+      "sections": [
+        {
+          "sectionTitle": "Canon Fundamentals",
+          "hyperlinks": [
+            "fundamentals.pptx"
+          ],
+          "files": [
+            {
+              "originalFilename": "Week1a-Introduction.pptx",
+              "filename": "6698dac66b637959a5071371eb373103.pptx",
+              "bucketName": "materials"
+            }
+          ],
+          "_id": {
+            "$oid": "6188001df38d31e9384c9631"
+          }
+        }
+      ],
+      "_id": {
+        "$oid": "6187fe6bd87e3a1cc6bc1bf4"
+      }
+    },
+    {
+      "chapterTitle": "Chapter 2",
+      "sections": [
+        {
+          "sectionTitle": "Canon Diagnostic Software",
+          "hyperlinks": [
+            "diagnostic_software.pptx"
+          ],
+          "files": [
+            {
+              "originalFilename": "Week1a-Introduction.pptx",
+              "filename": "faf50270338e41407a3e77ca4accff0c.pptx",
+              "bucketName": "materials"
+            }
+          ]
+        }
+      ],
+      "_id": {
+        "$oid": "618927a3c34cbccfbe3846d1"
+      }
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "61816aaf916595878605f1ee"
+  },
+  "course": {
+    "$oid": "617760fbcdd6ce483d71936b"
+  },
+  "startDate": {
+    "$date": "2021-11-10T00:00:00Z"
+  },
+  "endDate": {
+    "$date": "2021-12-11T00:00:00Z"
+  },
+  "capacity": 30,
+  "trainers": [],
+  "learners": [
+    {
+      "username": "siti.hindun",
+      "enrolled": true,
+      "_id": {
+        "$oid": "6188d89654dd3ea7cb693d64"
+      }
+    }
+  ],
+  "content": [],
+  "__v": 17,
+  "chapters": []
+}]

@@ -1,0 +1,124 @@
+[{
+  "_id": {
+    "$oid": "617d1f70cce8e8bdcd761dee"
+  },
+  "courseCode": "C102",
+  "quizName": "Canon Fundamentals",
+  "timeAllowed": 3600,
+  "quizMarks": 3,
+  "questions": [
+    {
+      "questionText": "Canon printers ink are refillable",
+      "questionType": "TF",
+      "questionMarks": 1,
+      "answerOptions": [
+        "True",
+        "False"
+      ],
+      "correctAnswers": [
+        "True"
+      ],
+      "_id": {
+        "$oid": "618943a8e1c993f924e4a02d"
+      }
+    },
+    {
+      "questionText": "Where can Canon printers ink be purchased?",
+      "questionType": "MCQ",
+      "questionMarks": 0,
+      "answerOptions": [
+        "From the official webstore",
+        "From our Supplier",
+        "From discount stores",
+        "From Amazon"
+      ],
+      "correctAnswers": [
+        "From the official webstore",
+        "From our Supplier",
+        "From Amazon"
+      ],
+      "_id": {
+        "$oid": "618943a8e1c993f924e4a02e"
+      }
+    },
+    {
+      "questionText": "Where is the power button located for all Canon printers?",
+      "questionType": "MCQ",
+      "questionMarks": 2,
+      "answerOptions": [
+        "At the back",
+        "At the top",
+        "Beside the USB port on the left",
+        "There is on power button"
+      ],
+      "correctAnswers": [
+        "At the top"
+      ],
+      "_id": {
+        "$oid": "618943a8e1c993f924e4a02f"
+      }
+    }
+  ],
+  "__v": 6,
+  "chapterId": {
+    "$oid": "6187fe6bd87e3a1cc6bc1bf4"
+  },
+  "classId": {
+    "$oid": "61815d5d916595878605f1aa"
+  },
+  "sectionId": {
+    "$oid": "6188001df38d31e9384c9631"
+  }
+},{
+  "_id": {
+    "$oid": "61852927252668a5a858f91d"
+  },
+  "courseCode": "C102",
+  "quizName": "Canon Diagnostic Software",
+  "timeAllowed": 3600,
+  "quizMarks": 8,
+  "questions": [
+    {
+      "questionText": "How to set up Canon printer using the software",
+      "questionType": "MCQ",
+      "questionMarks": 5,
+      "answerOptions": [
+        "Follow the Canon manual",
+        "Look up for information on Canon's website",
+        "Ask Senior Engineer",
+        "Call for help"
+      ],
+      "correctAnswers": [
+        "Ask Senior Engineer"
+      ],
+      "_id": {
+        "$oid": "61852927252668a5a858f91e"
+      }
+    },
+    {
+      "questionText": "The software can identify problems in the Canon Printer",
+      "questionType": "TF",
+      "questionMarks": 3,
+      "answerOptions": [
+        "True",
+        "False"
+      ],
+      "correctAnswers": [
+        "True"
+      ],
+      "_id": {
+        "$oid": "61852927252668a5a858f91f"
+      }
+    }
+  ],
+  "__v": 0,
+  "chapterId": {
+    "$oid": "61890d39fe71787510e8c661"
+  },
+  "classId": {
+    "$oid": "61815d5d916595878605f1aa"
+  },
+  "sectionId": {
+    "$oid": "6188001df38d31e9384c9631"
+  }
+}]
